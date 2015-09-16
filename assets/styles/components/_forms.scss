@@ -1,0 +1,169 @@
+::-webkit-input-placeholder 		{ color: #fff; opacity: 1; }
+:-moz-placeholder 					{ color: #fff; opacity: 1; }
+::-moz-placeholder 					{ color: #fff; opacity: 1; }
+:-ms-input-placeholder 				{ color: #fff; opacity: 1; }
+
+input[placeholder]          		{ text-overflow: ellipsis; }
+input::-moz-placeholder     		{ text-overflow: ellipsis; }
+input:-moz-placeholder      		{ text-overflow: ellipsis; } 
+input:-ms-input-placeholder 		{ text-overflow: ellipsis; }
+
+:focus::-webkit-input-placeholder 	{ color: transparent; }
+:focus::-moz-placeholder          	{ color: transparent; }
+:focus:-moz-placeholder           	{ color: transparent; }
+:focus:-ms-input-placeholder      	{ color: transparent; }
+
+input:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+@keyframes shake{
+    0% { transform: translate(10px, 0); }
+    50% { transform: translate(-10px, 0); }
+    100% { transform: translate(0, 0); }
+}
+
+.form {
+	clear: both;
+
+	&__row {
+		clear: both;
+
+		&_push {
+			margin-bottom: 60px;
+		}
+	}
+	
+	&_registry {
+		width: 722px;
+		margin: 0 auto 337px;
+	}
+
+	&__column {
+		width: 328px;
+		float: left;
+
+		&_pl {
+			padding-left: 31px;
+		}
+
+		&_pr {
+			padding-right: 31px;
+		}
+	}
+
+	&__label {
+		clear: both;
+    	position: relative;
+		margin-bottom: 33px;
+
+		&__name {
+			color: #fff;
+			font-size: 1.4rem;
+			font-weight: 400;
+			line-height: 1;
+			letter-spacing: 0.07ex;
+			margin-bottom: 9px;
+		}
+	}
+
+	&__question {
+		width: 18px;
+		height: 18px;
+		margin-top: -2px;
+		display: inline-block;
+		float: right;
+		cursor: pointer;
+		background: url(../images/question.png) 0 0 no-repeat;
+		background-image: url(../images/question.svg);
+		background-size: 100%;
+	}
+
+	&__input,
+	&__textarea {
+	    width: 100%;
+	   	padding: 0 15px;
+		font-family: $fontForms;
+		color: #fff;
+		color: rgba(255, 255, 255, 0.5);
+	    position: relative;
+		font-size: 2rem;
+		font-weight: 300;
+		background: url(../images/input-pixel.png);
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid #fff;
+		border-color: rgba(255, 255, 255, 0.5);
+		box-sizing: border-box;
+		
+		&.error {
+			background: rgba(255, 0, 0, 0.1);
+			border-color: rgb(255, 0, 0);
+			border-color: rgba(255, 0, 0, 0.5);
+		
+			animation-name: shake;
+			animation-duration: 300ms;
+			animation-iteration-count: 3;
+			animation-timing-function: linear;
+		}
+	}
+
+	&__error-text {
+		position: absolute;
+		top: 100%;
+		font-size: 1.3em;
+		font-weight: 300;
+		line-height: 1;
+		margin-top: 4px;
+		color: rgb(255, 0, 0);
+	}
+
+	&__input {
+	    height: 51px;
+	}
+
+	&__textarea {
+		padding: 10px 17px;
+	    max-width: 100%;
+	    resize: vertical;
+	}
+
+	&__calendar {
+		position: relative;
+
+		&__selector {
+			width: 25px;
+			height: 27px;
+			position: absolute;
+			right: 14px;
+			top: 11px;
+			z-index: 10;
+			cursor: pointer;
+			background: url(../images/calendar.png) 0 0 no-repeat;
+			background-image: url(../images/calendar.svg);
+			background-size: 25px 27px;
+		}
+	}
+
+	&__col {
+		float: left;
+		margin-right: 12px;
+		
+		&_last {
+			margin-right: 0;
+		}
+	}
+
+	&__star {
+		color: #fde87d;
+		font-size: 1.4rem;
+		font-weight: 400;
+		margin-left: 3px;
+	}
+
+	&__button {
+		clear: both;
+		text-align: center;
+	}
+}

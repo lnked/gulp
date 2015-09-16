@@ -1,0 +1,23 @@
+.button {
+	height: 35px;
+	padding: 0 15px;
+	text-decoration: none;
+	display: inline-block;
+	
+	font-size: 1.5rem;
+	line-height: 35px;
+	color: #0083F5;
+	border: 1px solid #000;
+	background-color: #ccc;
+
+	-webkit-appearance: none;
+	transition: border-color $time, background-color $time, color $time;
+
+	&:hover {
+		background-color: #0083F5;
+		color: #fff;
+	}
+}
+
+.btn-disabled { background: #ccc !important; cursor: not-allowed !important; background: #ccc !important; }
+.btn-disabled:hover { -webkit-box-shadow:none !important; box-shadow:none !important; background: #ccc !important; }

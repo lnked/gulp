@@ -1,0 +1,17 @@
+.rainbow {
+	background: linear-gradient(to bottom, #e24c3e 0%, #e24c3e 16.66667%, #f47d3b 16.66667%, #f47d3b 33.33333%, #fdb813 33.33333%, #fdb813 50%, #74bb5d 50%, #74bb5d 66.66667%, #38a6d7 66.66667%, #38a6d7 83.33333%, #8c7ab8 83.33333%, #8c7ab8 100%);
+	background-size: 47px 47px;
+}
+
+.gradient-text {
+	position: relative;
+	color: #f5c157;
+	font-size: 6.2rem;
+	font-weight: 400;
+	text-transform: uppercase;
+	
+	-webkit-text-fill-color: transparent;
+	background: -webkit-linear-gradient(transparent, transparent), url(../images/noise.png) repeat;
+	background: -o-linear-gradient(transparent, transparent);
+	-webkit-background-clip: text;
+}

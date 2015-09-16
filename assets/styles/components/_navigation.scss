@@ -1,0 +1,17 @@
+.navigation {
+
+	&__list {
+		width: 100%;
+	}
+	
+	&__item {
+		float: left;
+		margin: 0 2rem;
+	}
+
+	&__link {
+		display: block;
+		font-size: 1.4rem;
+		line-height: 4rem;
+	}
+}

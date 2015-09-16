@@ -1,0 +1,3 @@
+.response-image {
+	@include aspect-ratio(500, 300, 'img');
+}

@@ -1,0 +1,49 @@
+/*
+transition: background-color 0.662s cubic-bezier(.25,.46,.45,.94);
+background-color: #92B901;
+animation: animated_color 5s infinite;
+*/
+
+@keyframes animated_color
+{
+	0%		{background-color: #92B901;}
+	50%		{background-color: #1ec7e6;}
+	100%	{background-color: #92B901;}
+}
+
+@-webkit-keyframes animated_color
+{
+	0%		{background-color: #92B901;}
+	50%		{background-color: #1ec7e6;}
+	100%	{background-color: #92B901;}
+}
+
+@-moz-keyframes animated_color
+{
+	0%		{background-color: #92B901;}
+	50%		{background-color: #1ec7e6;}
+	100%	{background-color: #92B901;}
+}
+
+@-o-keyframes animated_color
+{
+	0%		{background-color: #92B901;}
+	50%		{background-color: #1ec7e6;}
+	100%	{background-color: #92B901;}
+}
+
+
+svg.paralax {
+	path, polyline {
+		fill: none;
+		stroke-dasharray: 3000px;
+		stroke-dashoffset: 3000px;
+		transition: 1.5s stroke-dashoffset ease-in;
+	}
+	
+	&.on {
+		path, polyline {
+			stroke-dashoffset: 0;
+		}
+	}
+}

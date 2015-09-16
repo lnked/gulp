@@ -1,0 +1,10 @@
+.effected {
+	opacity: 0;
+	transform: scale(0) rotate(-40deg);
+	transition: opacity 0.7s, transform 0.5s;
+
+	&.active {
+		opacity: 1;
+		transform: scale(1) rotate(0deg);
+	}
+}
