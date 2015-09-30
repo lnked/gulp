@@ -40,13 +40,13 @@ var errorHandler = function(err) {
     catch(e) {}
 }
 
-var is_build = false;
+var is_build = false,
+    is_watch = false;
 
 // Очищаем папку с компилированным проектом
 function clean(path, build)
 {
     if (build === true) {
-        console.log('clean folder', path);
         del([path + '*']);   
     }
 }
@@ -64,9 +64,9 @@ var app = './dist/',
             json:       app + 'json'
         },
         assets: {
-            html:           [src + 'template/**/*.html', '!' + src + 'template/components/**/*.html', '!' + src + 'template/pages/**/*.html'],
-            scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js',  '!' + src + 'scripts/libs/**/*.js',],
-            styles:         [src + 'styles/**/*.scss', src + 'styles/includes/*.scss'],
+            html:           [src + 'template/*.html'],
+            scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js'],
+            styles:         [src + 'styles/*.scss'],
             images:         [src + 'images/**/*.*'],
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
@@ -106,7 +106,6 @@ gulp.task('html', function() {
             prefix: '@@',
             basepath: '@file'
         }))
-
         .pipe(gulpif(
             is_build,
             prettify({
@@ -120,19 +119,20 @@ gulp.task('html', function() {
                 unformatted: ['pre', 'code']
             })
         ))
-
-        .pipe(htmlhint({
-            "attr-value-double-quotes": false,
-            "tagname-lowercase": false,
-            "attr-lowercase": false,
-            "doctype-first": false,
-            "id-unique": true,
-            "tag-pair": true,
-            "attr-no-duplication": true,
-            "spec-char-escape": true,
-            "src-not-empty": false
-        }))
-
+        .pipe(gulpif(
+            is_watch,
+            htmlhint({
+                "attr-value-double-quotes": false,
+                "tagname-lowercase": false,
+                "attr-lowercase": false,
+                "doctype-first": false,
+                "id-unique": true,
+                "tag-pair": true,
+                "attr-no-duplication": true,
+                "spec-char-escape": true,
+                "src-not-empty": false
+            })
+        ))
         .pipe(htmlhint.reporter())
 
         .pipe(gulp.dest(path.build.html))
@@ -156,7 +156,7 @@ gulp.task('styles', function() {
                 html: [path.build.html + '*.html', path.build.html + '**/*.html']
             })
         ))
-        
+
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false
@@ -188,13 +188,16 @@ gulp.task('styles', function() {
 
         .pipe(gulp.dest(path.build.styles))
 
-        .pipe(nano({
-            zindex: false,
-            autoprefixer: false,
-            normalizeCharset: true,
-            convertValues: { length: false },
-            colormin: true
-        }))
+        .pipe(gulpif(
+            is_build,
+            nano({
+                zindex: false,
+                autoprefixer: false,
+                normalizeCharset: true,
+                convertValues: { length: false },
+                colormin: true
+            })
+        ))
 
         .pipe(rename({suffix: '.min'}))
         
@@ -307,6 +310,8 @@ gulp.task('extras', function() {
 
 // Запуск слежки за изминениями в проекте (gulp watch)
 gulp.task('watch', function () {
+    is_watch = true;
+
     var x;
     for (x in path.watch)
     {
