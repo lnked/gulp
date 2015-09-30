@@ -1,13 +1,15 @@
-.triangle {
-	width: 0;
-	height: 0;
-	border-left: 50px solid transparent;
-	border-right: 50px solid transparent;
-	border-bottom: 100px solid red;
+#svg-filter { display: none; }
+
+.popup-open {
+	.layout-wrapper {
+		filter: url(#svg-blur);
+		filter: blur(5px);
+		filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='5');
+	}
 }
 
 .overlay {
-	width: 100%; 
+	width: 100%;
 	height: 100%;
 	position: fixed;
 	top: 0;
@@ -16,136 +18,125 @@
 	left: 0;
 	z-index: 8888;
 	display: none;
-	background: rgba( 0, 0, 0, .8 );
+	@include opacity(0);
+	background-color: #1a576b;
+	transition: opacity 0.3s;
+	
+	&.visible {
+		display: block;
+	}
+
+	&.animate {
+		@include opacity(0.7);
+	}
 }
 
 .popup {
-	width: 600px;
+	width: 762px;
 	position: absolute;
 	z-index: 9999;
-	display: none;
 	color: #363636;
-	background: #ffffff;
+	background: #000;
 	box-sizing: border-box;
-	box-shadow: 0 10px 20px -4px rgba(0,0,0,.4);
-
-	&__login-success {
-		width: 500px;
+	display: none;
+	@include opacity(0);
+	transition: opacity 0.3s;
+	
+	&.visible {
+		display: block;
 	}
 
-	&__registry {
-		width: 708px;
+	&.animate {
+		@include opacity(1);
 	}
 
-	&__user {
-		box-shadow: 0 0 90px rgba(0, 0, 0, 0.75);
+	&.popup-choose-photo {
+		padding: 41px 58px 22px;
 	}
 
-	&__wrapper {
-		width: 100%;
-		min-height: 100%;
-		position: fixed;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0; 
-		z-index: 9000; 
-		overflow-y: scroll;
-		padding: 0;
+	&.popup-choose-photo-source {
+		padding: 83px 0 98px;
+	}
+
+	&.popup-image-filter {
+		padding: 41px 30px 65px 39px;
+	}
+
+	&.popup-photo-share {
+		padding: 81px 0 100px;
+	}
+
+	&.popup-photo-success {
+		padding: 73px 53px 94px;
 	}
 
 	&__close {
-		width: 30px;
-		height: 30px;
-		border-radius: 15px;
-		background-color: #0083F5;
+		width: 18px;
+		height: 18px;
+		background: url(../images/close.png) 50% 50% no-repeat;
+		background-image: url(../images/close.svg);
+		background-size: 100%;
 		position: absolute;
-		right: 15px;
-		top: 15px;
-		box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
-
-		&:hover{
-			box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
-			cursor: pointer;
-
-			&:before{
-				transform: rotate(-135deg);
-			}
-
-			&:after{
-				transform: rotate(135deg);
-			}
-		}
-
-		&:before, &:after{
-			width: 16px;
-			height: 2px;
-			border-radius: 2px;
-			background-color: #fff;
-			position: absolute;
-			content: "";
-			top: 14px;
-			left:7px; 
-
-			transition-duration: 0.33s;
-		}
-
-		&:before{
-			transform: rotate(45deg);
-		}
-
-		&:after{
-			transform: rotate(-45deg);
-		}
+		top: 11px;
+		right: 9px;
+		cursor: pointer;
 	}
 
 	&__header {
-		padding: 20px;
-		color: #515151;
+		text-align: center;
+		color: #13b6ea;
+		font-size: 3.6rem;
+		font-weight: 400;
+		letter-spacing: -0.16ex;
+		text-indent: -5px;
+		text-transform: uppercase;
+		margin-bottom: 33px;
 
-		h2 {
-			margin-bottom: 0;
+		&_large {
+		    font-weight: 700;
+		    line-height: 1.2;
+		    text-indent: 0;
+		    letter-spacing: -0.02ex;
+		}
+
+		&_simple {
+			margin-bottom: 13px;
+		    text-indent: 12px;
+		    margin-left: -8px;
+		    line-height: 1.2;
+		    letter-spacing: -0.015ex;
 		}
 	}
-
-	&__conteiner {
-		padding: 25px;
-		font-size: 1.6rem;
-		line-height: 2.4rem;
-		font-weight: 300;
+	
+	&__text {
+		color: #13b6ea;
+		text-transform: uppercase;
+		font-size: 2.2rem;
+		line-height: 1.25;
+		text-indent: 5px;
+		padding-left: 1px;
+		letter-spacing: 0.01ex;
+		font-weight: 500;
+		text-align: center;
+		margin-bottom: 54px;
 	}
 
-	&__conteiner-2 {
-		padding: 20px;
+	&__center {
+		text-align: center;
 	}
 
-	&__footer {
-		padding: 20px;
-		overflow: hidden;
-		position: relative;
-		background-color: #f8f8f8;
-		
-		&_right {
-			text-align: right;
-		}
-		
-		&:before {
-			width: 110%;
-			height: 12px;
-			position: absolute;
-			left: -5%;
-			right: -5%;
-			top: 0;
-			content: "";
-			box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
-		}
+	&__tabs {
+		font-size: 0;
+		clear: both;
 
-		a {
-			color: #363636;
-		}
+		&__item {
+			width: 201px;
+			display: inline-block;
+			vertical-align: top;
 
-		p:last-child {
-			margin-bottom: 0;
+			&_middle {
+				margin: 0 26px;
+			}
 		}
 	}
 }

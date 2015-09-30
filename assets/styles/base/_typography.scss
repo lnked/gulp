@@ -10,8 +10,9 @@
 	font-weight: 400;
 	text-transform: uppercase;
 	
-	-webkit-text-fill-color: transparent;
+
 	background: -webkit-linear-gradient(transparent, transparent), url(../images/noise.png) repeat;
 	background: -o-linear-gradient(transparent, transparent);
 	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }

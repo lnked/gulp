@@ -11,6 +11,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
 
     htmlhint    = require('gulp-htmlhint'),
     gutil       = require('gulp-util'),
+    gulpif      = require('gulp-if'),
 
     nano        = require('gulp-cssnano'),
     sass        = require('gulp-sass'),             // Препроцессор для компиляции в css
@@ -21,6 +22,8 @@ var gulp        = require('gulp'),                  // Собственно Gulp
 
     uglify      = require('gulp-uglify'),           // Минификация JS
     jscs        = require('gulp-jscs'),
+    
+    webserver   = require('gulp-webserver'),
 
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     prettify    = require('gulp-prettify'),
@@ -28,12 +31,24 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     del         = require('del');                   // Удаление файлов и папок
 
 var errorHandler = function(err) {
-    gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
-    gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
-    gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
-    gutil.log(gutil.colors.cyan('Plugin:'), gutil.colors.green(err.plugin));
+    try {
+        gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
+        gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
+        gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
+        gutil.log(gutil.colors.cyan('Plugin:'), gutil.colors.green(err.plugin));
+    }
+    catch(e) {}
+}
 
-    this.emit('end');
+var is_build = false;
+
+// Очищаем папку с компилированным проектом
+function clean(path, build)
+{
+    if (build === true) {
+        console.log('clean folder', path);
+        del([path + '*']);   
+    }
 }
 
 // Пути к файлам
@@ -64,8 +79,23 @@ var app = './dist/',
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
         },
-        extras: ['favicon.ico', 'humans.txt', 'robots.txt']
+        extras: ['favicon.ico', 'humans.txt', 'robots.txt'],
+        modernizr: [src + 'modernizr.js']
     };
+
+gulp.task('webserver', function() {
+    gulp.src(app)
+        .pipe(webserver({
+            livereload: {
+                enable: false,
+                filter: function(filename) {
+                    return true;
+                }
+            },
+            port: 8000,
+            fallback: 'index.html'
+        }));
+});
 
 // Копируем html
 gulp.task('html', function() {
@@ -77,16 +107,19 @@ gulp.task('html', function() {
             basepath: '@file'
         }))
 
-        .pipe(prettify({
-            indent_size: 4,
-            indent_char: ' ',
-            brace_style: 'expand',
-            indent_handlebars: false,
-            indent_inner_html: false,
-            preserve_newlines: false,
-            max_preserve_newlines: 1,
-            unformatted: ['pre', 'code']
-        }))
+        .pipe(gulpif(
+            is_build,
+            prettify({
+                indent_size: 4,
+                indent_char: ' ',
+                brace_style: 'expand',
+                indent_handlebars: false,
+                indent_inner_html: false,
+                preserve_newlines: false,
+                max_preserve_newlines: 1,
+                unformatted: ['pre', 'code']
+            })
+        ))
 
         .pipe(htmlhint({
             "attr-value-double-quotes": false,
@@ -109,15 +142,20 @@ gulp.task('html', function() {
 
 // Собираем Sass
 gulp.task('styles', function() {
+    clean(path.build.styles, is_build);
+
     gulp.src(path.assets.styles)
         .pipe(plumber({errorHandler: errorHandler}))
         
         .pipe(sass())
         .pipe(concat('main.css'))
 
-        .pipe(uncss({
-            html: [path.build.html + '*.html', path.build.html + '**/*.html']
-        }))
+        .pipe(gulpif(
+            is_build,
+            uncss({
+                html: [path.build.html + '*.html', path.build.html + '**/*.html']
+            })
+        ))
         
         .pipe(prefixer({
             browsers: ['last 15 versions'],
@@ -126,28 +164,37 @@ gulp.task('styles', function() {
 
         .pipe(pixrem())
         
-        .pipe(csscomb({
-            "tab-size": 4,
-            "color-shorthand": true,
-            "space-after-colon": 1,
-            "space-after-combinator": 1,
-            "space-before-opening-brace": 1,
-            "sort-order": [
-                [
-                    "content", "position", "left", "right", "top", "bottom", "z-index"
-                ],
-                [
-                    "width", "height", "margin", "padding"
-                ],
-                [
-                    "background", "background-color", "background-image", "background-repeat", "background-position", "background-attachment", "background-size", "border"
+        .pipe(gulpif(
+            is_build,
+            csscomb({
+                "tab-size": 4,
+                "color-shorthand": true,
+                "space-after-colon": 1,
+                "space-after-combinator": 1,
+                "space-before-opening-brace": 1,
+                "sort-order": [
+                    [
+                        "content", "position", "left", "right", "top", "bottom", "z-index"
+                    ],
+                    [
+                        "width", "height", "margin", "padding"
+                    ],
+                    [
+                        "background", "background-color", "background-image", "background-repeat", "background-position", "background-attachment", "background-size", "border"
+                    ]
                 ]
-            ]
-        }))
-        
+            })
+        ))
+
         .pipe(gulp.dest(path.build.styles))
 
-        .pipe(nano())
+        .pipe(nano({
+            zindex: false,
+            autoprefixer: false,
+            normalizeCharset: true,
+            convertValues: { length: false },
+            colormin: true
+        }))
 
         .pipe(rename({suffix: '.min'}))
         
@@ -158,6 +205,8 @@ gulp.task('styles', function() {
 
 // Собираем JS
 gulp.task('scripts', function() {
+    clean(path.build.scripts, is_build);
+
     gulp.src(path.assets.scripts)
         .pipe(plumber({errorHandler: errorHandler}))
         
@@ -166,20 +215,24 @@ gulp.task('scripts', function() {
             footer: '\n'
         }))
         
-        /*
-        .pipe(jscs({
-            fix: true,
-            esnext: false
-        }))
-        */
+        .pipe(gulpif(
+            is_build,
+            jscs({
+                fix: true,
+                esnext: false
+            })
+        ))
 
         .pipe(concat('main.js'))
         .pipe(gulp.dest(path.build.scripts))
 
         .pipe(rename({suffix: '.min'}))
-        
-        .pipe(uglify())
 
+        .pipe(gulpif(
+            is_build,
+            uglify()
+        ))
+        
         .pipe(gulp.dest(path.build.scripts))
         
         .pipe(notify({ message: 'Update scripts complete', onLast: true }));
@@ -187,18 +240,26 @@ gulp.task('scripts', function() {
 
 // Копируем и минимизируем изображения
 gulp.task('images', function() {
+    clean(path.build.images, is_build);
+
     gulp.src(path.assets.images)
         .pipe(plumber({errorHandler: errorHandler}))
-
         .pipe(newer(path.build.images))
-        .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
-        .pipe(gulp.dest(path.build.images))
-        
-        .pipe(notify({ message: 'Images task complete', onLast: true }));
+        .pipe(gulpif(
+            is_build,
+            imagemin({
+                optimizationLevel: 3,
+                progressive: true,
+                interlaced: true
+            })
+        ))
+        .pipe(gulp.dest(path.build.images));
 });
 
 // Копируем json
 gulp.task('json', function() {
+    clean(path.build.json, is_build);
+
     gulp.src(path.assets.json)
         .pipe(plumber({errorHandler: errorHandler}))
 
@@ -209,14 +270,12 @@ gulp.task('json', function() {
 
 // Копируем шрифты
 gulp.task('fonts', function () {
-    del([path.build.fonts + '*']);
+    clean(path.build.fonts, is_build);
     
     gulp.src(path.assets.fonts)
         .pipe(plumber({errorHandler: errorHandler}))
-        
         .pipe(newer(path.build.fonts))
         .pipe(gulp.dest(path.build.fonts))
-
         .pipe(notify({ message: 'Fonts task complete', onLast: true }));
 });
 
@@ -232,17 +291,18 @@ gulp.task('shot', function () {
     });
 });
 
+gulp.task('modernizr', function() {
+    gulp.src(path.modernizr)
+        .pipe(plumber({errorHandler: errorHandler}))
+        .pipe(gulp.dest(path.build.scripts));
+});
+
 gulp.task('extras', function() {
 
     gulp.src(path.extras, {cwd: src})
         .pipe(plumber({errorHandler: errorHandler}))
         .pipe(gulp.dest(app));
 
-});
-
-// Очищаем папку с компилированным проектом
-gulp.task('clean', function(cb) {
-    del([app + '*'], cb);
 });
 
 // Запуск слежки за изминениями в проекте (gulp watch)
@@ -260,7 +320,7 @@ gulp.task('watch', function () {
 
 // Сборка проекта
 gulp.task('build', function() {
-    gulp.start('clean');
+    is_build = true;
     
     gulp.start('html');
     gulp.start('styles');
@@ -272,4 +332,4 @@ gulp.task('build', function() {
 });
 
 // Запускаем слежку по умолчанию
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch']); //'webserver', 

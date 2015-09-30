@@ -43,20 +43,50 @@ function media_enabled()
 }
 
 $(document).ready(function() {
+	
+	$.popup.init('.trigger-popup');
+    //$.popup.open('popup-test', false);
 
-	if( typeof $.initPopups !== 'undefined' )
-    {
-        $.initPopups();
+	//Mustache.to_html('tmpl_mustache', data);
 
-        if(window.location.hash.length > 1 && $(window.location.hash).hasClass('popup') )
-        {
-            try {
-                $.popup.open(window.location.hash.substr(1));
-            }
-            catch(e) {}
-        }
-    }
-    
+	/*
+	var view = {
+	  title: "Joe",
+	  calc: function () {
+	    return 2 + 4;
+	  }
+	};
+
+	var output = Mustache.render("{{title}} spends {{calc}}", view);
+	alert( output );
+	*/
+
+	function loadUser() {
+
+		var data = {
+		    header : "Новый пост",
+		    content: "Первая строка<br />Вторая",
+		    authors: ["alex", "daemon", "john"],
+		    accent : function () {
+		        return function (text, render) {
+		            text = render(text);
+		            return '<strong>' + text + '</strong>';
+		        }
+		    },
+		    "name": "Chris",
+			"company": "<b>GitHub</b>",
+			"stooges": [
+			    { "name": "Moe" },
+			    { "name": "Larry" },
+			    { "name": "Curly" }
+		  	]
+		}; 
+
+		alert( template('tmpl_mustache') );
+		alert( template('tmpl_mustache', data) );
+		alert( template('tmpl_mustache') );
+	}
+
 	var $body = $('body'), $navigation = $('#navigation');
 
 	$(".sense-phonemask").mask("+ 7 (999) 999-99-99");
