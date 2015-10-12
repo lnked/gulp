@@ -17,6 +17,7 @@
     "gulp-htmlhint": "^0.3.0",
     "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.3.0",
+    "gulp-inline-css": "^3.0.0",
     "gulp-jscs": "^2.0.0",
     "gulp-newer": "^0.5.1",
     "gulp-notify": "^2.2.0",

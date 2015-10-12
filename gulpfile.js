@@ -9,6 +9,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     rename      = require('gulp-rename'),
     Pageres     = require('pageres'),
 
+    inlineCss   = require('gulp-inline-css'),
     htmlhint    = require('gulp-htmlhint'),
     gutil       = require('gulp-util'),
     gulpif      = require('gulp-if'),
@@ -32,22 +33,27 @@ var gulp        = require('gulp'),                  // Собственно Gulp
 
 var errorHandler = function(err) {
     try {
+        gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+
         gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
         gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
         gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
         gutil.log(gutil.colors.cyan('Plugin:'), gutil.colors.green(err.plugin));
+
+        this.emit('end');
     }
     catch(e) {}
 }
 
 var is_build = false,
+    is_email = false,
     is_watch = false;
 
 // Очищаем папку с компилированным проектом
 function clean(path, build)
 {
     if (build === true) {
-        del([path + '*']);   
+        del([path + '*']);
     }
 }
 
@@ -72,7 +78,7 @@ var app = './dist/',
             json:           [src + 'json/**/*.json']
         },
         watch: {
-            html:           [src + 'template/**/*.html'],
+            html:           [src + 'template/*.html', src + 'template/**/*.html'],
             scripts:        [src + 'scripts/**/*.js'],
             styles:         [src + 'styles/**/*.scss'],
             images:         [src + 'images/**/*.*'],
@@ -99,6 +105,9 @@ gulp.task('webserver', function() {
 
 // Копируем html
 gulp.task('html', function() {
+    
+    console.log(path.assets.html);
+
     gulp.src(path.assets.html)
         .pipe(plumber({errorHandler: errorHandler}))
         
@@ -106,6 +115,17 @@ gulp.task('html', function() {
             prefix: '@@',
             basepath: '@file'
         }))
+
+        .pipe(gulpif(
+            is_email,
+            inlineCss({
+                applyStyleTags: true,
+                applyLinkTags: true,
+                removeStyleTags: true,
+                removeLinkTags: true
+           })
+        ))
+
         .pipe(gulpif(
             is_build,
             prettify({
@@ -119,6 +139,7 @@ gulp.task('html', function() {
                 unformatted: ['pre', 'code']
             })
         ))
+
         .pipe(gulpif(
             is_watch,
             htmlhint({
@@ -133,11 +154,15 @@ gulp.task('html', function() {
                 "src-not-empty": false
             })
         ))
-        .pipe(htmlhint.reporter())
+
+        .pipe(gulpif(
+            is_watch,
+            htmlhint.reporter()
+        ))
 
         .pipe(gulp.dest(path.build.html))
 
-        .pipe(notify({ message: 'Update HTML', onLast: true }));
+        .pipe(notify({ message: 'Update HTML' }));
 });
 
 // Собираем Sass
