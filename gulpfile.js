@@ -144,7 +144,7 @@ gulp.task('html', function() {
                 "attr-lowercase": false,
                 "doctype-first": false,
                 "id-unique": true,
-                "tag-pair": true,
+                "tag-pair": false,
                 "attr-no-duplication": true,
                 "spec-char-escape": true,
                 "src-not-empty": false
