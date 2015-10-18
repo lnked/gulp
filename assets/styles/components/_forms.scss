@@ -25,6 +25,11 @@ button:focus {
     100% { transform: translate(0, 0); }
 }
 
+select {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0px;
+}
+
 .form {
 	clear: both;
 

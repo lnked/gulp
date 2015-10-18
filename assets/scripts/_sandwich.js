@@ -50,8 +50,3 @@
 	    });
 	};
 }(jQuery));
-
-$('.menu-trigger').sandwich({
-	wrapper: '.layout-wrapper',
-	overlay: '#menu-overlay'
-});

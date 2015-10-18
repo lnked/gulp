@@ -17,6 +17,18 @@
 			<a href="" class="button trigger-dropdown" data-dropdown="popover">Показать поповер</a>
 			<a href="#popup-test" class="button trigger-popup" data-popup="popup">Открыть попап</a>
 		</div>
+		
+		<picture alt="angry pirate">
+			<source src=hires.png media="min-width:800px">
+			<source src=midres.png media="min-width:480px">
+			<source src=lores.png>
+			<!-- fallback for browsers without support -->
+			<img src=midres.png alt="angry pirate">
+		</picture>
+
+		<img src="foo-lores.jpg"
+			srcset="foo-hires.jpg 2x, foo-superduperhires.jpg 6.5x"
+			alt="decent alt text for foo.">
 
 	</div>
 </div>

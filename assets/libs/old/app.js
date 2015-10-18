@@ -26,6 +26,18 @@
 		}
 	});
 })( jQuery );
+
+            
+var i;
+for(i in many_i) {
+    image[i].onload = (function(){
+        var closedI = i;
+        return function (e) {
+            console.log(closedI, e);
+        }
+    })()
+}
+
 */
 
 function is_touch_device()
@@ -89,11 +101,7 @@ $(document).ready(function() {
 
 	var $body = $('body'), $navigation = $('#navigation');
 
-	$(".sense-phonemask").mask("+ 7 (999) 999-99-99");
-	$(".sense-cartnumber").mask("999-999-999");
 
-	$('.quantity').quantity();
-	$('.trigger-dropdown').popover();
 	
 	var showtrigger = 'mouseenter',
 		hidetrigger = 'mouseleave';

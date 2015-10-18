@@ -1,5 +1,7 @@
-(function($) {
-	$.fn.request = function(settings) {
+;( function( $ ){
+	"use strict";
+
+	$.fn.ajaxForm = function(settings) {
 		var options = $.extend({
             error_class: "error",
             error_text: "error-text",
@@ -129,11 +131,17 @@
 		    });
 		});
 	};
-}(jQuery));
 
-$('.form-ajax').request({
-	error_class: "error",
-	error_text: "form__error-text",
-	form_label: "form__label",
-	checkbox_label: "checkbox__label"
-});
+	$.app.ajaxForm = {
+		init: function()
+		{
+			$('.form-ajax').ajaxForm({
+				error_class: "error",
+				error_text: "form__error-text",
+				form_label: "form__label",
+				checkbox_label: "checkbox__label"
+			});
+		}
+	};
+
+})( jQuery );

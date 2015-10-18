@@ -33,14 +33,10 @@ var gulp        = require('gulp'),                  // Собственно Gulp
 
 var errorHandler = function(err) {
     try {
-        gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
-
         gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
         gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
         gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
         gutil.log(gutil.colors.cyan('Plugin:'), gutil.colors.green(err.plugin));
-
-        this.emit('end');
     }
     catch(e) {}
 }
