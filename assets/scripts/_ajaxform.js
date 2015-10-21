@@ -1,12 +1,13 @@
-;( function( $ ){
+;( function( $ ) {
 	"use strict";
 
-	$.fn.ajaxForm = function(settings) {
+	$.fn.ajaxForm = function(settings)
+	{
 		var options = $.extend({
-            error_class: "error",
-            error_text: "error-text",
             form_label: "label",
-            checkbox_label: "checkbox-label"
+            checkbox_label: "checkbox-label",
+            error_class: "error",
+            error_message: "error-text"
         }, settings);
 
 		return this.each(function() {
@@ -28,21 +29,24 @@
 			    
 			    if (response.hasOwnProperty('message'))
 			    {
-			        //$.popup.message(response.title, response.message);
+			        $.popup.message(response.title, response.message);
 			    }
 			};
 
-			upload = function(){
-			    $('body').on('submit' ,'.form-file-upload', function(e) {
+			upload = function()
+			{
+			    $('body').on('submit', '.form-file-upload', function(e) {
 			        return AIM.submit(this, {
 			            onStart: function()
 			            {
 
 			            },
-			            onComplete: function( result)
+			            onComplete: function(result)
 			            {
-			                if (typeof result === 'object' && result.status === true && typeof result.photo_url !== 'undefined')
-			                { }
+			                if (typeof result === 'object' && result.status === true && result.hasOwnProperty('photo_url'))
+			                {
+
+			                }
 			            }
 			        });
 			    });
@@ -50,7 +54,7 @@
 			    $(document).on('change', '.upload_button_onchange', function(){
 			        if ($(this).closest('.upload_button').find('.upload_button_field').length > 0)
 			        {
-			            $(this).closest('.upload_button').find('.upload_button_field').html( $(this).val());
+			            $(this).closest('.upload_button').find('.upload_button_field').html($(this).val());
 			        }
 			    });
 			};
@@ -58,7 +62,7 @@
 			validation = function($form, errors)
 			{
 			    $form.find('.' + options.error_class).removeClass(options.error_class);
-			    $form.find('.' + options.error_text).remove();
+			    $form.find('.' + options.error_message).remove();
 			    
 			    setTimeout(function(){
 				    if (errors) {
@@ -87,7 +91,7 @@
 				            if (typeof($field) !== 'undefined')
 				            {
 			                	$field.addClass(options.error_class);
-			                	$field.closest('.' + options.form_label).append('<div class="' + options.error_text + '">' + errors[fieldName] + '</div>');
+			                	$field.closest('.' + options.form_label).append('<div class="' + options.error_message + '">' + errors[fieldName] + '</div>');
 			                }
 				        }
 				    }
@@ -116,9 +120,9 @@
 			                    form_ajax_default($form, response);
 			                }
 
-			                if (response.status === true && response.message !== '')
+			                if (response.status === true)
 			                {
-								//$.popup.message( response.title, response.message);
+								
 			                }
 			            },
 			            error: function(response)
@@ -132,15 +136,10 @@
 		});
 	};
 
-	$.app.form = {
+	$.app.ajaxForm = {
 		init: function()
 		{
-			$('.form-ajax').ajaxForm({
-				error_class: "error",
-				error_text: "form__error-text",
-				form_label: "form__label",
-				checkbox_label: "checkbox__label"
-			});
+			
 		}
 	};
 

@@ -1,4 +1,4 @@
-(function($) {
+;( function( $ ) {
 	$.fn.sandwich = function(settings) {
 		var settings = $.extend({
             wrapper: '.wrap',

@@ -1,4 +1,4 @@
-;( function( $ ){
+;( function( $ ) {
 	"use strict";
 
 	$.app = {
@@ -23,6 +23,16 @@
 			$(".watch-cartnumber").mask("999-999-999");
 		},
 
+		initAjaxForm: function()
+		{
+			$('.form-ajax').ajaxForm({
+				error_class: "error",
+				error_text: "form__error-text",
+				form_label: "form__label",
+				checkbox_label: "checkbox__label"
+			});
+		},
+
 		initPopover: function()
 		{
 			$('.trigger-dropdown').popover();
@@ -30,6 +40,10 @@
 
 		initPopup: function()
 		{
+			// body.on('popup.init_nested', function(e, data){
+			// 	alert("nested " + data.popup + ' = '  + data.nested);
+			// });
+
 			$.popup.init('.js-open-popup', {
 				cssPosition: true,
 				wrapper: '.layout-wrapper'
@@ -43,11 +57,12 @@
 			this.initMask();
 			this.initSelect();
 			this.initSandwich();
+			this.initAjaxForm();
 			
-			this.ajaxForm.init();
 			this.cart.init();
 
 		}
+
 	};
 
 })( jQuery );

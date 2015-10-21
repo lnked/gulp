@@ -20,7 +20,14 @@ $.popup.open('popup-choose-photo-source');
 		hashChange: true,
 		keyHooks: true
 	},
-	$trigger = '', $body = $('body'), $win = $(window), $doc = $(document), overlay = {}, resizeTimeout, popup = null;
+	popup = null,
+	temp = null,
+	nested = [],
+	$trigger = '',
+	$body = $('body'),
+	$win = $(window), 
+	$doc = $(document),
+	resizeTimeout;
 
 	$.overlay = {
 		close: function() {
@@ -261,6 +268,11 @@ $.popup.open('popup-choose-photo-source');
 				setTimeout(function(){
 					$popup.addClass('animate');
 					$('body').trigger('popup.after_open', $popup);
+
+					if (nested.length)
+					{
+						$('body').trigger('popup.init_nested', { popup: $popup, nested: nested });
+					}
 	    		}, 10);
 
 	            $('body').trigger('popup.open', $popup);
@@ -320,19 +332,34 @@ $.popup.open('popup-choose-photo-source');
 				popup.close($('.popup.is-open'));
 			}
 
+			temp = null, nested = [];
+
 			if (typeof selector == 'undefined' && defaults.hashChange && window.location.hash.length > 1)
 			{
-				selector = window.location.hash;
+				temp = window.location.hash;
 			}
 			else if (typeof selector !== 'undefined')
 			{
 				if (selector.substr(0, 1) == '#')
 				{
-					selector = selector;
+					temp = selector;
 				}
 			}
 
-			if (typeof selector !== 'undefined')
+			if (temp !== null && temp.indexOf('/') >= 0)
+			{
+				nested = temp.split('/');
+			}
+
+			selector = temp;
+
+			if (nested.length)
+			{
+				selector = nested[0];
+				nested = nested.slice(1);
+			}
+
+			if (typeof selector !== 'undefined' && selector !== null)
 			{
 				if (selector.substr(0, 1) == '#')
 				{
@@ -345,16 +372,17 @@ $.popup.open('popup-choose-photo-source');
 				}
 
 				if (typeof overlay == 'undefined')
-	        	{
-	        		overlay = defaults.overlay.enable;
-	        	}
+				{
+					overlay = defaults.overlay.enable;
+				}
 
 				if (typeof bodyclass == 'undefined')
-	        	{
-	        		bodyclass = defaults.bodyclass;
-	        	}
+				{
+					bodyclass = defaults.bodyclass;
+				}
 
-				if ($('#'+selector).hasClass('popup') || ($('#'+selector).length && $('#'+selector).get(0).tagName == 'SCRIPT')) {
+				if ($('#'+selector).hasClass('popup') || ($('#'+selector).length && $('#'+selector).get(0).tagName == 'SCRIPT'))
+				{
 					popup.show(selector, overlay, bodyclass);
 				}
 			}
@@ -370,7 +398,7 @@ $.popup.open('popup-choose-photo-source');
         	{
         		for (var x in options)
         		{
-        			if (typeof defaults[x] !== 'undefined')
+        			if (defaults.hasOwnProperty(x))
         			{
         				defaults[x] = options[x];
         			}
