@@ -27,6 +27,11 @@
 		{
 			$('.trigger-dropdown').popover();
 		},
+		
+		initFastclick: function()
+		{
+			FastClick.attach(document.body);
+		},
 
 		initPopup: function()
 		{
@@ -47,6 +52,7 @@
 			this.initMask();
 			this.initSelect();
 			this.initSandwich();
+			this.initFastclick();
 
 			this.ajaxForm.init();
 			this.cart.init();

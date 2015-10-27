@@ -1,11 +1,5 @@
 .popup-open {
 	overflow: hidden;
-
-	.layout-wrapper {
-		filter: url(#svgblur);
-		filter: blur(7px);
-		filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='7');
-	}
 }
 
 .overlay {
@@ -18,8 +12,8 @@
 	left: 0;
 	z-index: 8888;
 	display: none;
-	@include opacity(0);
 	background-color: #000;
+	@include opacity(0);
 	transition: opacity $time;
 	
 	&.visible {
@@ -32,19 +26,17 @@
 }
 
 .popup {
-	width: 100%;
-	height: 100%;
 	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
 	font-size: 0;
 	z-index: 9999;
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
+	width: 960px;
+	background: #f00;
 	display: none;
 	@include opacity(0);
+	box-sizing: border-box;
 	transform: translate3d(0, 0, 0);
 	transition: opacity .5s, transform .6s;
 	
@@ -56,159 +48,7 @@
 		transform: translate3d(0, 0, 0);
 		@include opacity(1);
 	}
-
-	&_feedback {
-		width: 60vmin;
-		height: auto;
-		position: fixed;
-		top: auto;
-		left: 4vmin;
-		bottom: 7vmin;
-		background-color: #002147;
-		transform: translate3d(0, 20vmin, 0);
-
-		&.animate {
-			@include opacity(0.94);
-		}
-	}
-
-	&__wrapper {
-		width: 100%;
-		height: 100%;
-		position: relative;
-    	outline: none;
-    	z-index: 200;
-    	overflow: auto;
-	}
-
-	&__container {
-		max-width: 80vmin;
-		margin: 0 auto;
-		z-index: 80;
-		padding: 11.5vmin 0;
-	}
-
-	&__header {
-		width: 100%;
-		height: 11.5vmin;
-		line-height: 11.5vmin;
-		position: fixed;
-		left: 0;
-		top: 0;
-		right: 0;
-		z-index: 100;
-		
-		&__background {
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			left: 0;
-			top: 0;
-			@include opacity(0);
-			background-color: #000;
-			box-sizing: border-box;
-			transition: opacity $time;
-			box-shadow: 0 5px 19px rgba(0, 0, 0, .25);
-			filter: url(#svgblur);
-			filter: blur(20px);
-			filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='20');
-			
-			&.active {
-				@include opacity(1);
-			}
-		}
-
-		&__content {
-			position: relative;
-			z-index: 3;
-			max-width: 80vmin;
-			margin: 3.6vmin auto;
-		}
-
-		&__name {
-			position: absolute;
-			top: 0;
-			z-index: 3;
-			height: 100%;
-			left: 4vmin;
-			color: #fff;
-			font-size: 2.2rem;
-			font-weight: 400;
-			text-transform: uppercase;
-		}
-	}
-
-	&__content {
-		padding: 4vmin 0;
-
-		&_feedback {
-			padding: 4vmin 4vmin;
-		}
-	}
 	
-	&__title {
-		color: #fff;
-		font-size: 2.2vmin;
-		font-weight: 400;
-		line-height: 1;
-		margin-bottom: 3vmin;
-		text-transform: uppercase;
-	}
-
-	&__overflow {
-		//border: 1px solid red;
-	}
-
-	&__close {
-		width: 2.5vmin;
-		height: 2.5vmin;
-		position: absolute;
-		top: 4.7vmin;
-		right: 4.7vmin;
-		background: url(../images/close.png) 50% 50% no-repeat;
-		background-image: url(../images/close.svg);
-		background-size: 100%;
-		cursor: pointer;
-		z-index: 3;
-		@include opacity(.5);
-		transition: opacity $time;
-		
-		&_small {
-			width: 1.4vmin;
-			height: 1.4vmin;
-			right: 1.2vmin;
-			top: 1.2vmin;
-		}
-
-		&:hover {
-			@include opacity(1);
-		}
-	}
-	
-	&__social {
-		clear: both;
-		font-size: 0;
-
-		&__item {
-			width: 100%;
-			max-width: 12vmin;
-			@extend .inline;
-		}
-	}
-
-	/*
-	width: 762px;
-	color: #363636;
-	background: #000;
-	box-sizing: border-box;
-	display: none;
-	@include opacity(0);
-	transition: opacity 0.3s;
-	
-	
-
-	
-
 	&__header {
 		text-align: center;
 		color: #13b6ea;
@@ -218,53 +58,5 @@
 		text-indent: -5px;
 		text-transform: uppercase;
 		margin-bottom: 33px;
-
-		&_large {
-		    font-weight: 700;
-		    line-height: 1.2;
-		    text-indent: 0;
-		    letter-spacing: -0.02ex;
-		}
-
-		&_simple {
-			margin-bottom: 13px;
-		    text-indent: 12px;
-		    margin-left: -8px;
-		    line-height: 1.2;
-		    letter-spacing: -0.015ex;
-		}
 	}
-	
-	&__text {
-		color: #13b6ea;
-		text-transform: uppercase;
-		font-size: 2.2rem;
-		line-height: 1.25;
-		text-indent: 5px;
-		padding-left: 1px;
-		letter-spacing: 0.01ex;
-		font-weight: 500;
-		text-align: center;
-		margin-bottom: 54px;
-	}
-
-	&__center {
-		text-align: center;
-	}
-
-	&__tabs {
-		font-size: 0;
-		clear: both;
-
-		&__item {
-			width: 201px;
-			display: inline-block;
-			vertical-align: top;
-
-			&_middle {
-				margin: 0 26px;
-			}
-		}
-	}
-	*/
 }

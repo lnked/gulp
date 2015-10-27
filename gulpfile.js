@@ -22,7 +22,6 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     csscomb     = require('gulp-csscomb'),
 
     uglify      = require('gulp-uglify'),           // Минификация JS
-    jscs        = require('gulp-jscs'),
     
     webserver   = require('gulp-webserver'),
 
@@ -69,7 +68,8 @@ var app = './dist/',
             html:           [src + 'template/*.html'],
             scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js'],
             styles:         [src + 'styles/*.scss'],
-            images:         [src + 'images/**/*.*'],
+            images:         {   gif: [src + 'images/**/*.gif'],
+                                any: [src + 'images/**/*.jpg', src + 'images/**/*.jpeg', src + 'images/**/*.png', src + 'images/**/*.svg'] },
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
         },
@@ -239,14 +239,6 @@ gulp.task('scripts', function() {
             footer: '\n'
         }))
         
-        .pipe(gulpif(
-            is_build,
-            jscs({
-                fix: true,
-                esnext: false
-            })
-        ))
-
         .pipe(concat('main.js'))
         .pipe(gulp.dest(path.build.scripts))
 
@@ -263,11 +255,9 @@ gulp.task('scripts', function() {
 });
 
 // Копируем и минимизируем изображения
-gulp.task('images', function() {
-    clean(path.build.images, is_build);
 
-    gulp.src(path.assets.images)
-        .pipe(plumber({errorHandler: errorHandler}))
+gulp.task('images_any', function() {
+    gulp.src(path.assets.images.any)
         .pipe(newer(path.build.images))
         .pipe(gulpif(
             is_build,
@@ -278,6 +268,19 @@ gulp.task('images', function() {
             })
         ))
         .pipe(gulp.dest(path.build.images));
+});
+
+gulp.task('images_gif', function() {
+    gulp.src(path.assets.images.gif)
+        .pipe(newer(path.build.images))
+        .pipe(gulp.dest(path.build.images));
+});
+
+gulp.task('images', function() {
+    clean(path.build.images, is_build);
+
+    gulp.start('images_any');
+    gulp.start('images_gif');
 });
 
 // Копируем json
