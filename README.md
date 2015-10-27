@@ -5,7 +5,3 @@
 # Gulp
 
 Web Starter Kit
-
-# License
-
-Apache 2.0
