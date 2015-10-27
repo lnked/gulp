@@ -15,18 +15,12 @@
 @import "layout/footer";
 @import "layout/sidebar";
 
+@import "components/navigation";
 @import "components/sandwich";
 @import "components/logo";
-@import "components/notice";
-@import "components/navigation";
-@import "components/buttons";
-@import "components/carousel";
 @import "components/popup";
-@import "components/response";
-@import "components/popover";
 @import "components/forms";
-@import "components/quantity";
+@import "components/buttons";
 
-@import "base/animation";
 @import "base/media";
 @import "base/retina";

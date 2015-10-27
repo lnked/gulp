@@ -1,6 +1,7 @@
 /*
 $.popup.init('.trigger-popup');
 $.popup.open('popup-choose-photo-source');
+$.popup.open('popup-choose-photo-source/nested-tab');
 */
 
 ;(function($) {
@@ -18,7 +19,12 @@ $.popup.open('popup-choose-photo-source');
 		cssPosition: false,
 		hashCheck: true,
 		hashChange: true,
-		keyHooks: true
+		keyHooks: true,
+		template: {
+			error: 'tmpl-popup-error',
+			message: 'tmpl-popup-message',
+			notification: 'tmpl-notification'
+		}
 	},
 	popup = null,
 	temp = null,
@@ -27,6 +33,8 @@ $.popup.open('popup-choose-photo-source');
 	$body = $('body'),
 	$win = $(window), 
 	$doc = $(document),
+	selector_cache,
+	notify_timeout,
 	resizeTimeout;
 
 	$.overlay = {
@@ -41,7 +49,6 @@ $.popup.open('popup-choose-photo-source');
 	};
 	
 	$.popup = {
-
         _getPopup: function(selector)
         {
             var $popup;
@@ -121,7 +128,7 @@ $.popup.open('popup-choose-photo-source');
 
 			var scroll = 0, cb = false, is_native = true, $popups;
 
-			$popups = $('body').find('.popup.is-open')
+			$popups = $body.find('.popup.is-open')
 
 			if (typeof element !== 'undefined')
 			{
@@ -144,7 +151,7 @@ $.popup.open('popup-choose-photo-source');
             setTimeout(function(){
             	$popups.removeClass('visible is-open');
             	$popups.filter('.temp').remove();
-            	$('body').trigger('popup.after_close');
+            	$body.trigger('popup.after_close');
 
             	if (cb)
             	{
@@ -165,7 +172,7 @@ $.popup.open('popup-choose-photo-source');
 	            }
 	        }
 	        
-            $('body').trigger('popup.close');
+            $body.trigger('popup.close');
 		
             return this;
         },
@@ -213,7 +220,7 @@ $.popup.open('popup-choose-photo-source');
 	                
 	                resizeTimeout = setTimeout(function() {
 	                    
-	                    $('body').find('.popup.is-open').each(function() {
+	                    $body.find('.popup.is-open').each(function() {
 		                    popup._rePosition($(this));
 		                });
 
@@ -235,18 +242,25 @@ $.popup.open('popup-choose-photo-source');
 					$body.addClass('popup-open');
 				}
 				
-				if ($('#'+selector).hasClass('popup'))
-				{
-					$popup = $('#'+selector);
-				}
-				else if ($('#'+selector).length && $('#'+selector).get(0).tagName == 'SCRIPT')
-				{
-					$popup = $(template(selector, data));
-					$popup.addClass('temp');
+				if (typeof selector == 'object')
+	        	{
+	        		$popup = $(selector);
+	        	}
+	        	else
+	        	{
+	        		if ($('#'+selector).hasClass('popup'))
+					{
+						$popup = $('#'+selector);
+					}
+					else if ($('#'+selector).length && $('#'+selector).get(0).tagName == 'SCRIPT')
+					{
+						$popup = $(template(selector, data));
+						$popup.addClass('temp');
 
-					$body.append($popup);
-				}
-
+						$body.append($popup);
+					}
+	        	}
+				
 				$popup.addClass('visible is-open');
 
 				if (!defaults.cssPosition)
@@ -267,15 +281,15 @@ $.popup.open('popup-choose-photo-source');
 
 				setTimeout(function(){
 					$popup.addClass('animate');
-					$('body').trigger('popup.after_open', $popup);
+					$body.trigger('popup.after_open', $popup);
 
 					if (nested.length)
 					{
-						$('body').trigger('popup.init_nested', { popup: $popup, nested: nested });
+						$body.trigger('popup.init_nested', { popup: $popup, nested: nested });
 					}
 	    		}, 10);
 
-	            $('body').trigger('popup.open', $popup);
+	            $body.trigger('popup.open', $popup);
 			}
 
 			return this;
@@ -285,7 +299,7 @@ $.popup.open('popup-choose-photo-source');
         {
         	popup = this;
 
-        	$(trigger).on('click', function(e) {
+        	$body.on('click', trigger, function(e) {
         		var overlay = defaults.overlay.enable, bodyclass = defaults.bodyclass, element;
 
 				if (!defaults.hashChange)
@@ -327,12 +341,12 @@ $.popup.open('popup-choose-photo-source');
 		{
 			popup = this;
 
-			if ($('.popup.is-open').length)
+			if (typeof(selector) !== 'undefined' && selector.length > 1 && selector.substr(0, 1) !== '#')
 			{
-				popup.close($('.popup.is-open'));
+				selector = '#' + selector;
 			}
 
-			temp = null, nested = [];
+			temp = null, selector_cache = null, nested = [];
 
 			if (typeof selector == 'undefined' && defaults.hashChange && window.location.hash.length > 1)
 			{
@@ -345,14 +359,14 @@ $.popup.open('popup-choose-photo-source');
 					temp = selector;
 				}
 			}
-
+			
 			if (temp !== null && temp.indexOf('/') >= 0)
 			{
 				nested = temp.split('/');
 			}
-
+			
 			selector = temp;
-
+			
 			if (nested.length)
 			{
 				selector = nested[0];
@@ -361,9 +375,23 @@ $.popup.open('popup-choose-photo-source');
 
 			if (typeof selector !== 'undefined' && selector !== null)
 			{
-				if (selector.substr(0, 1) == '#')
+        		if (selector.substr(0, 1) == '#')
 				{
 					selector = selector.substr(1);
+				}
+
+				if ($('.popup.is-open').length)
+				{
+					selector_cache = $('.popup.is-open').attr('id');
+			
+					if (!nested.length || (selector !== selector_cache))
+					{
+						popup.close($('.popup.is-open'));
+					}
+					else
+					{
+						console.log("use tab", nested);
+					}
 				}
 
 				if ($('#tpl-' + selector).length)
@@ -390,6 +418,67 @@ $.popup.open('popup-choose-photo-source');
 	    	return this;
 		},
 
+	    notification: function(title, text)
+	    {
+	    	popup = this;
+
+	    	clearTimeout(notify_timeout);
+
+            if (!$body.find('#alert-popup-notification').length)
+            {
+            	temp = $(template(defaults.template.notification, { 'title': title, 'text': text } ));
+
+            	temp.addClass('temp');
+            	temp.attr('id', 'alert-popup-notification');
+
+               	$body.append(temp);
+
+                popup.show(temp, false, false);
+            }
+
+            notify_timeout = setTimeout(function(){
+                
+                temp.removeClass('animate');
+
+                setTimeout(function(){
+
+                    temp.remove();
+
+                }, 300);
+
+            }, 2500);
+	    },
+	    
+	    message: function(title, text, btn)
+	    {
+	    	popup = this;
+
+	       	temp = $(template(defaults.template.message, {'title': title, 'text': text, 'btn': btn || null }));
+
+	        temp.addClass('temp');
+
+	        $body.append(temp);
+
+	       	temp.css(this._getPosition(temp));
+
+	        popup.show(temp);
+	    },
+	    
+	    error: function(title, text)
+	    {
+	    	popup = this;
+
+	       	temp = $(template(defaults.template.error, { 'title': title, 'text': text }));
+
+	        temp.addClass('temp');
+
+	        $body.append(temp);
+
+	        temp.css(this._getPosition(temp));
+
+	        popup.show(temp);
+	    },
+
         init: function(trigger, options)
         {
         	defaults.triggerClass = trigger;
@@ -398,7 +487,7 @@ $.popup.open('popup-choose-photo-source');
         	{
         		for (var x in options)
         		{
-        			if (defaults.hasOwnProperty(x))
+        			if (typeof defaults[x] !== 'undefined')
         			{
         				defaults[x] = options[x];
         			}
@@ -410,5 +499,5 @@ $.popup.open('popup-choose-photo-source');
 			this.hooks();
 		}
 	};
-
+    
 })(jQuery);

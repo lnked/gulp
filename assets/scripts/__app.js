@@ -22,17 +22,7 @@
 			$(".watch-phonemask").mask("+ 7 (999) 999-99-99");
 			$(".watch-cartnumber").mask("999-999-999");
 		},
-
-		initAjaxForm: function()
-		{
-			$('.form-ajax').ajaxForm({
-				error_class: "error",
-				error_text: "form__error-text",
-				form_label: "form__label",
-				checkbox_label: "checkbox__label"
-			});
-		},
-
+		
 		initPopover: function()
 		{
 			$('.trigger-dropdown').popover();
@@ -57,8 +47,8 @@
 			this.initMask();
 			this.initSelect();
 			this.initSandwich();
-			this.initAjaxForm();
-			
+
+			this.ajaxForm.init();
 			this.cart.init();
 
 		}
