@@ -26,6 +26,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     webserver   = require('gulp-webserver'),
 
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
+    svgmin      = require('gulp-svgmin'),
     prettify    = require('gulp-prettify'),
     fileinclude = require('gulp-file-include'),
     del         = require('del');                   // Удаление файлов и папок
@@ -68,8 +69,11 @@ var app = './dist/',
             html:           [src + 'template/*.html'],
             scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js'],
             styles:         [src + 'styles/*.scss'],
-            images:         {   gif: [src + 'images/**/*.gif'],
-                                any: [src + 'images/**/*.jpg', src + 'images/**/*.jpeg', src + 'images/**/*.png', src + 'images/**/*.svg'] },
+            images:         {   
+                                gif: [src + 'images/**/*.gif'],
+                                svg: [src + 'images/**/*.svg'],
+                                any: [src + 'images/**/*.jpg', src + 'images/**/*.jpeg', src + 'images/**/*.png']
+                            },
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
         },
@@ -276,10 +280,57 @@ gulp.task('images_gif', function() {
         .pipe(gulp.dest(path.build.images));
 });
 
+gulp.task('images_svg', function () {
+    gulp.src(path.assets.images.svg)
+        .pipe(newer(path.build.images))
+        .pipe(gulpif(
+            is_build,
+            svgmin({
+                plugins: [
+                    {
+                        removeTitle: true
+                    },
+                    {
+                        removeDesc: true
+                    },
+                    {
+                        removeUselessDefs: true
+                    },
+                    {
+                        removeViewBox: true
+                    },
+                    {
+                        removeMetadata: true
+                    },
+                    {
+                        removeDoctype: true
+                    },
+                    {
+                        removeXMLProcInst: true
+                    },
+                    {
+                        removeComments: true
+                    },
+                    {
+                        removeDimensions: false
+                    },
+                    {
+                        convertColors: {
+                            names2hex: true,
+                            rgb2hex: true
+                        }
+                    }
+                ]
+            })
+        ))
+        .pipe(gulp.dest(path.build.images));
+});
+
 gulp.task('images', function() {
     clean(path.build.images, is_build);
 
     gulp.start('images_any');
+    gulp.start('images_svg');
     gulp.start('images_gif');
 });
 

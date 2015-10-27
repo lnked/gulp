@@ -23,11 +23,6 @@
 			$(".watch-cartnumber").mask("999-999-999");
 		},
 		
-		initPopover: function()
-		{
-			$('.trigger-dropdown').popover();
-		},
-		
 		initFastclick: function()
 		{
 			FastClick.attach(document.body);
@@ -35,12 +30,8 @@
 
 		initPopup: function()
 		{
-			// body.on('popup.init_nested', function(e, data){
-			// 	alert("nested " + data.popup + ' = '  + data.nested);
-			// });
-
 			$.popup.init('.js-open-popup', {
-				cssPosition: true,
+				cssPosition: false,
 				wrapper: '.layout-wrapper'
 			});
 		},
