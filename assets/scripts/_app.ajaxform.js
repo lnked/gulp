@@ -144,7 +144,7 @@
 			that = this;
 
 			body.on('submit', '.form-ajax', function(e) {
-		        e.preventDefault();
+		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
 		        var form 	= $(this),
 		        	action	= form.attr('action'),
