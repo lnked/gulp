@@ -1,14 +1,13 @@
 @charset "utf-8";
 
-@import "utils/variables";
+@import "variables";
 @import "utils/mixins";
 
 @import "base/fonts";
 @import "base/reset";
 
 @import "base/global";
-@import "base/typography";
-@import "utils/helpers";
+@import "base/helpers";
 
 @import "layout/layout";
 @import "layout/header";
