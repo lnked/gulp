@@ -106,8 +106,6 @@ gulp.task('webserver', function() {
 // Копируем html
 gulp.task('html', function() {
     
-    console.log(path.assets.html);
-
     gulp.src(path.assets.html)
         .pipe(plumber({errorHandler: errorHandler}))
         

@@ -1,7 +1,7 @@
-::-webkit-input-placeholder 		{ color: #fff; opacity: 1; }
-:-moz-placeholder 					{ color: #fff; opacity: 1; }
-::-moz-placeholder 					{ color: #fff; opacity: 1; }
-:-ms-input-placeholder 				{ color: #fff; opacity: 1; }
+::-webkit-input-placeholder 		{ color: $placeholderColor; opacity: $placeholderOpacity; }
+:-moz-placeholder 					{ color: $placeholderColor; opacity: $placeholderOpacity; }
+::-moz-placeholder 					{ color: $placeholderColor; opacity: $placeholderOpacity; }
+:-ms-input-placeholder 				{ color: $placeholderColor; opacity: $placeholderOpacity; }
 
 input[placeholder]          		{ text-overflow: ellipsis; }
 input::-moz-placeholder     		{ text-overflow: ellipsis; }
@@ -27,15 +27,27 @@ button:focus {
     outline: none;
 }
 
+select {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0px;
+}
+
+label {
+	cursor: pointer;
+}
+
+input, button {
+	-webkit-appearance: none;
+}
+
+textarea {
+	resize: vertical;
+}
+
 @keyframes shake{
     0% { transform: translate(10px, 0); }
     50% { transform: translate(-10px, 0); }
     100% { transform: translate(0, 0); }
-}
-
-select {
-	-webkit-appearance: none;
-	-webkit-border-radius: 0px;
 }
 
 .form {
@@ -43,15 +55,7 @@ select {
 
 	&__row {
 		clear: both;
-
-		&_push {
-			margin-bottom: 60px;
-		}
-	}
-	
-	&_registry {
-		width: 722px;
-		margin: 0 auto 337px;
+		margin-bottom: 2rem;
 	}
 
 	&__column {
@@ -59,11 +63,11 @@ select {
 		float: left;
 
 		&_pl {
-			padding-left: 31px;
+			padding-left: 10px;
 		}
 
 		&_pr {
-			padding-right: 31px;
+			padding-right: 10px;
 		}
 	}
 
@@ -80,18 +84,6 @@ select {
 			letter-spacing: 0.07ex;
 			margin-bottom: 9px;
 		}
-	}
-
-	&__question {
-		width: 18px;
-		height: 18px;
-		margin-top: -2px;
-		display: inline-block;
-		float: right;
-		cursor: pointer;
-		background: url(../images/question.png) 0 0 no-repeat;
-		background-image: url(../images/question.svg);
-		background-size: 100%;
 	}
 
 	&__input,
@@ -120,6 +112,10 @@ select {
 			animation-iteration-count: 3;
 			animation-timing-function: linear;
 		}
+
+		&::-ms-clear {
+		    display: none;
+		}
 	}
 
 	&__error-text {
@@ -140,43 +136,5 @@ select {
 		padding: 10px 17px;
 	    max-width: 100%;
 	    resize: vertical;
-	}
-
-	&__calendar {
-		position: relative;
-
-		&__selector {
-			width: 25px;
-			height: 27px;
-			position: absolute;
-			right: 14px;
-			top: 11px;
-			z-index: 10;
-			cursor: pointer;
-			background: url(../images/calendar.png) 0 0 no-repeat;
-			background-image: url(../images/calendar.svg);
-			background-size: 25px 27px;
-		}
-	}
-
-	&__col {
-		float: left;
-		margin-right: 12px;
-		
-		&_last {
-			margin-right: 0;
-		}
-	}
-
-	&__star {
-		color: #fde87d;
-		font-size: 1.4rem;
-		font-weight: 400;
-		margin-left: 3px;
-	}
-
-	&__button {
-		clear: both;
-		text-align: center;
 	}
 }
