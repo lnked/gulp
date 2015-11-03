@@ -13,6 +13,14 @@ input:-ms-input-placeholder 		{ text-overflow: ellipsis; }
 :focus:-moz-placeholder           	{ color: transparent; }
 :focus:-ms-input-placeholder      	{ color: transparent; }
 
+input,
+textarea {
+	-webkit-appearance: textfield;
+	-webkit-rtl-ordering: logical;
+	-webkit-user-select: text;
+	cursor: auto;
+}
+
 input:focus,
 textarea:focus,
 button:focus {

@@ -6,10 +6,12 @@
 	$.app.ajaxForm = {
 
 		config: {
-			error_class: "error",
-			error_message: "form__error-message",
-			form_label: ".form__wrapper",
-			checkbox_label: "checkbox__label"
+			form_class: '.form-ajax',
+			link_class: '.js-request-link',
+			error_class: 'error',
+			error_message: 'form__error-message',
+			form_label: '.form__wrapper',
+			checkbox_label: 'checkbox__label'
 		},
 
 		callback_stack: {},
@@ -139,11 +141,61 @@
 
 		},
 
-		init: function()
+		initLink: function()
 		{
 			that = this;
 
-			body.on('submit', '.form-ajax', function(e) {
+			body.on('submit', that.config.form_class, function(e) {
+		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+	       		
+	       		var link = $(this);
+
+	       		if (link.data('is-busy')) {
+					return;
+				}
+
+				link.data('is-busy', true);
+
+	       		var action = ($(this).attr('href')) || $(this).data('action'),
+	       			method = ($(this).data('method')) || 'get',
+	       			data = {};
+
+	       		that.send(
+	        		action,
+	        		method,
+	        		data,
+		        	function(response)
+		        	{
+		            	if (link.data('callback') && that.callback_stack.hasOwnProperty(link.data('callback')))
+		                {
+		                    that.callback_stack[link.data('callback')](link, response);
+		                }
+		                else
+		                {
+		                    that.default_handler(link, response);
+		                }
+
+		                if (response.status === true)
+		                {
+							
+		                }
+
+		            	link.data('is-busy', false);
+		            },
+		            function(response)
+		            {
+		                that.default_handler(link, response);
+		                link.data('is-busy', false);
+		            }
+	            );
+	       	});
+		},
+
+		initForm: function()
+		{
+			that = this;
+
+			body.on('submit', that.config.form_class, function(e) {
 		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
 		        var form 	= $(this),
@@ -193,7 +245,12 @@
 		            }
 	            );
 		    });
+		},
 
+		init: function()
+		{
+			this.initForm();
+			this.initLink();
 		}
 
 	};

@@ -27,6 +27,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 		}
 	},
 	popup = null,
+	noty = null,
 	temp = null,
 	nested = [],
 	$trigger = '',
@@ -93,7 +94,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
             if(wh >= ph) {
                 css.position = 'fixed';
                 top = '50%';
-                css.marginTop = '-' + Math.floor( ph / 2 ) + 'px';
+                css.marginTop = '-' + Math.ceil( ph / 2 ) + 'px';
             }
             else {
             	css.position = 'absolute';
@@ -140,6 +141,8 @@ $.popup.open('popup-choose-photo-source/nested-tab');
             	cb = true;
             }
 
+			$body.trigger('popup.before_close', $popups);
+
             if (defaults.overlay && is_native) {
 				$.overlay.close();
 	        };
@@ -151,7 +154,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
             setTimeout(function(){
             	$popups.removeClass('visible is-open');
             	$popups.filter('.temp').remove();
-            	$body.trigger('popup.after_close');
+            	$body.trigger('popup.after_close', $popups);
 
             	if (cb)
             	{
@@ -172,7 +175,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	            }
 	        }
 	        
-            $body.trigger('popup.close');
+            $body.trigger('popup.close', $popups);
 		
             return this;
         },
@@ -302,6 +305,11 @@ $.popup.open('popup-choose-photo-source/nested-tab');
         	$body.on('click', trigger, function(e) {
         		var overlay = defaults.overlay.enable, bodyclass = defaults.bodyclass, element;
 
+        		if ($('.popup.is-open').length)
+        		{
+        			$body.trigger('popup.before_open', $('.popup.is-open'));
+        		}
+
 				if (!defaults.hashChange)
 				{
 					e.preventDefault ? e.preventDefault() : e.returnValue = false;
@@ -390,7 +398,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 					}
 					else
 					{
-						console.log("use tab", nested);
+						$.app.tabs.hashUrl.check(popup, nested);
 					}
 				}
 
@@ -426,27 +434,27 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 
             if (!$body.find('#alert-popup-notification').length)
             {
-            	temp = $(template(defaults.template.notification, { 'title': title, 'text': text } ));
+            	noty = $(template(defaults.template.notification, { 'title': title, 'text': text } ));
 
-            	temp.addClass('temp');
-            	temp.attr('id', 'alert-popup-notification');
+            	noty.addClass('temp');
+            	noty.attr('id', 'alert-popup-notification');
 
-               	$body.append(temp);
+               	$body.append(noty);
 
-                popup.show(temp, false, false);
+                popup.show(noty, false, false);
             }
 
             notify_timeout = setTimeout(function(){
                 
-                temp.removeClass('animate');
+                noty.removeClass('animate');
 
                 setTimeout(function(){
 
-                    temp.remove();
+                    noty.remove();
 
                 }, 300);
 
-            }, 2500);
+            }, 5000);
 	    },
 	    
 	    message: function(title, text, btn)
