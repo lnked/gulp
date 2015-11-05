@@ -21,6 +21,7 @@ Temporary Items
 .apdisk
 
 .gulp
+.npm-debug.log
 /node_modules
 /branch
 /dist
