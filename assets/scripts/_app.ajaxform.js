@@ -131,7 +131,7 @@
 		            type: method,
 		            data: data,
 		            contentType: false,
-					processData: false,
+					processData: method.toLowerCase() == 'get',
 		            success: cb,
 		            error: err,
 		            dataType: 'JSON'
@@ -201,7 +201,7 @@
 		        var form 	= $(this),
 		        	action	= form.attr('action'),
 	            	method	= (form.attr('method') || 'post'),
-	            	data 	= new FormData(form[0]); //form.serialize();
+	            	data 	= !!window.FormData ? new FormData(form[0]) : form.serialize();
 
 				if (form.data('is-busy')) {
 					return;

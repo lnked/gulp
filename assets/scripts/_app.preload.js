@@ -1,6 +1,11 @@
 ;( function( $ ) {
 	"use strict";
 
+	if (!$.app)
+	{
+		$.app = {};
+	}
+
 	$.app.preload = {
 
 		progress: function()

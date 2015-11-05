@@ -143,7 +143,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 
 			$body.trigger('popup.before_close', $popups);
 
-            if (defaults.overlay && is_native) {
+            if (defaults.overlay.enable && is_native) {
 				$.overlay.close();
 	        };
 
@@ -210,7 +210,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 		        });
 			};
 
-	        if (defaults.overlay) {
+	        if (defaults.overlay.enable) {
 				$(defaults.overlay.element).on('click', function() {
 	            	popup.close();
 	            });

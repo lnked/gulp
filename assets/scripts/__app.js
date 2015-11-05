@@ -38,12 +38,12 @@
 
 		init: function()
 		{
+			this.initFastclick();
 
 			this.initPopup();
 			this.initMask();
 			this.initSelect();
 			this.initSandwich();
-			this.initFastclick();
 
 			this.ajaxForm.init();
 			this.cart.init();
