@@ -5,7 +5,8 @@
 		
 		initSandwich: function()
 		{
-			$('.menu-trigger').sandwich({
+			this.sandwich.init({
+				selector: '.js-sandwich-menu',
 				wrapper: '.layout-wrapper',
 				overlay: '#menu-overlay'
 			});

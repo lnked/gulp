@@ -31,8 +31,18 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     fileinclude = require('gulp-file-include'),
     del         = require('del');                   // Удаление файлов и папок
 
+/**
+ * Обработчик ошибок.
+ * @param e
+ */
 var errorHandler = function(err) {
     try {
+        console.error('Error in plugin "' + err.plugin + '"');
+        console.error('   "' + err.message + '"');
+        console.error('   In file "' + err.fileName + '", line "' + err.lineNumber + '".');
+        console.log('--------------------------------------');
+        console.log(err);
+
         gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
         gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
         gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));

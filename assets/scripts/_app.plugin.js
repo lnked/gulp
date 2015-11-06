@@ -1,9 +1,7 @@
-;( function( $ ) {
+;(function ($) {
 	"use strict";
 
-	if (!$.app) {
-		$.app = {};
-	}
+	$.app = $.app = $.app || {};
 
 	$.app.plugin = {
 
@@ -14,4 +12,21 @@
 
 	};
 
-})( jQuery );
+})(jQuery);
+
+
+
+// ;(function (window) {
+// 	"use strict";
+
+// 	var app = window.app = window.app || {};
+
+// 	app.browser = {
+// 		name: 'Chrome',
+
+// 		getUrl: function (url) {
+// 			return chrome.extension.getURL(url);
+// 		}
+// 	};
+
+// })(window);

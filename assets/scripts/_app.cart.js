@@ -1,5 +1,7 @@
-;( function( $ ) {
+;(function ($) {
 	"use strict";
+
+	$.app = $.app = $.app || {};
 
 	$.fn.extend( {
 		quantity: function(options)
@@ -92,7 +94,7 @@
 		}
 	};
 
-})( jQuery );
+})(jQuery);
 
 
 // $.define('сounter', {

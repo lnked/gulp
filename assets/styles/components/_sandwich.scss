@@ -7,11 +7,11 @@ $sandwichBackground: #fff;
     left: 0;
     top: 0;
     z-index: 1000;
-    opacity: 0;
     visibility: hidden;
     background-color: rgb(0, 0, 0);
     background-color: #051634;
     transition: opacity 0.3s;
+    @include opacity(0);
 }
 
 .sandwich {
@@ -22,9 +22,9 @@ $sandwichBackground: #fff;
     top: 20px;
     margin: 0;
     cursor: pointer;
-    opacity: 0;
     z-index: -1;
     text-decoration: none;
+    @include opacity(0);
 
     &__layer {
         position: absolute;
@@ -74,7 +74,7 @@ $sandwichBackground: #fff;
     overflow: hidden;
 
     .menu-overlay {
-        opacity: 0.8;
+        @include opacity(.8);
     }
     
     .header {
@@ -82,7 +82,7 @@ $sandwichBackground: #fff;
     }
 
     .sandwich {
-        opacity: 1;
+        @include opacity(1);
         z-index: 9999;
 
         &__layer {
