@@ -49,6 +49,7 @@
 			this.ajaxForm.init();
 			this.cart.init();
 
+			browser.init();
 		}
 
 	};

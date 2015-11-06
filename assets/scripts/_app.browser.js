@@ -1,51 +1,79 @@
-;( function( $ ) {
-    "use strict";
+;(function (win) {
+ "use strict";
 
-    // $.app.BrowserDetect.init();
+    window.browser = {
+        
+        is_msie: !1, is_edge: !1, is_chrome: !1, is_trident: !1, is_firefox: !1, is_safari: !1, is_opera: !1,
 
-    // console.log($.app.BrowserDetect.browser )
-    // console.log($.app.BrowserDetect.version )
+        name: null,
 
-    $.app.BrowserDetect = {
+        version: null,
 
-        searchString: function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var dataString = data[i].string;
-                this.versionSearchString = data[i].subString;
+        browsers: [
+            { subString: "Edge",    identity: "MS Edge" },
+            { subString: "Chrome",  identity: "Chrome" },
+            { subString: "MSIE",    identity: "Explorer" },
+            { subString: "Trident", identity: "Explorer" },
+            { subString: "Firefox", identity: "Firefox" },
+            { subString: "Safari",  identity: "Safari" },
+            { subString: "Opera",   identity: "Opera" }
+        ],
 
-                if (dataString.indexOf(data[i].subString) !== -1) {
-                    return data[i].identity;
+        searchString: function()
+        {
+            var _this = this;
+
+            for (var i = 0; i < _this.browsers.length; i++)
+            {
+                this.versionSearchString = _this.browsers[i].subString;
+
+                if (navigator.userAgent.indexOf(_this.browsers[i].subString) !== -1)
+                {
+                    return _this.browsers[i].identity.toLowerCase();
                 }
             }
         },
-        searchVersion: function (dataString) {
-            var index = dataString.indexOf(this.versionSearchString);
+
+        searchVersion: function (ds)
+        {
+            var index = ds.indexOf(this.versionSearchString);
+            
             if (index === -1) {
                 return;
             }
 
-            var rv = dataString.indexOf("rv:");
-            if (this.versionSearchString === "Trident" && rv !== -1) {
-                return parseFloat(dataString.substring(rv + 3));
-            } else {
-                return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+            var rv = ds.indexOf("rv:");
+            
+            if (this.versionSearchString === "Trident" && rv !== -1)
+            {
+                return parseFloat(ds.substring(rv + 3));
+            }
+            else
+            {
+                return parseFloat(ds.substring(index + this.versionSearchString.length + 1));
             }
         },
 
-        dataBrowser: [
-            {string: navigator.userAgent, subString: "Edge", identity: "MS Edge"},
-            {string: navigator.userAgent, subString: "Chrome", identity: "Chrome"},
-            {string: navigator.userAgent, subString: "MSIE", identity: "Explorer"},
-            {string: navigator.userAgent, subString: "Trident", identity: "Explorer"},
-            {string: navigator.userAgent, subString: "Firefox", identity: "Firefox"},
-            {string: navigator.userAgent, subString: "Safari", identity: "Safari"},
-            {string: navigator.userAgent, subString: "Opera", identity: "Opera"}
-        ],
+        changeFlags: function()
+        {
+            var _this = this;
 
-        init: function () {
-            this.browser = this.searchString(this.dataBrowser) || "Other";
+            for (var i = 0; i < _this.browsers.length; i++)
+            {
+                if (_this.browsers[i].subString.toLowerCase() === _this.name)
+                {
+                    _this['is_' + _this.browsers[i].subString.toLowerCase()] = !0;
+                }
+            }
+        },
+
+        init: function()
+        {
+            this.name = this.searchString() || "Other";
             this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "Unknown";
+            
+            this.changeFlags();
         }
     };
 
-})( jQuery );
+})(window);
