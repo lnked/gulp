@@ -78,12 +78,10 @@
 
 		init: function(config)
 		{
-			_this = this;
-
-			_this.extend(config);
+			this.extend(config);
 			
-			_this.sandwichTrigger();
-			_this.overlayTrigger();
+			this.sandwichTrigger();
+			this.overlayTrigger();
 		}
 
 	};

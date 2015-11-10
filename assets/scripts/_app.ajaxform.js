@@ -1,7 +1,9 @@
 ;( function( $ ) {
 	"use strict";
 
-	var body = $('body'), that;
+	$.app = $.app = $.app || {};
+
+	var body = $('body'), _this;
 
 	$.app.ajaxForm = {
 
@@ -16,9 +18,24 @@
 
 		callback_stack: {},
 
+		extend: function(config)
+		{
+			_this = this;
+
+			if (typeof config !== 'undefined')
+        	{
+        		var x;
+        		for (x in config)
+        		{
+        			if (typeof _this.config[x] !== 'undefined')
+        				_this.config[x] = config[x];
+        		}
+        	}
+		},
+
 		default_handler: function(form, response)
 		{
-			that = this;
+			_this = this;
 
 		    if (response.status)
 		    {
@@ -29,7 +46,7 @@
 		    }
 		    else if (response.errors)
 		    {
-		        that.validation(form, response.errors);
+		        _this.validation(form, response.errors);
 		    }
 		    
 		    if (response.hasOwnProperty('message'))
@@ -41,10 +58,10 @@
 
 		validation: function(form, errors)
 		{
-			that = this;
+			_this = this;
 
-		    form.find('.' + that.config.error_class).removeClass(that.config.error_class);
-		    form.find('.' + that.config.error_message).remove();
+		    form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
+		    form.find('.' + _this.config.error_message).remove();
 		    
 		    var fieldName, field;
 
@@ -68,15 +85,15 @@
 			                field = form.find('textarea[name="'+fieldName+'"]');
 			            }
 
-			            if (field.closest('.' + that.config.checkbox_label).length > 0)
+			            if (field.closest('.' + _this.config.checkbox_label).length > 0)
 			            {
-			                field = field.closest('.' + that.config.checkbox_label);
+			                field = field.closest('.' + _this.config.checkbox_label);
 			            }
 
 			            if (typeof field !== 'undefined')
 			            {
-		                	field.addClass(that.config.error_class);
-		                	field.closest(that.config.form_label).append('<div class="' + that.config.error_message + '">' + errors[fieldName] + '</div>');
+		                	field.addClass(_this.config.error_class);
+		                	field.closest(_this.config.form_label).append('<div class="' + _this.config.error_message + '">' + errors[fieldName] + '</div>');
 		                }
 			        }
 			    }
@@ -85,7 +102,7 @@
 
 		upload: function()
 		{
-			that = this;
+			_this = this;
 
 		    body.on('submit', '.form-file-upload', function(e) {
 		        return AIM.submit(this, {
@@ -143,9 +160,9 @@
 
 		initLink: function()
 		{
-			that = this;
+			_this = this;
 
-			body.on('submit', that.config.form_class, function(e) {
+			body.on('submit', _this.config.form_class, function(e) {
 		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 	       		
 	       		var link = $(this);
@@ -160,19 +177,19 @@
 	       			method = ($(this).data('method')) || 'get',
 	       			data = {};
 
-	       		that.send(
+	       		_this.send(
 	        		action,
 	        		method,
 	        		data,
 		        	function(response)
 		        	{
-		            	if (link.data('callback') && that.callback_stack.hasOwnProperty(link.data('callback')))
+		            	if (link.data('callback') && _this.callback_stack.hasOwnProperty(link.data('callback')))
 		                {
-		                    that.callback_stack[link.data('callback')](link, response);
+		                    _this.callback_stack[link.data('callback')](link, response);
 		                }
 		                else
 		                {
-		                    that.default_handler(link, response);
+		                    _this.default_handler(link, response);
 		                }
 
 		                if (response.status === true)
@@ -184,7 +201,7 @@
 		            },
 		            function(response)
 		            {
-		                that.default_handler(link, response);
+		                _this.default_handler(link, response);
 		                link.data('is-busy', false);
 		            }
 	            );
@@ -193,9 +210,9 @@
 
 		initForm: function()
 		{
-			that = this;
+			_this = this;
 
-			body.on('submit', that.config.form_class, function(e) {
+			body.on('submit', _this.config.form_class, function(e) {
 		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
 		        var form 	= $(this),
@@ -209,26 +226,26 @@
 
 				form.data('is-busy', true);
 
-				if (form.data('precallback') && that.callback_stack.hasOwnProperty(form.data('precallback'))) {
-					if(!that.callback_stack[form.data('precallback')](form))
+				if (form.data('precallback') && _this.callback_stack.hasOwnProperty(form.data('precallback'))) {
+					if(!_this.callback_stack[form.data('precallback')](form))
 					{
 						return false;
 					}
 				}
 
-		        that.send(
+		        _this.send(
 	        		action,
 	        		method,
 	        		data,
 		        	function(response)
 		        	{
-		            	if (form.data('callback') && that.callback_stack.hasOwnProperty(form.data('callback')))
+		            	if (form.data('callback') && _this.callback_stack.hasOwnProperty(form.data('callback')))
 		                {
-		                    that.callback_stack[form.data('callback')](form, response);
+		                    _this.callback_stack[form.data('callback')](form, response);
 		                }
 		                else
 		                {
-		                    that.default_handler(form, response);
+		                    _this.default_handler(form, response);
 		                }
 
 		                if (response.status === true)
@@ -240,15 +257,17 @@
 		            },
 		            function(response)
 		            {
-		                that.default_handler(form, response);
+		                _this.default_handler(form, response);
 		                form.data('is-busy', false);
 		            }
 	            );
 		    });
 		},
 
-		init: function()
+		init: function(config)
 		{
+			this.extend(config);
+			
 			this.initForm();
 			this.initLink();
 		}

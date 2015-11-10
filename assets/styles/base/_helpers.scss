@@ -43,14 +43,15 @@
 	text-align: center;
 }
 
-.disable-hover {
-    pointer-events: none;
-}
-
 .vmcenter {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%)
+}
+
+.disable-hover,
+.disable-hover * {
+    pointer-events: none !important;
 }

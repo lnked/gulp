@@ -33,15 +33,15 @@ var gulp        = require('gulp'),                  // Собственно Gulp
 
 /**
  * Обработчик ошибок.
- * @param e
+ * @param err
  */
 var errorHandler = function(err) {
     try {
-        console.error('Error in plugin "' + err.plugin + '"');
-        console.error('   "' + err.message + '"');
-        console.error('   In file "' + err.fileName + '", line "' + err.lineNumber + '".');
-        console.log('--------------------------------------');
-        console.log(err);
+        // console.error('Error in plugin "' + err.plugin + '"');
+        // console.error('   "' + err.message + '"');
+        // console.error('   In file "' + err.fileName + '", line "' + err.lineNumber + '".');
+        // console.log('--------------------------------------');
+        // console.log(err);
 
         gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
         gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
