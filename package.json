@@ -30,6 +30,7 @@
     "gulp-uncss": "^1.0.4",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
+    "gulp-webp": "^2.3.0",
     "gulp-webserver": "^0.9.1",
     "gulp-wrapper": "^1.0.0",
     "pageres": "^2.1.0"

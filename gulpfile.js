@@ -25,6 +25,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     
     webserver   = require('gulp-webserver'),
 
+    webp        = require('gulp-webp'),
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     svgmin      = require('gulp-svgmin'),
     prettify    = require('gulp-prettify'),
@@ -43,10 +44,10 @@ var errorHandler = function(err) {
         // console.log('--------------------------------------');
         // console.log(err);
 
-        gutil.log(gutil.colors.cyan('FileName:'), gutil.colors.blue(err.fileName));
-        gutil.log(gutil.colors.cyan.bold('Error:'), gutil.colors.red(err.message));
+        gutil.log(gutil.colors.green('FileName:'), gutil.colors.blue(err.fileName));
+        gutil.log(gutil.colors.red.bold('Error:'), gutil.colors.red(err.message));
         gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
-        gutil.log(gutil.colors.cyan('Plugin:'), gutil.colors.green(err.plugin));
+        gutil.log(gutil.colors.black('Plugin:'), gutil.colors.green(err.plugin));
     }
     catch(e) {}
 }
@@ -181,6 +182,7 @@ gulp.task('styles', function() {
         .pipe(plumber({errorHandler: errorHandler}))
         
         .pipe(sass())
+
         .pipe(concat('main.css'))
 
         // .pipe(gulpif(
@@ -271,6 +273,9 @@ gulp.task('scripts', function() {
 gulp.task('images_any', function() {
     gulp.src(path.assets.images.any)
         .pipe(newer(path.build.images))
+
+        // .pipe(webp())
+        
         .pipe(gulpif(
             is_build,
             imagemin({

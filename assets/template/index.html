@@ -5,7 +5,9 @@
 @@include('./popups/popup.html')
 
 <div class="layout-wrapper">
-	@@include('./components/header.html')
+	@@include('./components/header.html', {
+		"current": ""
+	})
 
 	<section class="layout-wrapper__inner" itemprop="mainContentOfPage">
 		
