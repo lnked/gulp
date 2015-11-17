@@ -52,9 +52,11 @@ var errorHandler = function(err) {
     catch(e) {}
 }
 
-var is_build = false,
-    is_email = false,
-    is_watch = false;
+var is {
+    build: false,
+    email: false,
+    watch: false;
+};
 
 // Очищаем папку с компилированным проектом
 function clean(path, build)
@@ -126,7 +128,7 @@ gulp.task('html', function() {
         }))
 
         .pipe(gulpif(
-            is_email,
+            is.email,
             inlineCss({
                 applyStyleTags: true,
                 applyLinkTags: true,
@@ -136,7 +138,7 @@ gulp.task('html', function() {
         ))
 
         .pipe(gulpif(
-            is_build,
+            is.build,
             prettify({
                 indent_size: 4,
                 indent_char: ' ',
@@ -150,7 +152,7 @@ gulp.task('html', function() {
         ))
 
         .pipe(gulpif(
-            is_watch,
+            is.watch,
             htmlhint({
                 "attr-value-double-quotes": false,
                 "tagname-lowercase": false,
@@ -165,7 +167,7 @@ gulp.task('html', function() {
         ))
 
         .pipe(gulpif(
-            is_watch,
+            is.watch,
             htmlhint.reporter()
         ))
 
@@ -176,7 +178,7 @@ gulp.task('html', function() {
 
 // Собираем Sass
 gulp.task('styles', function() {
-    clean(path.build.styles, is_build);
+    clean(path.build.styles, is.build);
 
     gulp.src(path.assets.styles)
         .pipe(plumber({errorHandler: errorHandler}))
@@ -186,7 +188,7 @@ gulp.task('styles', function() {
         .pipe(concat('main.css'))
 
         // .pipe(gulpif(
-        //     is_build,
+        //     is.build,
         //     uncss({
         //         html: [path.build.html + '*.html', path.build.html + '**/*.html']
         //     })
@@ -200,7 +202,7 @@ gulp.task('styles', function() {
         .pipe(pixrem())
         
         .pipe(gulpif(
-            is_build,
+            is.build,
             csscomb({
                 "tab-size": 4,
                 "color-shorthand": true,
@@ -224,7 +226,7 @@ gulp.task('styles', function() {
         .pipe(gulp.dest(path.build.styles))
 
         .pipe(gulpif(
-            is_build,
+            is.build,
             nano({
                 zindex: false,
                 autoprefixer: false,
@@ -243,7 +245,7 @@ gulp.task('styles', function() {
 
 // Собираем JS
 gulp.task('scripts', function() {
-    clean(path.build.scripts, is_build);
+    clean(path.build.scripts, is.build);
 
     gulp.src(path.assets.scripts)
         .pipe(plumber({errorHandler: errorHandler}))
@@ -259,7 +261,7 @@ gulp.task('scripts', function() {
         .pipe(rename({suffix: '.min'}))
 
         .pipe(gulpif(
-            is_build,
+            is.build,
             uglify()
         ))
         
@@ -277,7 +279,7 @@ gulp.task('images_any', function() {
         // .pipe(webp())
         
         .pipe(gulpif(
-            is_build,
+            is.build,
             imagemin({
                 optimizationLevel: 3,
                 progressive: true,
@@ -297,7 +299,7 @@ gulp.task('images_svg', function () {
     gulp.src(path.assets.images.svg)
         .pipe(newer(path.build.images))
         .pipe(gulpif(
-            is_build,
+            is.build,
             svgmin({
                 plugins: [
                     {
@@ -340,7 +342,7 @@ gulp.task('images_svg', function () {
 });
 
 gulp.task('images', function() {
-    clean(path.build.images, is_build);
+    clean(path.build.images, is.build);
 
     gulp.start('images_any');
     gulp.start('images_svg');
@@ -349,7 +351,7 @@ gulp.task('images', function() {
 
 // Копируем json
 gulp.task('json', function() {
-    clean(path.build.json, is_build);
+    clean(path.build.json, is.build);
 
     gulp.src(path.assets.json)
         .pipe(plumber({errorHandler: errorHandler}))
@@ -361,7 +363,7 @@ gulp.task('json', function() {
 
 // Копируем шрифты
 gulp.task('fonts', function () {
-    clean(path.build.fonts, is_build);
+    clean(path.build.fonts, is.build);
     
     gulp.src(path.assets.fonts)
         .pipe(plumber({errorHandler: errorHandler}))
@@ -398,7 +400,7 @@ gulp.task('extras', function() {
 
 // Запуск слежки за изминениями в проекте (gulp watch)
 gulp.task('watch', function () {
-    is_watch = true;
+    is.watch = true;
 
     var x;
     for (x in path.watch)
@@ -413,7 +415,7 @@ gulp.task('watch', function () {
 
 // Сборка проекта
 gulp.task('build', function() {
-    is_build = true;
+    is.build = true;
     
     gulp.start('html');
     gulp.start('styles');
