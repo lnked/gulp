@@ -28,6 +28,8 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     webp        = require('gulp-webp'),
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     svgmin      = require('gulp-svgmin'),
+    svgo        = require('imagemin-svgo'),
+    gifsicle    = require('imagemin-gifsicle'),
     prettify    = require('gulp-prettify'),
     fileinclude = require('gulp-file-include'),
     del         = require('del');                   // Удаление файлов и папок
@@ -51,12 +53,6 @@ var errorHandler = function(err) {
     }
     catch(e) {}
 }
-
-var is {
-    build: false,
-    email: false,
-    watch: false;
-};
 
 // Очищаем папку с компилированным проектом
 function clean(path, build)
@@ -82,11 +78,7 @@ var app = './dist/',
             html:           [src + 'template/*.html'],
             scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js'],
             styles:         [src + 'styles/*.scss'],
-            images:         {   
-                                gif: [src + 'images/**/*.gif'],
-                                svg: [src + 'images/**/*.svg'],
-                                any: [src + 'images/**/*.jpg', src + 'images/**/*.jpeg', src + 'images/**/*.png']
-                            },
+            images:         { all: [src + 'images/**/*.svg', src + 'images/**/*.jpg', src + 'images/**/*.jpeg', src + 'images/**/*.png'], gif: [src + 'images/**/*.gif'] },
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
         },
@@ -100,7 +92,19 @@ var app = './dist/',
         },
         extras: ['favicon.ico', 'humans.txt', 'robots.txt'],
         modernizr: [src + 'modernizr.js']
-    };
+    },
+    is = {
+        build: false,
+        email: false,
+        watch: false
+    },
+    uncssFiles = [
+        path.build.html + '*.html',
+        path.build.html + '**/*.html'
+    ],
+    uncssIgnore = [
+        /^#js/
+    ];
 
 gulp.task('webserver', function() {
     gulp.src(app)
@@ -187,12 +191,14 @@ gulp.task('styles', function() {
 
         .pipe(concat('main.css'))
 
-        // .pipe(gulpif(
-        //     is.build,
-        //     uncss({
-        //         html: [path.build.html + '*.html', path.build.html + '**/*.html']
-        //     })
-        // ))
+        .pipe(gulpif(
+            is.build,
+            uncss({
+                html: uncssFiles,
+                ignore: uncssIgnore,
+                timeout: 1000,
+            })
+        ))
 
         .pipe(prefixer({
             browsers: ['last 15 versions'],
@@ -271,82 +277,48 @@ gulp.task('scripts', function() {
 });
 
 // Копируем и минимизируем изображения
-
-gulp.task('images_any', function() {
-    gulp.src(path.assets.images.any)
-        .pipe(newer(path.build.images))
-
-        // .pipe(webp())
-        
-        .pipe(gulpif(
-            is.build,
-            imagemin({
-                optimizationLevel: 3,
-                progressive: true,
-                interlaced: true
-            })
-        ))
-        .pipe(gulp.dest(path.build.images));
-});
-
 gulp.task('images_gif', function() {
     gulp.src(path.assets.images.gif)
         .pipe(newer(path.build.images))
         .pipe(gulp.dest(path.build.images));
 });
 
-gulp.task('images_svg', function () {
-    gulp.src(path.assets.images.svg)
+gulp.task('images', function() {
+    clean(path.build.images, is.build);
+    
+    gulp.start('images_gif');
+
+    gulp.src(path.assets.images.all)
         .pipe(newer(path.build.images))
+        // .pipe(webp())
         .pipe(gulpif(
             is.build,
-            svgmin({
-                plugins: [
-                    {
-                        removeTitle: true
-                    },
-                    {
-                        removeDesc: true
-                    },
-                    {
-                        removeUselessDefs: true
-                    },
-                    {
-                        removeViewBox: true
-                    },
-                    {
-                        removeMetadata: true
-                    },
-                    {
-                        removeDoctype: true
-                    },
-                    {
-                        removeXMLProcInst: true
-                    },
-                    {
-                        removeComments: true
-                    },
-                    {
-                        removeDimensions: false
-                    },
+            imagemin({
+                optimizationLevel: 3,
+                progressive: true,
+                svgoPlugins: [
+                    {removeTitle:true},
+                    {removeDesc:true},
+                    {removeViewBox:true},
+                    {removeDoctype:true},
+                    {removeMetadata:true},
+                    {removeComments:true},
+                    {removeUselessDefs:true},
+                    {removeXMLProcInst:true},
+                    {removeDimensions:true},
                     {
                         convertColors: {
                             names2hex: true,
                             rgb2hex: true
                         }
-                    }
-                ]
+                    },
+                    {removeUselessStrokeAndFill:false}
+                ],
+                use: [svgo(), gifsicle({interlaced: true})]
             })
         ))
+
         .pipe(gulp.dest(path.build.images));
-});
-
-gulp.task('images', function() {
-    clean(path.build.images, is.build);
-
-    gulp.start('images_any');
-    gulp.start('images_svg');
-    gulp.start('images_gif');
 });
 
 // Копируем json
@@ -401,7 +373,7 @@ gulp.task('extras', function() {
 // Запуск слежки за изминениями в проекте (gulp watch)
 gulp.task('watch', function () {
     is.watch = true;
-
+    
     var x;
     for (x in path.watch)
     {
