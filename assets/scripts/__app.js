@@ -1,13 +1,14 @@
 ;( function( $ ) {
 	"use strict";
 
-	var body = document.body;
+	window.body = $('body');
 
 	$.app = {
 		
 		initSandwich: function()
 		{
 			this.sandwich.init({
+				keyHooks: !0,
 				selector: '.js-sandwich-menu',
 				wrapper: '.layout-wrapper',
 				overlay: '#menu-overlay'
@@ -37,6 +38,48 @@
 				cssPosition: false,
 				wrapper: '.layout-wrapper'
 			});
+		},
+
+		initFancyBox: function()
+		{
+			if (!is_undefined($.fn.fancybox))
+			{
+				$('.fancybox').fancybox({
+					helpers: {
+						overlay: {
+						  locked: false
+						}
+					}
+				});
+
+				$('.fancybox-media').fancybox({
+					openEffect  : 'none',
+					closeEffect : 'none',
+					helpers : {
+						media : {},
+						overlay: {
+						  locked: false
+						}
+					}
+				});
+
+				$(".various").fancybox({
+					maxWidth	: 800,
+					maxHeight	: 600,
+					fitToView	: false,
+					width		: '70%',
+					height		: '70%',
+					autoSize	: false,
+					closeClick	: false,
+					openEffect	: 'none',
+					closeEffect	: 'none',
+					helpers: {
+						overlay: {
+						  locked: false
+						}
+					}
+				});
+			}
 		},
 
 		disableHover: function()

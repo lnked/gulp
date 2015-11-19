@@ -1,12 +1,11 @@
 .navigation {
-
 	&__list {
 		width: 100%;
 	}
 	
 	&__item {
-		float: left;
-		margin: 0 2rem;
+		@extend .inline;
+		margin-right: 3rem;
 	}
 
 	&__link {

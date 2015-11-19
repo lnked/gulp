@@ -12,14 +12,15 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 		triggerClass: '.js-open-popup',
 		speed: 550,
 		overlay: {
-			enable: true,
+			enable: !0,
 			element: '#overlay'
 		},
-		bodyclass: true,
-		cssPosition: false,
-		hashCheck: true,
-		hashChange: true,
-		keyHooks: true,
+		overlayClickClose: !0,
+		cssPosition: !1,
+		bodyclass: !0,
+		hashCheck: !0,
+		hashChange: !0,
+		keyHooks: !0,
 		template: {
 			error: 'tmpl-popup-error',
 			message: 'tmpl-popup-message',
@@ -113,7 +114,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
             return css;
 		},
         
-        _rePosition: function(selector)
+        _changePosition: function(selector)
         {
 			var $popup = this._getPopup(selector);
 
@@ -202,7 +203,8 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	            popup.close();
 	        });
 
-			if (defaults.keyHooks) {
+			if (defaults.keyHooks)
+			{
 				$body.on('keydown', function(e) {
 					if(e.keyCode == 27) {
 		                popup.close();
@@ -210,7 +212,8 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 		        });
 			};
 
-	        if (defaults.overlay.enable) {
+	        if (defaults.overlay.enable && defaults.overlayClickClose)
+	        {
 				$(defaults.overlay.element).on('click', function() {
 	            	popup.close();
 	            });
@@ -224,7 +227,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	                resizeTimeout = setTimeout(function() {
 	                    
 	                    $body.find('.popup.is-open').each(function() {
-		                    popup._rePosition($(this));
+		                    popup._changePosition($(this));
 		                });
 
 	                }, 100);

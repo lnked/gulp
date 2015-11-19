@@ -1,3 +1,10 @@
+// Настройки
+$popupCloseSize: 1.8rem;
+
+#svg-filter {
+	display: none;
+}
+
 .popup-open {
 	overflow: hidden;
 }
@@ -32,13 +39,14 @@
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
-	width: 960px;
-	background: #f00;
+	width: 100%;
+	max-width: 960px;
+	background: #eee;
 	display: none;
-	@include opacity(0);
-	box-sizing: border-box;
 	transform: translate3d(0, 0, 0);
 	transition: opacity .5s, transform .6s;
+	box-sizing: border-box;
+	@include opacity(0);
 	
 	&.visible {
 		display: block;
@@ -58,5 +66,16 @@
 		text-indent: -5px;
 		text-transform: uppercase;
 		margin-bottom: 33px;
+	}
+
+	&__close {
+		width: $popupCloseSize;
+		height: $popupCloseSize;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		cursor: pointer;
+		background: url(../images/close.svg) 50% 50% no-repeat;
+		background-size: 100%;
 	}
 }

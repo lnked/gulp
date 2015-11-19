@@ -1,31 +1,61 @@
-.idea
-.DS_Store
-.AppleDouble
-.LSOverride
+# ignore all files starting with . or ~
+.*
+~*
 
-# Thumbnails
-._*
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
+# ignore OS generated files
+ehthumbs.db
+Thumbs.db
 
 # Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
 Network Trash Folder
 Temporary Items
-.apdisk
 
-.gulp
-.npm-debug.log
-/node_modules
+# ignore node dependency directories (used by gulp)
+node_modules/
+
+# ignore files & folders
 /branch
 /dist
 /assets/libs
 /assets/cursor
 /index.js
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# -------------------------
+# BEGIN Whitelisted Files
+# -------------------------
+
+# track these files, if they exist
+!.gitignore
+!.editorconfig
+!README.md
+!CHANGELOG.md
+!package.json
+!composer.json
