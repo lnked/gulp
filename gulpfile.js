@@ -25,6 +25,11 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     
     webserver   = require('gulp-webserver'),
 
+    react       = require('gulp-react'),            // React
+    browserify  = require('browserify'),
+    reactify    = require('reactify'),
+    watchify    = require('watchify'),
+
     webp        = require('gulp-webp'),
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     svgmin      = require('gulp-svgmin'),
@@ -255,11 +260,13 @@ gulp.task('scripts', function() {
 
     gulp.src(path.assets.scripts)
         .pipe(plumber({errorHandler: errorHandler}))
-        
+
         .pipe(wrapper({
             header: '\n// ${filename}\n\n',
             footer: '\n'
         }))
+        
+        .pipe(react())
         
         .pipe(concat('main.js'))
         .pipe(gulp.dest(path.build.scripts))

@@ -59,3 +59,7 @@
 .disable-hover * {
     pointer-events: none !important;
 }
+
+a:focus {
+    outline: 0;
+}

@@ -24,6 +24,7 @@
 			"name": "radio",
 			"value": 1
 		})
+
 		<br>
 
 		@@include('./components/radio.html', {
@@ -32,9 +33,27 @@
 			"value": 2
 		})
 
-		<div style="padding: 200px;">
+		<br>
+		<br>
+		
+		<select name="">
+			<option value="">1</option>
+			<option value="">2</option>
+			<option value="">3</option>
+			<option value="">4</option>
+			<option value="">5</option>
+		</select>
+		
+		<br>
+
+		<div style="padding: 30px 0;">
 			<a href="#popup-test" class="button js-open-popup" data-popup="popup-test">Открыть попап</a>
 		</div>
+
+		<br>
+
+		@@include('./components/tabs.html')
+
 		
 	</section>
 </div>

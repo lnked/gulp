@@ -10,29 +10,22 @@
                     if (optionSelected.length) optionText = optionSelected.text();
                     var ddlist = '';
                     for (i = 0; i < option.length; i++) {
-                        var selected = '',
-							last = '',
-							disabled = ' class="disabled"';
-                        if (option.eq(i).is(':selected')) selected = ' class="selected sel"';
-                        if (option.eq(i).is(':disabled')) selected = disabled;
+                        var class_name = '';
+                        if (option.eq(i).is(':selected')) class_name += ' selected sel';
+                        if (option.eq(i).is(':disabled')) class_name += ' disabled';
 						if (i == (option.length-1)) {
-							if ( selected == '' ) {
-								selected = ' class="last-child"';
-							}
-							else {
-								last = ' last-child';
-							}
+							class_name += ' last-child';
 						}
-                        ddlist += '<li' + selected + last + '>' + option.eq(i).text() + '</li>';
+                        ddlist += '<li class="selectbox__dropdown__item' + class_name + '">' + option.eq(i).text() + '</li>';
                     }
-                    var selectbox = $('<span class="selectbox" style="display:inline-block;position:relative">' + '<div class="select" style="float:left;position:relative;z-index:10000"><div class="text">' + optionText + '</div>' + '<b class="trigger"><i class="arrow"></i></b>' + '</div>' + '<div class="dropdown" style="position:absolute;z-index:9999;overflow:auto;overflow-x:hidden;list-style:none">' + '<ul>' + ddlist + '</ul>' + '</div>' + '</span>');
+                    var selectbox = $('<span class="selectbox">' + '<div class="selectbox__select"><div class="selectbox__select__text">' + optionText + '</div>' + '<b class="selectbox__trigger"><i class="selectbox__trigger__arrow"></i></b>' + '</div>' + '<div class="selectbox__dropdown">' + '<ul class="selectbox__dropdown__list">' + ddlist + '</ul>' + '</div>' + '</span>');
                     select.before(selectbox).css({
                         position: 'absolute',
                         top: -9999
                     });
-                    var divSelect = selectbox.find('div.select');
-                    var divText = selectbox.find('div.text');
-                    var dropdown = selectbox.find('div.dropdown');
+                    var divSelect = selectbox.find('.selectbox__select');
+                    var divText = divSelect.find('.selectbox__select__text');
+                    var dropdown = selectbox.find('.selectbox__dropdown');
                     var li = dropdown.find('li');
                     var selectHeight = selectbox.outerHeight();
                     if (dropdown.css('left') == 'auto') dropdown.css({
