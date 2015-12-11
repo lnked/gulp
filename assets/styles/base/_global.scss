@@ -20,6 +20,8 @@ body {
 
 body {
     text-rendering: optimizeLegibility; //auto | optimizeSpeed | optimizeLegibility | geometricPrecision
+    font-size: 1.3rem;
+    line-height: 2rem;
     font-family: $fontDefault;
     color: $colorText;
     background-color: $body;

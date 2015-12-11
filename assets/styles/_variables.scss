@@ -1,6 +1,6 @@
 $time: .4s;
 $body: #fff;
-$colorText: #fff;
+$colorText: #181818;
 
 $selectcolor: #fff;
 $selectBackground: #097dc5;
@@ -11,5 +11,30 @@ $placeholderOpacity: .5;
 $fontBase: 10px;
 $footerHeight: 100px;
 
-$fontDefault: Roboto,'Helvetica Neue',sans-serif;
+$fontDefault: Verdana, Arial, Helvetica, sans-serif;
 $fontForms: Arial, Helvetica, sans-serif;
+
+
+$red     : #fa5e5b;
+$orange  : #ffc83f;
+$yella   : #feef6d;
+$green   : #16c98d;
+$teal    : #0fdebd;
+$lpblue  : #297cbb;
+$linkblue: #288ad6;
+$darkblue: #142b44;
+$navblue : #1d508d;
+$plum    : #bf538d;
+
+$body-background          : #f5f5f5 !default;
+$body-background-offset   : mix($lpblue, #fff, 5%) !default;
+$card-figure-bg           : #f4fbfe !default;
+$details-panel-bg         : mix($red, #fff, 15%) !default;
+$new-header-grey-shadow   : rgba(3, 46, 92, 0.12);
+$responsive-nav-bg        : mix($linkblue, #fff, 3%);
+$responsive-nav-subnav-bg : mix($linkblue, #fff, 6%);
+
+$highlight-error          : lighten($red, 25%) !default;
+$highlight-success        : lighten($green, 45%) !default;
+$highlight-warning        : lighten($yella, 20%) !default;
+$highlight-announcement   : mix($linkblue, #fff, 25%) !default;

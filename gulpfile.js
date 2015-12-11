@@ -8,6 +8,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     wrapper     = require('gulp-wrapper'),          // Добавляет к файлу текстовую шапку и/или подвал
     rename      = require('gulp-rename'),
     Pageres     = require('pageres'),
+    coffee      = require('gulp-coffee'),
 
     inlineCss   = require('gulp-inline-css'),
     htmlhint    = require('gulp-htmlhint'),
@@ -101,7 +102,8 @@ var app = './dist/',
     is = {
         build: false,
         email: false,
-        watch: false
+        watch: false,
+        coffee: false
     },
     uncssFiles = [
         path.build.html + '*.html',
@@ -274,6 +276,11 @@ gulp.task('scripts', function() {
         .pipe(rename({suffix: '.min'}))
 
         .pipe(gulpif(
+            is.coffee,
+            coffee()
+        ))
+
+        .pipe(gulpif(
             is.build,
             uglify()
         ))
@@ -396,6 +403,11 @@ gulp.task('watch', function () {
 gulp.task('build', function() {
     is.build = true;
     
+    if (gutil.env.coffee === true)
+    {
+        is.coffee = true;
+    }
+    
     gulp.start('html');
     gulp.start('styles');
     gulp.start('scripts');
@@ -406,4 +418,13 @@ gulp.task('build', function() {
 });
 
 // Запускаем слежку по умолчанию
-gulp.task('default', ['watch']); //'webserver', 
+// gulp.task('default', ['watch']); //'webserver', 
+
+gulp.task('default', function(){
+    if (gutil.env.coffee === true)
+    {
+        is.coffee = true;
+    }
+
+    gulp.start('watch');
+});

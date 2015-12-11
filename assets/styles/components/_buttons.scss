@@ -33,3 +33,50 @@
 		}
 	}
 }
+
+$green: #0f0;
+$blue: #00f;
+
+
+// set views
+@mixin skinView($skin, $state, $color) {
+	& {
+		background-color:
+			if( $state == 'link',   $color,               null )
+			if( $state == 'hover',  lighten($color, 10%), null )
+			if( $state == 'active', darken($color,  10%), null );
+	}
+	
+	&:before {
+		border-bottom-color:
+			if( $state == 'link',   darken($color, 10%), null )
+			if( $state == 'hover',  $color,              null )
+			if( $state == 'active', darken($color, 20%), null );
+	}
+
+	.button__text {
+		color:
+			if( $state == 'link',   #fff,                 null )
+			if( $state == 'hover',  lighten($color, 45%), null )
+			if( $state == 'active', lighten($color, 40%), null );
+	}
+}
+	
+// set modes
+@each $skinName, $skinColor in (
+	( 'green',   $green ), 
+	( 'blue',    $blue )
+	) {
+
+	.button_color_#{ $skinName } { // set state «link»
+		@include skinView($skinName, 'link', $skinColor); // call view
+	}
+
+	.button_color_#{ $skinName }:hover:not(.button_disabled) { // set state «hover»
+		@include skinView($skinName, 'hover', $skinColor); // call view
+	}
+
+	.button_color_#{ $skinName }:active:not(.button_disabled) { // set state «active»
+		@include skinView($skinName, 'active', $skinColor); // call view
+	}
+}
