@@ -4,6 +4,27 @@
     text-shadow: none;
 }
 
+svg {
+    shape-rendering: optimizeSpeed;
+}
+
+// img[src$=".gif"], img[src$=".png"] {
+//     image-rendering: -moz-crisp-edges;         /* Firefox */
+//     image-rendering:   -o-crisp-edges;         /* Opera */
+//     image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+//     image-rendering: crisp-edges;
+//     -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+// }
+
+// .div { 
+//     background: url(chessboard.gif) no-repeat 50% 50%;
+//     image-rendering: -moz-crisp-edges;         /* Firefox */
+//     image-rendering:   -o-crisp-edges;         /* Opera */
+//     image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+//     image-rendering: crisp-edges;
+//     -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+// }
+
 .clearfix {
     zoom: 1; // For IE 6/7 (trigger hasLayout)
 

@@ -23,7 +23,8 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     csscomb     = require('gulp-csscomb'),
 
     uglify      = require('gulp-uglify'),           // Минификация JS
-    
+    typescript  = require('gulp-typescript'),
+
     webserver   = require('gulp-webserver'),
 
     react       = require('gulp-react'),            // React
@@ -103,6 +104,7 @@ var app = './dist/',
         build: false,
         email: false,
         watch: false,
+        typescript: false,
         coffee: false
     },
     uncssFiles = [
@@ -278,6 +280,15 @@ gulp.task('scripts', function() {
         .pipe(gulpif(
             is.coffee,
             coffee()
+        ))
+        
+        .pipe(gulpif(
+            is.typescript,
+            typescript({
+                noImplicitAny: true,
+                declaration: true,
+                noExternalResolve: true
+            })
         ))
 
         .pipe(gulpif(

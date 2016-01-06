@@ -42,6 +42,18 @@ var shuffle = function( array ) {
 		return Math.random() - 0.5;
 	} );
 };
+
+function updateCaptcha(captcha, ev)
+{
+    ev.preventDefault();
+
+    if ($(captcha).length)
+    {
+        $(captcha).attr('src', $(captcha).attr('src').split( '?' )[0] + '?v=' + Math.random());
+    }
+
+    return !1;
+}
 	
 // function doOnOrientationChange()
 // {

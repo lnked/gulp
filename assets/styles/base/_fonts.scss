@@ -1,6 +1,13 @@
 @include font-face('Gotham Pro', '../fonts/Gotham-webfont', 400, italic);
 @include font-face('Gotham Pro', '../fonts/Gotham-italic-webfont', 700, normal);
 
+@font-face {
+    font-family: 'Ruble';
+    src: url('../fonts/rouble.eot');
+    src: url('../fonts/rouble.eot?#iefix') format('embedded-opentype'), url('../fonts/rouble.woff') format('woff'), url('../fonts/rouble.ttf') format('truetype'), url('../fonts/rouble.svg#als_rublregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*
 * Webfonts served by Typotheque.com
