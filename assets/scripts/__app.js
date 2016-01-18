@@ -15,6 +15,15 @@
 			});
 		},
 
+		initSlider: function()
+		{
+			this.slider.init({
+				slider 	: '#slider',
+				item 	: '.js-slider-slide',
+				timeout : 6000
+			});
+		},
+		
 		initSelect: function()
 		{
 			$('select').selectbox();
@@ -148,14 +157,67 @@
 			window.addEventListener('scroll', function() {
 				clearTimeout(timer);
 				
-				if(!body.classList.contains('disable-hover')) {
-					body.classList.add('disable-hover')
+				if(!body.hasClass('disable-hover')) {
+					body.addClass('disable-hover');
 				}
 
 				timer = setTimeout(function(){
-					body.classList.remove('disable-hover')
+					body.removeClass('disable-hover');
 				},500);
 			}, false);
+		},
+
+		initTooltip: function()
+		{
+			var tooltip, item;
+
+			body.on('click', function(e){
+				if (!$(e.target).hasClass('tooltip') && !$(e.target).hasClass('js-tooltip') && $('.tooltip.show').length)
+				{
+					$('.tooltip.show').removeClass('animate');
+
+					setTimeout(function(){
+						$('.tooltip.show').removeClass('show');
+					}, 300);
+				}
+			});
+
+			body.on('click', '.js-tooltip', function(e){
+				e.preventDefault();
+				
+				item = $(this);
+
+				if ((item.data('tooltip') || item.find('.tooltip').length) && !$(e.target).hasClass('tooltip'))
+				{
+					tooltip = item.data('tooltip');
+
+					if (!item.find('.tooltip').length)
+					{
+						var span = document.createElement('span');
+						span.className = 'tooltip';
+						span.innerHTML = tooltip;
+
+						item.append(span);
+					}
+
+					if (item.find('.tooltip').hasClass('show'))
+					{
+						item.find('.tooltip').removeClass('animate');
+
+						setTimeout(function(){
+							item.find('.tooltip').removeClass('show');
+						}, 200);
+					}
+					else
+					{
+						item.find('.tooltip').addClass('show');
+
+						setTimeout(function(){
+							item.find('.tooltip').addClass('animate');
+						}, 10);
+					}
+				}
+			});
 		},
 
 		init: function()

@@ -8,7 +8,8 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     wrapper     = require('gulp-wrapper'),          // Добавляет к файлу текстовую шапку и/или подвал
     rename      = require('gulp-rename'),
     Pageres     = require('pageres'),
-    coffee      = require('gulp-coffee'),
+    open        = require('gulp-open'),
+    connect     = require('gulp-connect'),
 
     inlineCss   = require('gulp-inline-css'),
     htmlhint    = require('gulp-htmlhint'),
@@ -24,6 +25,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
 
     uglify      = require('gulp-uglify'),           // Минификация JS
     typescript  = require('gulp-typescript'),
+    coffee      = require('gulp-coffee'),
 
     webserver   = require('gulp-webserver'),
 
@@ -35,6 +37,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     webp        = require('gulp-webp'),
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     svgmin      = require('gulp-svgmin'),
+    svgstore    = require('gulp-svgstore'),
     svgo        = require('imagemin-svgo'),
     gifsicle    = require('imagemin-gifsicle'),
     prettify    = require('gulp-prettify'),
@@ -114,6 +117,27 @@ var app = './dist/',
     uncssIgnore = [
         /^#js/
     ];
+
+
+if (gutil.env.build === true)
+{
+    is.build = true;
+}
+
+// var config = {
+//     port: 9005,
+//     devBaseUrl: 'http://localhost',
+//     paths: {
+//         html: './src/*.html',
+//         js: './src/**/*.js',
+//         css: [
+//             'node_modules/bootstrap/dist/css/bootstrap.min.css',
+//             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+//         ],
+//         dist: './dist',
+//         mainJs: './src/main.js'
+//     }
+// }
 
 gulp.task('webserver', function() {
     gulp.src(app)
@@ -200,14 +224,14 @@ gulp.task('styles', function() {
 
         .pipe(concat('main.css'))
 
-        .pipe(gulpif(
-            is.build,
-            uncss({
-                html: uncssFiles,
-                ignore: uncssIgnore,
-                timeout: 1000,
-            })
-        ))
+        // .pipe(gulpif(
+        //     is.build,
+        //     uncss({
+        //         html: uncssFiles,
+        //         ignore: uncssIgnore,
+        //         timeout: 1000,
+        //     })
+        // ))
 
         .pipe(prefixer({
             browsers: ['last 15 versions'],
@@ -301,6 +325,24 @@ gulp.task('scripts', function() {
         .pipe(notify({ message: 'Update scripts complete', onLast: true }));
 });
 
+gulp.task('svgstore', function () {
+    return gulp
+        .src('test/src/*.svg')
+        .pipe(svgmin(function (file) {
+            var prefix = path.basename(file.relative, path.extname(file.relative));
+            return {
+                plugins: [{
+                    cleanupIDs: {
+                        prefix: prefix + '-',
+                        minify: true
+                    }
+                }]
+            }
+        }))
+        .pipe(svgstore())
+        .pipe(gulp.dest('test/dest'));
+});
+
 // Копируем и минимизируем изображения
 gulp.task('images_gif', function() {
     gulp.src(path.assets.images.gif)
@@ -392,7 +434,21 @@ gulp.task('extras', function() {
     gulp.src(path.extras, {cwd: src})
         .pipe(plumber({errorHandler: errorHandler}))
         .pipe(gulp.dest(app));
+});
 
+//Start a local development server
+gulp.task('connect', function() {
+    connect.server({
+        root: ['dist'],
+        port: config.port,
+        base: config.devBaseUrl,
+        livereload: true
+    });
+});
+
+gulp.task('open', ['connect'], function() {
+    gulp.src('dist/index.html')
+        .pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/'}));
 });
 
 // Запуск слежки за изминениями в проекте (gulp watch)
@@ -426,6 +482,7 @@ gulp.task('build', function() {
     gulp.start('fonts');
     gulp.start('json');
     gulp.start('extras');
+    // gulp.start('open');
 });
 
 // Запускаем слежку по умолчанию
