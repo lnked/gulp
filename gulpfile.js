@@ -81,6 +81,7 @@ var app = './dist/',
             scripts:    app + 'js',
             styles:     app + 'css',
             images:     app + 'images',
+            favicon:    app + 'favicon',
             fonts:      app + 'fonts',
             json:       app + 'json'
         },
@@ -89,6 +90,7 @@ var app = './dist/',
             scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js'],
             styles:         [src + 'styles/*.scss'],
             images:         { all: [src + 'images/**/*.svg', src + 'images/**/*.jpg', src + 'images/**/*.jpeg', src + 'images/**/*.png'], gif: [src + 'images/**/*.gif'] },
+            favicon:        [src + 'favicon/**/*.*'],
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
         },
@@ -97,6 +99,7 @@ var app = './dist/',
             scripts:        [src + 'scripts/**/*.js'],
             styles:         [src + 'styles/**/*.scss'],
             images:         [src + 'images/**/*.*'],
+            favicon:        [src + 'favicon/**/*.*'],
             fonts:          [src + 'fonts/**/*.*'],
             json:           [src + 'json/**/*.json']
         },
@@ -117,7 +120,6 @@ var app = './dist/',
     uncssIgnore = [
         /^#js/
     ];
-
 
 if (gutil.env.build === true)
 {
@@ -411,6 +413,17 @@ gulp.task('fonts', function () {
         .pipe(notify({ message: 'Fonts task complete', onLast: true }));
 });
 
+// Копируем favicon
+gulp.task('favicon', function () {
+    clean(path.build.favicon, is.build);
+    
+    gulp.src(path.assets.favicon)
+        .pipe(plumber({errorHandler: errorHandler}))
+        .pipe(newer(path.build.favicon))
+        .pipe(gulp.dest(path.build.favicon))
+        .pipe(notify({ message: 'Favicon task complete', onLast: true }));
+});
+
 // Делаем скриншот
 gulp.task('shot', function () {
     var pageres = new Pageres({delay: 2})
@@ -479,6 +492,7 @@ gulp.task('build', function() {
     gulp.start('styles');
     gulp.start('scripts');
     gulp.start('images');
+    gulp.start('favicon');
     gulp.start('fonts');
     gulp.start('json');
     gulp.start('extras');

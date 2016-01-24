@@ -25,6 +25,10 @@ svg {
 //     -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
 // }
 
+// img { margin: 20px; }
+// img[align="left"] { margin-left: 0; }
+// img[align="right"] { margin-right: 0; }
+
 .clearfix {
     zoom: 1; // For IE 6/7 (trigger hasLayout)
 

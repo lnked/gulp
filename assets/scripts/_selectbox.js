@@ -2,27 +2,41 @@
     $.fn.selectbox = function () {
         $(this).each(function () {
             var select = $(this);
-            if (select.prev('span.selectbox').length < 1) {
-				function doSelect() {
-					var option = select.find('option');
+
+            if (select.prev('span.selectbox').length < 1)
+            {
+                function doSelect()
+                {
+                    var option = select.find('option');
                     var optionSelected = option.filter(':selected');
                     var optionText = option.filter(':first').text();
+                    
                     if (optionSelected.length) optionText = optionSelected.text();
                     var ddlist = '';
+
                     for (i = 0; i < option.length; i++) {
                         var class_name = '';
                         if (option.eq(i).is(':selected')) class_name += ' selected sel';
                         if (option.eq(i).is(':disabled')) class_name += ' disabled';
-						if (i == (option.length-1)) {
-							class_name += ' last-child';
-						}
+                        if (i == (option.length-1)) {
+                            class_name += ' last-child';
+                        }
+                        
+                        if (option.eq(i).data('classname'))
+                        {
+                            class_name += ' ' + option.eq(i).data('classname');
+                        }
+                        
                         ddlist += '<li class="selectbox__dropdown__item' + class_name + '">' + option.eq(i).text() + '</li>';
                     }
+
                     var selectbox = $('<span class="selectbox">' + '<div class="selectbox__select"><div class="selectbox__select__text">' + optionText + '</div>' + '<b class="selectbox__trigger"><i class="selectbox__trigger__arrow"></i></b>' + '</div>' + '<div class="selectbox__dropdown">' + '<ul class="selectbox__dropdown__list">' + ddlist + '</ul>' + '</div>' + '</span>');
+                    
                     select.before(selectbox).css({
                         position: 'absolute',
                         top: -9999
                     });
+                    
                     var divSelect = selectbox.find('.selectbox__select');
                     var divText = divSelect.find('.selectbox__select__text');
                     var dropdown = selectbox.find('.selectbox__dropdown');
@@ -37,7 +51,7 @@
                     var liHeight = li.outerHeight();
                     var position = dropdown.css('top');
                     dropdown.hide();
-					selectbox.removeClass('selectbox-active');
+                    selectbox.removeClass('selectbox-active');
                     divSelect.click(function () {
                         var topOffset = selectbox.offset().top;
                         var bottomOffset = $(window).height() - selectHeight - (topOffset - $(window).scrollTop());
@@ -58,25 +72,33 @@
                                 dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
                             }
                         }
+                        
                         $('span.selectbox').css({
                             zIndex: 1
                         }).removeClass('focused');
                         selectbox.css({
                             zIndex: 2
                         });
+
                         if (dropdown.is(':hidden')) {
                             $('div.dropdown:visible').hide();
                             dropdown.show();
-							selectbox.addClass('selectbox-active');
-                        } else {
+                            selectbox.addClass('selectbox-active');
+
+                            $('body').trigger('select.open', divSelect);
+                        }
+                        else {
                             dropdown.hide();
-							selectbox.removeClass('selectbox-active');
+                            selectbox.removeClass('selectbox-active');
+                            $('body').trigger('select.close', divSelect);
                         }
                         return false;
                     });
+                    
                     li.hover(function () {
                         $(this).siblings().removeClass('selected');
                     });
+
                     var selectedText = li.filter('.selected').text();
                     li.filter(':not(.disabled)').click(function () {
                         var liText = $(this).text();
@@ -87,13 +109,18 @@
                             divText.text(liText);
                             select.change();
                         }
+
                         dropdown.hide();
-						selectbox.removeClass('selectbox-active');
-						return false;
+                        selectbox.removeClass('selectbox-active');
+                        
+                        $('body').trigger('select.close', divSelect);
+
+                        return false;
                     });
                     dropdown.mouseout(function () {
                         dropdown.find('li.sel').addClass('selected');
                     });
+                    
                     select.focus(function () {
                         $('span.selectbox').removeClass('focused');
                         selectbox.addClass('focused');
@@ -101,11 +128,14 @@
                         divText.text(option.filter(':selected').text());
                         li.removeClass('selected sel').eq(option.filter(':selected').index()).addClass('selected sel');
                     });
+
                     $(document).on('click', function (e) {
                         if (!$(e.target).parents().hasClass('selectbox')) {
                             dropdown.hide().find('li.sel').addClass('selected');
-							selectbox.removeClass('selectbox-active');
+                            selectbox.removeClass('selectbox-active');
                             selectbox.removeClass('focused');
+
+                            $('body').trigger('select.close', divSelect);
                         }
                     });
                 }

@@ -1,20 +1,21 @@
 .selectbox {
-	border: 1px solid #acacac;
-	background: #f3f3f3 url(../images/select.png) 0 0 repeat-x;
-	border-radius: 0;
-	box-sizing: border-box;
-	z-index: 10;
+	color: #000;
+	border: 1px solid #dadada;
+	background: none;
+	border-radius: 2px;
 	margin: 0;
 	padding: 0;
 	vertical-align: top;
 	cursor: pointer;
-	font-size: 14px;
-	line-height: 32px;
-	color: #595959;
-	
+	font-size: 1.6rem;
+	font-weight: 300;
+	line-height: 48px;
+	box-sizing: border-box;
+	z-index: 10;
+
 	&, &__select {
 		width: 100%;
-		height: 32px;
+		height: 48px;
 		display: block;
 		position: relative;
 	}
@@ -24,7 +25,7 @@
 
 		&__text {
 			height: 100%;
-			padding: 0 30px 0 9px;
+			padding: 0 47px 0 18px;
 			display: block;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -37,7 +38,7 @@
 		top: 0;
 
 		&, &__arrow{
-			width: 25px;
+			width: 46px;
 			height: 100%;
 			position: absolute;
 			display: block;
@@ -46,24 +47,23 @@
 		&__arrow {
 			top: 0;
 			left: 0;
-			background: #f00 url(../images/select-arrow.png) no-repeat center center;
+			background: url(../images/select-pass.png) no-repeat 50% 50%;
 		}
 	}
 
 	&__dropdown {
 		min-width: 100%;
 		position: absolute;
-		top: 30px;
+		top: 46px;
 		left: -1px;
 	    right: -1px;
 	    list-style: none;
-		background-color: #f9f9f9;
-		border: 1px solid #acacac;
-		border-radius: 0;
+		background-color: #fff;
+		border: 1px solid #dadada;
+		border-radius: 0 0 2px 2px;
 		z-index: 9999;
 		overflow: auto;
 		overflow-x: hidden;
-		box-shadow: 0.5px 0.9px 2px rgba(0, 0, 0, 0.37);
 		box-sizing: border-box;
 
 		&__list {
@@ -72,11 +72,21 @@
 	
 		&__item {
 			margin: 0;
-			line-height: 15px;
-			padding: 7px 9px;
+			line-height: 1.2;
+			padding: 13px 18px;
 			border: none;
 			background-image: none;
+			transition: color $time;
 			
+			&.is-empty {
+				display: none;
+				outline: 1px solid lime;
+			}
+
+			&.is-empty.selected {
+				display: block;
+			}
+
 			&.last-child {
 				border-bottom: 0;
 			}
@@ -90,8 +100,7 @@
 			}
 
 			&:hover {
-				background: #6fadc9;
-				color: #fff;
+				color: $gray;
 			}
 
 			&.disabled {
@@ -108,6 +117,14 @@
 .selectbox-active {
 	.selectbox__select,
 	.selectbox__dropdown {
-		
+		&__item {
+			&.is-empty {
+				display: none;
+			}
+		}
+	}
+
+	.selectbox__trigger__arrow {
+		background-image: url(../images/select.png);
 	}
 }

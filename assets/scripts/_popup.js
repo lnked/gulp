@@ -10,6 +10,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	var defaults = {
 		wrapper: 'body',
 		triggerClass: '.js-open-popup',
+		dialogClass: '.js-popup-dialog',
 		speed: 550,
 		overlay: {
 			enable: !0,
@@ -31,6 +32,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	noty = null,
 	temp = null,
 	nested = [],
+	$dialog = '',
 	$trigger = '',
 	$body = $('body'),
 	$win = $(window), 
@@ -122,6 +124,19 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 			{
 				$popup.css(this._getPosition($popup));
 			}
+        },
+        
+        _checkScroll: function(popup)
+        {
+        	$dialog = $(popup).find(defaults.dialogClass);
+
+        	if ($dialog.outerHeight() > $win.height())
+        	{
+        		$dialog.addClass('is-scrolling')
+    		}
+    		else {
+    			$dialog.removeClass('is-scrolling')
+    		}
         },
 
 		close: function(element, callback)
@@ -219,26 +234,30 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	            });
 	        }
 
-	        if (!defaults.cssPosition)
-	        {
-		        $win.on('resize.popup', function() {
-		            clearTimeout(resizeTimeout);
-	                
-	                resizeTimeout = setTimeout(function() {
-	                    
-	                    $body.find('.popup.is-open').each(function() {
-		                    popup._changePosition($(this));
-		                });
+	        $win.on('resize.popup', function() {
+	            clearTimeout(resizeTimeout);
+                
+                resizeTimeout = setTimeout(function() {
+                    
+                    $body.find('.popup.is-open').each(function() {
+                    	if (!defaults.cssPosition)
+        				{
+	                    	popup._changePosition($(this));
+	                    }
 
-	                }, 100);
-		        });
-	        }
+	                    popup._checkScroll($(this));
+	                });
+
+                }, 100);
+	        });
 
 	        return this;
 		},
-        
+
         show: function(selector, overlay, bodyclass)
         {
+        	popup = this;
+
         	if (typeof selector !== 'undefined' && selector !== '')
 			{
 				var data = data || {}, prop = {}, $popup;
@@ -284,6 +303,8 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 				else {
 					this.initWrapClose();
 				}
+
+				popup._checkScroll($popup);
 
 				setTimeout(function(){
 					$popup.addClass('animate');
