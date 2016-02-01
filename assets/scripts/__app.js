@@ -2,6 +2,7 @@
 	"use strict";
 
 	window.body = $('body');
+	window._this = null;
 
 	$.app = {
 		
@@ -31,9 +32,9 @@
 
 		initMask: function()
 		{
-			$(".watch-datemask").mask("99/99/9999");
-			$(".watch-phonemask").mask("+ 7 (999) 999-99-99");
-			$(".watch-cartnumber").mask("999-999-999");
+			$(".js-date-watcher").mask("99/99/9999");
+			$(".js-phone-watcher").mask("+ 7 (999) 999-99-99");
+			$(".js-cartnumber-watcher").mask("999-999-999");
 		},
 		
 		initFastclick: function()
@@ -133,9 +134,9 @@
 			}
 		},
 
-		slider: function()
+		slickSider: function()
 		{
-			if ($('#slider').length > 0 && $('#slider').find('.slider__list__item').length > 1)
+			if ($('#slider').length > 0 && $('#slider').find('.slider__item').length > 1)
 			{
 				$('#slider').slick({
 					infinite: true,
@@ -146,7 +147,9 @@
 					autoplay: true,
 					autoplaySpeed: 4500,
 					pauseOnHover: false,
-					cssEase: 'ease'
+					cssEase: 'ease',
+					prevArrow: '<button type="button" class="slider__navigation slider__navigation_prev slick-prev"></button>',
+					nextArrow: '<button type="button" class="slider__navigation slider__navigation_next slick-next"></button>'
 				});
 			}
 		},

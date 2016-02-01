@@ -5,7 +5,10 @@
 	
 	&__item {
 		@extend .inline;
-		margin-right: 3rem;
+
+		&:not(:last-child) {
+			margin-right: 3rem;
+		}
 	}
 
 	&__link {

@@ -26,6 +26,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     uglify      = require('gulp-uglify'),           // Минификация JS
     typescript  = require('gulp-typescript'),
     coffee      = require('gulp-coffee'),
+    eslint      = require('gulp-eslint'),
 
     webserver   = require('gulp-webserver'),
 
@@ -34,6 +35,8 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     reactify    = require('reactify'),
     watchify    = require('watchify'),
 
+    standards   = require('gulp-webstandards'),
+    
     webp        = require('gulp-webp'),
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     svgmin      = require('gulp-svgmin'),
@@ -291,6 +294,10 @@ gulp.task('scripts', function() {
     gulp.src(path.assets.scripts)
         .pipe(plumber({errorHandler: errorHandler}))
 
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
+
         .pipe(wrapper({
             header: '\n// ${filename}\n\n',
             footer: '\n'
@@ -479,6 +486,10 @@ gulp.task('watch', function () {
     }
 });
 
+gulp.task('webstandards', function(){
+    return gulp.src(app + '/**/*').pipe(standards());
+});
+
 // Сборка проекта
 gulp.task('build', function() {
     is.build = true;
@@ -496,6 +507,7 @@ gulp.task('build', function() {
     gulp.start('fonts');
     gulp.start('json');
     gulp.start('extras');
+    // gulp.start('webstandards');
     // gulp.start('open');
 });
 

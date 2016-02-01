@@ -1,17 +1,26 @@
 .selectbox {
 	color: #000;
-	border: 1px solid #dadada;
 	background: none;
 	border-radius: 2px;
 	margin: 0;
 	padding: 0;
+	z-index: 200;
 	vertical-align: top;
 	cursor: pointer;
 	font-size: 1.6rem;
 	font-weight: 300;
 	line-height: 48px;
+	border: 1px solid #dadada;
 	box-sizing: border-box;
-	z-index: 10;
+	
+	&.is-checked {
+		border-top-color: transparent;
+	}
+
+	&.is-disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
 
 	&, &__select {
 		width: 100%;
@@ -25,7 +34,8 @@
 
 		&__text {
 			height: 100%;
-			padding: 0 47px 0 18px;
+		    padding: 0 47px 0 17px;
+			letter-spacing: 0.05ex;
 			display: block;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -53,6 +63,7 @@
 
 	&__dropdown {
 		min-width: 100%;
+		max-height: 183px;
 		position: absolute;
 		top: 46px;
 		left: -1px;
@@ -63,6 +74,7 @@
 		border-radius: 0 0 2px 2px;
 		z-index: 9999;
 		overflow: auto;
+		display: none;
 		overflow-x: hidden;
 		box-sizing: border-box;
 
@@ -73,14 +85,13 @@
 		&__item {
 			margin: 0;
 			line-height: 1.2;
-			padding: 13px 18px;
+			padding: 14px 17px;
 			border: none;
 			background-image: none;
 			transition: color $time;
 			
 			&.is-empty {
 				display: none;
-				outline: 1px solid lime;
 			}
 
 			&.is-empty.selected {
@@ -114,7 +125,15 @@
 	}
 }
 
+.error .selectbox {
+	color: $error;
+	border-color: $error;
+	border-top-color: transparent;
+}
+
 .selectbox-active {
+	border-top-color: transparent;
+	
 	.selectbox__select,
 	.selectbox__dropdown {
 		&__item {
