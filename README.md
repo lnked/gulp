@@ -1,3 +1,0 @@
-# Gulp
-
-Web Starter Kit
