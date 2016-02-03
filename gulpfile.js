@@ -27,6 +27,7 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     typescript  = require('gulp-typescript'),
     coffee      = require('gulp-coffee'),
     eslint      = require('gulp-eslint'),
+    webpack     = require('gulp-webpack'),
 
     webserver   = require('gulp-webserver'),
 
@@ -36,7 +37,8 @@ var gulp        = require('gulp'),                  // Собственно Gulp
     watchify    = require('watchify'),
 
     standards   = require('gulp-webstandards'),
-    
+    ghPages     = require('gulp-gh-pages'),
+
     webp        = require('gulp-webp'),
     imagemin    = require('gulp-imagemin'),         // Минификация изображений
     svgmin      = require('gulp-svgmin'),
@@ -53,12 +55,6 @@ var gulp        = require('gulp'),                  // Собственно Gulp
  */
 var errorHandler = function(err) {
     try {
-        // console.error('Error in plugin "' + err.plugin + '"');
-        // console.error('   "' + err.message + '"');
-        // console.error('   In file "' + err.fileName + '", line "' + err.lineNumber + '".');
-        // console.log('--------------------------------------');
-        // console.log(err);
-
         gutil.log(gutil.colors.green('FileName:'), gutil.colors.blue(err.fileName));
         gutil.log(gutil.colors.red.bold('Error:'), gutil.colors.red(err.message));
         gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
@@ -113,6 +109,8 @@ var app = './dist/',
         build: false,
         email: false,
         watch: false,
+        uncss: false,
+        webpack: false,
         typescript: false,
         coffee: false
     },
@@ -123,6 +121,16 @@ var app = './dist/',
     uncssIgnore = [
         /^#js/
     ];
+
+if (gutil.env.webpack === true)
+{
+    is.webpack = true;
+}
+
+if (gutil.env.uncss === true)
+{
+    is.uncss = true;
+}
 
 if (gutil.env.build === true)
 {
@@ -142,7 +150,7 @@ if (gutil.env.build === true)
 //         dist: './dist',
 //         mainJs: './src/main.js'
 //     }
-// }
+// };
 
 gulp.task('webserver', function() {
     gulp.src(app)
@@ -229,14 +237,14 @@ gulp.task('styles', function() {
 
         .pipe(concat('main.css'))
 
-        // .pipe(gulpif(
-        //     is.build,
-        //     uncss({
-        //         html: uncssFiles,
-        //         ignore: uncssIgnore,
-        //         timeout: 1000,
-        //     })
-        // ))
+        .pipe(gulpif(
+            is.uncss,
+            uncss({
+                html: uncssFiles,
+                ignore: uncssIgnore,
+                timeout: 1000,
+            })
+        ))
 
         .pipe(prefixer({
             browsers: ['last 15 versions'],
@@ -302,6 +310,20 @@ gulp.task('scripts', function() {
             header: '\n// ${filename}\n\n',
             footer: '\n'
         }))
+
+        .pipe(gulpif(
+            is.webpack,
+            webpack({
+                bail: false,
+                debug: true,
+                watch: true,
+                module: {
+                    loaders: [{
+                        test: /\.css$/,
+                        loader: 'style!css'
+                    }]
+                }})
+            ))
         
         .pipe(react())
         
@@ -488,6 +510,10 @@ gulp.task('watch', function () {
 
 gulp.task('webstandards', function(){
     return gulp.src(app + '/**/*').pipe(standards());
+});
+
+gulp.task('deploy', function() {
+    return gulp.src(app + '/**/*').pipe(ghPages());
 });
 
 // Сборка проекта

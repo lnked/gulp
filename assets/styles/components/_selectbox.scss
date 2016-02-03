@@ -10,7 +10,7 @@
 	font-size: 1.6rem;
 	font-weight: 300;
 	line-height: 48px;
-	border: 1px solid #dadada;
+	border: 1px solid $border-color;
 	box-sizing: border-box;
 	
 	&.is-checked {
@@ -70,7 +70,7 @@
 	    right: -1px;
 	    list-style: none;
 		background-color: #fff;
-		border: 1px solid #dadada;
+		border: 1px solid $border-color;
 		border-radius: 0 0 2px 2px;
 		z-index: 9999;
 		overflow: auto;
@@ -111,7 +111,7 @@
 			}
 
 			&:hover {
-				color: $gray;
+				color: $borer-color;
 			}
 
 			&.disabled {
@@ -126,8 +126,8 @@
 }
 
 .error .selectbox {
-	color: $error;
-	border-color: $error;
+	color: $error-color;
+	border-color: $error-color;
 	border-top-color: transparent;
 }
 

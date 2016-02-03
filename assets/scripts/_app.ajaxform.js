@@ -162,7 +162,7 @@
 		{
 			_this = this;
 
-			body.on('submit', _this.config.form_class, function(e) {
+			body.on('click', _this.config.link_class, function(e) {
 		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 	       		
 	       		var link = $(this);

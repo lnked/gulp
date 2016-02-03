@@ -122,17 +122,11 @@ textarea {
 	&__input,
 	&__textarea {
 	    width: 100%;
-	   	padding: 0 15px;
-		font-family: $fontForms;
-		color: #fff;
-		color: rgba(255, 255, 255, 0.5);
-	    position: relative;
+		color: #000;
+		font-family: $font-forms;
 		font-size: 2rem;
-		font-weight: 300;
-		background: url(../images/input-pixel.png);
-		background: rgba(255, 255, 255, 0.1);
-		border: 1px solid #fff;
-		border-color: rgba(255, 255, 255, 0.5);
+		font-weight: 400;
+		border: 1px solid $borer-color;
 		box-sizing: border-box;
 		
 		&.error {
@@ -144,6 +138,16 @@ textarea {
 			animation-duration: 300ms;
 			animation-iteration-count: 3;
 			animation-timing-function: linear;
+		}
+		
+		&:disabled {
+			opacity: 0.4;
+			cursor: default;
+		}
+
+		&:focus,
+		&:focus {
+		    outline: none;
 		}
 
 		&::-ms-clear {
@@ -162,12 +166,13 @@ textarea {
 	}
 
 	&__input {
+		padding: 0 15px;
 	    height: 51px;
 	}
 
 	&__textarea {
-		padding: 10px 17px;
 	    max-width: 100%;
+		padding: 10px 15px;
 	    resize: vertical;
 	}
 }

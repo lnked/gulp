@@ -55,6 +55,69 @@ function updateCaptcha(captcha, ev)
     return !1;
 }
 
+// Возвращает функцию, которая не будет срабатывать, пока продолжает вызываться.
+// Она сработает только один раз через N миллисекунд после последнего вызова.
+// Если ей передан аргумент `immediate`, то она будет вызвана один раз сразу после
+// первого запуска.
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+// Использование
+// var myEfficientFn = debounce(function() {
+// All the taxing stuff you do
+// }, 250);
+// window.addEventListener('resize', myEfficientFn);
+
+
+function once(fn, context) { 
+    var result;
+
+    return function() { 
+        if(fn) {
+            result = fn.apply(context || this, arguments);
+            fn = null;
+        }
+
+        return result;
+    };
+}
+
+// // Пример использования
+// var canOnlyFireOnce = once(function() {
+//     console.log('Запущено!');
+// });
+
+// canOnlyFireOnce(); // "Запущено!"
+// canOnlyFireOnce(); // Не запущено
+
+
+var getAbsoluteUrl = (function() {
+    var a;
+
+    return function(url) {
+        if(!a) a = document.createElement('a');
+        a.href = url;
+
+        return a.href;
+    };
+})();
+
+// Пример использования
+// getAbsoluteUrl('/something');
+
+
 /**
  * @param {string} s1 Исходная строка
  * @param {string} s2 Сравниваемая строка

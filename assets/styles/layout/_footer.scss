@@ -1,6 +1,7 @@
 .layout-footer {
-	height: $footerHeight;
-	margin-top: -$footerHeight;
+	clear: both;
+	height: $footer-height;
+	margin-top: -$footer-height;
 	
 	&__wrapper {
 		@extend .layout;

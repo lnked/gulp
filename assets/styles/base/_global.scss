@@ -11,7 +11,7 @@
 html, body { height: 100%; }
 
 html {
-    font-size: $fontBase;
+    font-size: $font-base;
     text-size-adjust: 100%;
     box-sizing: border-box;
 }
@@ -28,9 +28,9 @@ body {
 }
 
 body {
-    color: $colorText;
+    color: $color-text;
     text-rendering: optimizeLegibility; //auto | optimizeSpeed | optimizeLegibility | geometricPrecision
-    font-family: $fontDefault;
+    font-family: $font-family;
     line-height: 1;
-    background-color: $body;
+    background-color: $body-background;
 }

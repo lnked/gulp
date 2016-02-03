@@ -1,6 +1,4 @@
 $time: .4s;
-$body: #fff;
-$colorText: #181818;
 
 $selectcolor: #fff;
 $selectBackground: #097dc5;
@@ -8,15 +6,15 @@ $selectBackground: #097dc5;
 $placeholderColor: #000;
 $placeholderOpacity: .5;
 
-$fontBase: 10px;
-$footerHeight: 100px;
+$font-base					: 10px;
+$body-background  	        : #fff !default;
+$color-text					: #181818;
+$font-family				: Verdana, Arial, Helvetica, sans-serif;
+$font-forms					: Arial, Helvetica, sans-serif;
+$footer-height				: 10rem;
 
-$fontDefault: Verdana, Arial, Helvetica, sans-serif;
-$fontForms: Arial, Helvetica, sans-serif;
-
-
-$error		: #fa5e5b;
-
+$error-color				: #fa5e5b;
+$borer-color 				: gray;
 
 $red     : #fa5e5b;
 $orange  : #ffc83f;
@@ -31,7 +29,6 @@ $plum    : #bf538d;
 
 //hue, saturation, lightness
 
-$body-background          : #f5f5f5 !default;
 $body-background-offset   : mix($lpblue, #fff, 5%) !default;
 $card-figure-bg           : #f4fbfe !default;
 $details-panel-bg         : mix($red, #fff, 15%) !default;
