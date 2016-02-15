@@ -15,7 +15,7 @@ exports.path = {
 	},
 	assets: {
 		html:           [src + 'template/*.html'],
-		scripts:        [src + 'scripts/_jquery.js', src + 'scripts/**/*.js'],
+		scripts:        [src + 'scripts/**/*.js'],
 		styles:         [src + 'styles/*.scss'],
 		images:         [src + 'images/**/*'],
 		favicon:        [src + 'favicon/**/*.*'],
@@ -31,6 +31,6 @@ exports.path = {
 		fonts:          [src + 'fonts/**/*.*'],
 		json:           [src + 'json/**/*.json']
 	},
-	extras: ['favicon.ico', 'humans.txt', 'robots.txt'],
+	extras: ['humans.txt', 'robots.txt'],
 	modernizr: [src + 'modernizr.js']
 };

@@ -54,7 +54,7 @@ const del			= require('del');					// Удаление файлов и папок
  * Обработчик ошибок.
  * @param err
  */
-var errorHandler = function(err) {
+let errorHandler = function(err) {
 	try {
 		gutil.log(gutil.colors.green('FileName:'), gutil.colors.blue(err.fileName));
 		gutil.log(gutil.colors.red.bold('Error:'), gutil.colors.red(err.message));
@@ -64,15 +64,10 @@ var errorHandler = function(err) {
 	catch(e) {}
 }
 
-/**
- * Очищаем папку с компилированным проектом.
- * @param path
- * @param build
- */
+// Очищаем папку с компилированным проектом
 function clean(path, build)
 {
-	if (build === true)
-	{
+	if (build === true) {
 		del([path + '*']);
 	}
 }
@@ -109,7 +104,23 @@ if (typeof gutil.env !== 'undefined')
 	}
 }
 
-gulp.task('html', function(callback){
+gulp.task('webserver', function() {
+	gulp.src(app)
+		.pipe(webserver({
+			livereload: {
+				enable: false,
+				filter: function(filename) {
+					return true;
+				}
+			},
+			port: 8000,
+			fallback: 'index.html'
+		}));
+});
+
+// Копируем html
+gulp.task('html', function() {
+	
 	gulp.src(path.assets.html)
 		.pipe(plumber({errorHandler: errorHandler}))
 		
@@ -165,11 +176,10 @@ gulp.task('html', function(callback){
 		.pipe(gulp.dest(path.build.html))
 
 		.pipe(notify({ message: 'Update HTML' }));
-
-	callback();
 });
 
-gulp.task('styles', function(callback){
+// Собираем Sass
+gulp.task('styles', function() {
 	clean(path.build.styles, is.build);
 
 	gulp.src(path.assets.styles)
@@ -235,17 +245,14 @@ gulp.task('styles', function(callback){
 		.pipe(gulp.dest(path.build.styles))
 
 		.pipe(notify({ message: 'Update css complete', onLast: true }));
-
-	callback();
 });
 
-gulp.task('scripts', function(callback){
+// Собираем JS
+gulp.task('scripts', function() {
 	clean(path.build.scripts, is.build);
 
 	gulp.src(path.assets.scripts)
 		.pipe(plumber({errorHandler: errorHandler}))
-
-		.pipe(react())
 
 		.pipe(eslint())
 		.pipe(eslint.format())
@@ -269,6 +276,8 @@ gulp.task('scripts', function(callback){
 					}]
 				}})
 			))
+		
+		.pipe(react())
 		
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest(path.build.scripts))
@@ -297,13 +306,11 @@ gulp.task('scripts', function(callback){
 		.pipe(gulp.dest(path.build.scripts))
 		
 		.pipe(notify({ message: 'Update scripts complete', onLast: true }));
-
-	callback();
 });
 
-gulp.task('svgstore', function(callback){
-
-	gulp.src(path.assets.images + '.svg')
+gulp.task('svgstore', function () {
+	return gulp
+		.src(path.assets.images + '.{svg}')
 		.pipe(svgmin(function (file) {
 			var prefix = path.basename(file.relative, path.extname(file.relative));
 			return {
@@ -317,23 +324,19 @@ gulp.task('svgstore', function(callback){
 		}))
 		.pipe(svgstore())
 		.pipe(gulp.dest('test/dest'));
-
-	callback();
 });
 
-gulp.task('images_gif', function(callback){
-
+// Копируем и минимизируем изображения
+gulp.task('images_gif', function() {
 	gulp.src(path.assets.images + '.gif')
 		.pipe(newer(path.build.images))
 		.pipe(gulp.dest(path.build.images));
-
-	callback();
 });
 
-gulp.task('images', function(callback){
+gulp.task('images', function() {
 	clean(path.build.images, is.build);
 	
-	gulp.series('images_gif');
+	gulp.start('images_gif');
 
 	gulp.src(path.assets.images + '.{svg,png,jpg,jpeg}')
 		.pipe(newer(path.build.images))
@@ -364,25 +367,34 @@ gulp.task('images', function(callback){
 				use: [svgo(), gifsicle({interlaced: true})]
 			})
 		))
+
 		.pipe(gulp.dest(path.build.images));
-
-	callback();
 });
 
+gulp.task('tinypng', function () {
+	gulp.src(path.assets.images + '.{png,jpg,jpeg}')
+		.pipe(tinypng({
+			key: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
+			sigFile: 'images/.tinypng-sigs',
+			log: true
+		}))
+		.pipe(gulp.dest(path.build.images));
+});
 
-gulp.task('favicon', function(callback){
-	clean(path.build.favicon, is.build);
-	
-	gulp.src(path.assets.favicon)
+// Копируем json
+gulp.task('json', function() {
+	clean(path.build.json, is.build);
+
+	gulp.src(path.assets.json)
 		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(newer(path.build.favicon))
-		.pipe(gulp.dest(path.build.favicon))
-		.pipe(notify({ message: 'Favicon task complete', onLast: true }));
 
-	callback();
+		.pipe(gulp.dest(path.build.json))
+
+		.pipe(notify({ message: 'Json task complete', onLast: true }));
 });
 
-gulp.task('fonts', function(callback){
+// Копируем шрифты
+gulp.task('fonts', function () {
 	clean(path.build.fonts, is.build);
 	
 	gulp.src(path.assets.fonts)
@@ -390,52 +402,21 @@ gulp.task('fonts', function(callback){
 		.pipe(newer(path.build.fonts))
 		.pipe(gulp.dest(path.build.fonts))
 		.pipe(notify({ message: 'Fonts task complete', onLast: true }));
-
-	callback();
 });
 
-gulp.task('json', function(callback){
-	clean(path.build.json, is.build);
-
-	gulp.src(path.assets.json)
+// Копируем favicon
+gulp.task('favicon', function () {
+	clean(path.build.favicon, is.build);
+	
+	gulp.src(path.assets.favicon)
 		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(gulp.dest(path.build.json))
-		.pipe(notify({ message: 'Json task complete', onLast: true }));
-
-	callback();
+		.pipe(newer(path.build.favicon))
+		.pipe(gulp.dest(path.build.favicon))
+		.pipe(notify({ message: 'Favicon task complete', onLast: true }));
 });
 
-gulp.task('extras', function(callback){
-
-	gulp.src(path.extras, {cwd: src})
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(gulp.dest(app));
-
-	callback();
-});
-
-gulp.task('modernizr', function(callback){
-
-	gulp.src(path.modernizr)
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(gulp.dest(path.build.scripts));
-
-	callback();
-});
-
-gulp.task('tinypng', function(callback){
-	gulp.src(path.assets.images + '.png')
-		.pipe(tinypng({
-			key: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
-			sigFile: 'images/.tinypng-sigs',
-			log: true
-		}))
-		.pipe(gulp.dest(path.build.images));
-
-	callback();
-});
-
-gulp.task('shot', function(callback){
+// Делаем скриншот
+gulp.task('shot', function () {
 	var pageres = new Pageres({delay: 2})
 		.src('yeoman.io', ['480x320', '1024x768', 'iphone 5s'], { crop: true })
 		.src('todomvc.com', ['1280x1024', '1920x1080'])
@@ -444,110 +425,86 @@ gulp.task('shot', function(callback){
 	pageres.run(function (err) {
 		console.log('done');
 	});
-
-	callback();
 });
 
-gulp.task('webstandards', function(){
-	return gulp.src(app + '/**/*').pipe(standards());
-
-	callback();
+gulp.task('modernizr', function() {
+	gulp.src(path.modernizr)
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(gulp.dest(path.build.scripts));
 });
 
-gulp.task('deploy', function(callback){
-	return gulp.src(app + '/**/*').pipe(ghPages());
+gulp.task('extras', function() {
 
-	callback();
+	gulp.src(path.extras, {cwd: src})
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(gulp.dest(app));
 });
 
-gulp.task('watch', function(callback){
+gulp.task('open', ['connect'], function() {
+	gulp.src('dist/index.html')
+		.pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/'}));
+});
+
+//Start a local development server
+gulp.task('connect', function() {
+	connect.server({
+		root: ['dist'],
+		port: config.port,
+		base: config.devBaseUrl,
+		livereload: true
+	});
+});
+
+// Запуск слежки за изминениями в проекте (gulp watch)
+gulp.task('watch', function () {
 	is.watch = true;
-
+	
 	var x;
 	for (x in path.watch)
 	{
 		(function(key){
-			watch(path.watch[key], gulp.series(key));
+			watch(path.watch[key], function() {
+				gulp.start(key);
+			});
 		})(x);
 	}
-
-	callback();
 });
 
-gulp.task('serve', function(callback){
-	return gulp.src(app)
-		.pipe(webserver({
-			livereload: {
-				enable: false,
-				filter: function(filename) {
-					return true;
-				}
-			},
-			port: 8000,
-			fallback: 'index.html'
-		}));
-
-	callback();
+gulp.task('webstandards', function(){
+	return gulp.src(app + '/**/*').pipe(standards());
 });
 
-gulp.task('isbuild', function(callback){
+gulp.task('deploy', function() {
+	return gulp.src(app + '/**/*').pipe(ghPages());
+});
+
+// Сборка проекта
+gulp.task('build', function() {
 	is.build = true;
-
-	callback();
+	
+	if (gutil.env.coffee === true)
+	{
+		is.coffee = true;
+	}
+	
+	gulp.start('html');
+	gulp.start('styles');
+	gulp.start('scripts');
+	gulp.start('images');
+	gulp.start('favicon');
+	gulp.start('fonts');
+	gulp.start('json');
+	gulp.start('extras');
+	// gulp.start('webstandards');
+	// gulp.start('open');
 });
 
-gulp.task('build', gulp.series('isbuild', 'html', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras'));
+// Запускаем слежку по умолчанию
+gulp.task('default', function(){
+	if (gutil.env.coffee === true)
+	{
+		is.coffee = true;
+	}
 
-gulp.task('default', gulp.series('watch'));
-
-// var config = {
-//     port: 9005,
-//     devBaseUrl: 'http://localhost',
-//     paths: {
-//         html: './src/*.html',
-//         js: './src/**/*.js',
-//         css: [
-//             'node_modules/bootstrap/dist/css/bootstrap.min.css',
-//             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
-//         ],
-//         dist: './dist',
-//         mainJs: './src/main.js'
-//     }
-// };
-
-// gulp.task('styles:svg', function() {
-// 	return
-// 		gulp.src(path.assets.images + '.svg')
-// 			.pipe(svgSprite({
-// 				mode: {
-// 					css: {
-// 						dest:		'.',
-// 						bust:		!is.build,
-// 						sprite:		'sprite.svg',
-// 						layout:		'vertical',
-// 						prefix:		'$',
-// 						dimensions: true,
-// 						render:     {
-// 							styl: {
-// 								dest: 'sprite.scss'
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}))
-// 			.pipe(gulpIf('*.scss', gulp.dest('tmp/styles'), gulp.dest('public/styles')));
-// });
-
-// gulp.task('open', ['connect'], function() {
-// 	gulp.src('dist/index.html')
-// 		.pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/'}));
-// });
-
-// gulp.task('connect', function() {
-// 	connect.server({
-// 		root: ['dist'],
-// 		port: config.port,
-// 		base: config.devBaseUrl,
-// 		livereload: true
-// 	});
-// });
+	gulp.start('watch');
+});

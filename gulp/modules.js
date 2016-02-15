@@ -1,5 +1,3 @@
-'use strict';
-
 // Инициализируем плагины
 const gulp			= require('gulp');					// Собственно Gulp JS
 const watch			= require('gulp-watch');
@@ -49,42 +47,3 @@ const gifsicle		= require('imagemin-gifsicle');
 const prettify		= require('gulp-prettify');
 const fileinclude	= require('gulp-file-include');
 const del			= require('del');					// Удаление файлов и папок
-
-/**
- * Обработчик ошибок.
- * @param err
- */
-var errorHandler = function(err) {
-	try {
-		gutil.log(gutil.colors.green('FileName:'), gutil.colors.blue(err.fileName));
-		gutil.log(gutil.colors.red.bold('Error:'), gutil.colors.red(err.message));
-		gutil.log(gutil.colors.cyan('lineNumber:'), gutil.colors.magenta(err.lineNumber));
-		gutil.log(gutil.colors.black('Plugin:'), gutil.colors.green(err.plugin));
-	}
-	catch(e) {}
-}
-
-/**
- * Очищаем папку с компилированным проектом.
- * @param path
- * @param build
- */
-function clean(path, build)
-{
-	if (build === true)
-	{
-		del([path + '*']);
-	}
-}
-// .pipe(debug({title: 'unicorn:'}))
-
-gulp.task('build', gulp.series(
-    'isbuild',
-    
-);
-
-
-// gulp.task('build', gulp.parallel('html', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras'));
-
-gulp.task('default', gulp.series('watch'));
-// gulp.task('default', gulp.series('watch', gulp.parallel('serve')));

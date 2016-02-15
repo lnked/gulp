@@ -1,21 +1,28 @@
 .pagination {
-    clear: both;
-    font-size: 0;
-    line-height: 0;
-    text-align: center;
-    margin: 3rem 0 5.6rem;
+	clear: both;
+	font-size: 0;
+	line-height: 0;
+	text-align: left;
+	margin: 3rem 0 0;
 
-    &__list {
-	    letter-spacing: normal;
-	    margin: 0 !important;
-	    padding: 0 !important;
+	&__list {
+		letter-spacing: normal;
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 
 	&__item {
-	    margin: 0 2px !important;
-	    padding: 0 !important;
-	    background: none !important;
-	    @extend .inline;
+		padding: 0;
+		background: none;
+		@extend .inline;
+
+		&:not(:first-child) {
+			margin-left: 2px;
+		}
+
+		&:not(:last-child) {
+			margin-right: 2px;
+		}
 		
 		&__text {
 			text-decoration: none;
@@ -25,15 +32,15 @@
 			line-height: 4rem;
 		}
 
-	    &__page {
-	    	&, &:visited {
+		&__page {
+			&, &:visited {
 				width: 4rem;
 				height: 4rem;
 				display: block;
 				vertical-align: top;
 				
 				background-color: #fff;
-				border: 4px solid #c4e1ed;
+				border: 4px solid $border;
 				
 				text-decoration: none;
 				
@@ -52,12 +59,12 @@
 			}
 
 			&:hover {
-				border-color: #92c271;
+				border-color: $hover;
 			}
 
 			&.current {
 				&, &:hover {
-					border-color: #92c271;
+					border-color: $hover;
 				}
 			}
 		}
@@ -76,33 +83,12 @@
 			}
 
 			&:before {
-			 	position: absolute;
-			 	content: "";
-			 	left: 0;
-			 	top: 0;
-			 	opacity: 0;
-			 	transition: opacity $time;
-			}
-
-			&_prev {
-				background-image: url(../images/nav-prev.png);
-				
-				&:before {
-					background-image: url(../images/nav-prev-active.png);
-				}
-			}
-
-			&_next {
-				background-image: url(../images/nav-next.png);
-				
-				&:before {
-					background-image: url(../images/nav-next-active.png);
-				}
-			}
-
-			&_prev,
-			&_next {
-				
+				position: absolute;
+				content: "";
+				left: 0;
+				top: 0;
+				opacity: 0;
+				transition: opacity $time;
 			}
 
 			&:hover {
@@ -113,4 +99,3 @@
 		}
 	}
 }
-
