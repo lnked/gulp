@@ -4,7 +4,19 @@ $popupCloseSize: 1.8rem;
 #svg-filter {
 	display: none;
 }
+
 .popup-open {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	-webkit-overflow-scrolling: touch;
+
+	.layout-wrapper {
+	    overflow: hidden;
+	}
+}
+
+.no-scroll.popup-open {
 	overflow: hidden;
 }
 
@@ -14,8 +26,9 @@ $popupCloseSize: 1.8rem;
 	position: fixed;
 	top: 0;
 	right: 0;
-	bottom: 0;
 	left: 0;
+	margin: 0;
+	padding: 0;
 	z-index: 8888;
 	display: none;
 	background-color: #000;

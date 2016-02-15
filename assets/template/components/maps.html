@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<!-- (c) lnk. celebro | http://www.celebro.ru/ -->
+<html lang="ru-RU" dir="ltr" class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<link rel="stylesheet" href="../css/main.css">
+	<script>(function(d) { d.className = d.className.replace(/\bno-js/, ''); })(document.documentElement);</script>
+	
+	<link rel="apple-touch-icon" sizes="144x144" href="../apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+	
+	<link rel="icon" type="image/png" href="../favicon.png">
+    
+    <!--[if IE]>
+	<link rel="shortcut icon" href="../favicon.ico">
+	<meta http-equiv="imagetoolbar" content="no">
+	<script src="https://developer.cdn.mozilla.net/media/js/libs/html5.js"></script>
+	<![endif]-->
+
+	<!--[if lte IE 8]>
+	<link rel="stylesheet" href="../css/ie.css">
+	<script type="text/javascript" src="../js/PIE.js"></script>
+	<![endif]-->
+
+    <meta name="robots" content="index, follow">
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	
+	<meta name="language" content="ru">
+	<meta name="cms" content="celebro.cms">
+	<meta name="author" content="http://celebro.ru/">
+	<meta name="viewport" content="width=1000, user-scalable=yes">
+	
+	<style>
+		.map-conteiner-wrap { overflow: hidden; min-height: 435px; position: relative; z-index: 50; }
+		.map-conteiner { width: 100%; min-height: 435px; background: #f2f2f2; margin-bottom: -50px; }
+		.map-content { width: 300px; height: 110px; overflow: hidden; }
+		.map-content h2 { margin-bottom: 10px; font-size: 16px; line-height: 22px; }
+		.map-bodyContent { width: auto; }
+		.map-bodyContent p { margin-bottom: 10px; }
+	</style>
+
+
+	<title></title>
+</head>
+<body>
+
+<div class="map-conteiner-wrap">
+    <div class="map-conteiner" id="map-conteiner"></div>
+</div>
+
+<script type="text/javascript">
+	function googleMap()
+	{
+	    var mapOptions = {
+	        zoom: 10,
+	        zoomControl: !1,
+	        zoomControlOptions: {
+	            style: google.maps.ZoomControlStyle.LARGE,
+	            position: google.maps.ControlPosition.LEFT_TOP
+	        },
+	        panControl: !1,
+	        panControlOptions: {
+	            position: google.maps.ControlPosition.LEFT_TOP
+	        },
+	        scrollwheel: !1,
+	        navigationControl: !1,
+	        mapTypeControl: !1,
+	        scaleControl: !0,
+	        draggable: !0,
+	        disableDoubleClickZoom: !1,
+	        center: new google.maps.LatLng(45.079251, 38.991508)
+	    };
+
+	    var map = new google.maps.Map(document.getElementById('map-conteiner'), mapOptions);
+	    var arr = {
+	    	1: {
+	    		city: 'г. Краснодар',
+	    		title: '«Бульвар Платановый»',
+	    		street: 'ул. Платановый Бульвар, 8',
+	    		contacts: 'круглосуточно, тел.: (861) 273-56-16',
+	    		coords: [ 45.032201,38.909235 ]
+    		},
+	    	2: {
+	    		city: 'г. Краснодар',
+	    		title: '«На Черкасской»',
+	    		street: 'ул. Черкасская, 28',
+	    		contacts: 'круглосуточно, тел.: (861) 274-57-38',
+	    		coords: [ 45.032201,38.909235 ]
+    		},
+	    	3: {
+	    		city: 'г. Краснодар',
+	    		title: '«ЭНКА»',
+	    		street: 'ул. Кореновская, 12В',
+	    		contacts: 'круглосуточно, тел.: (861) 258-41-68',
+	    		coords: [ 45.096466,38.976737 ]
+    		},
+	    	4: {
+	    		city: 'г. Краснодар',
+	    		title: '«КВАНТА»',
+	    		street: 'ул. Садовая, 113/1',
+	    		contacts: 'круглосуточно, тел.: (861) 275-85-90',
+	    		coords: [ 45.037900,38.993601 ]
+    		},
+	    	5: {
+	    		city: 'г. Краснодар',
+	    		title: '«Остановка-Цирк»',
+	    		street: 'ул. Октябрьская, 172А',
+	    		contacts: 'круглосуточно, тел.: (861) 255-69-33',
+	    		coords: [ 45.038226,38.970860 ]
+    		},
+	    	6: {
+	    		city: 'г. Краснодар',
+	    		title: '«Старый центр»',
+	    		street: 'ул. Красная, 17',
+	    		contacts: 'круглосуточно, тел.: (861) 268-15-84',
+	    		coords: [ 45.019017,38.968326 ]
+    		},
+	    	7: {
+	    		city: 'г. Краснодар',
+	    		title: '«Комсомольская»',
+	    		street: 'ул. Сормовская, 106',
+	    		contacts: 'круглосуточно, тел.: (861) 260-14-92',
+	    		coords: [ 45.031309,39.090794 ]
+    		},
+	    	8: {
+	    		city: 'г. Краснодар',
+	    		title: '«Фестивальная»',
+	    		street: 'ул. Тургенева, 215/1',
+	    		contacts: 'круглосуточно, тел.: (861) 215-81-03',
+	    		coords: [ 45.069968,38.967781 ]
+    		},
+	    	9: {
+	    		city: 'ст. Елизаветинская',
+	    		title: '«Елизаветинская»',
+	    		street: 'ул. Шевченко, 86А',
+	    		contacts: 'круглосуточно, тел.: (861) 229-28-81',
+	    		coords: [ 45.018361,39.010639 ]
+    		},
+	    	10: {
+	    		city: 'ст. Елизаветинская',
+	    		title: '«Елизаветинские дачи»',
+	    		street: 'ул. Центральная, 2/1',
+	    		contacts: '8.00-22.00, тел.: (861) 991-88-40',
+	    		coords: [ 45.022067,39.071157 ]
+    		},
+	    	11: {
+	    		city: 'г. Абинск',
+	    		title: '«АБИНСКАЯ»',
+	    		street: 'ул. Мира, 1Е',
+	    		contacts: 'круглосуточно, тел.: (86150) 45-078',
+	    		coords: [ 44.863619,38.167312 ]
+    		}
+	    };
+
+	    function addMarker( ar, map )
+	    {
+		    var contentString = [
+		    	'<div class="map-content">',
+		    		'<h2 class="firstHeading">'+ ar['title'] + '</h2>',
+	    			'<div class="map-bodyContent">',
+	    				'<p>' + ar['city'] + '</p>',
+	    				'<p>' + ar['street'] + '</p>',
+	    				'<p>' + ar['contacts'] + '</p>',
+	    			'</div>',
+		    	'</div>'
+		    ].join('');
+
+			var infowindow = new google.maps.InfoWindow({
+				content: contentString,
+				disableAutoPan: true,
+				maxWidth: 400
+			});
+
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng( ar['coords'][0], ar['coords'][1] ),
+				map: map,
+				title: ar['title']
+			});
+
+			google.maps.event.addListener(marker, 'click', function() {
+				if(infowindow)
+			    {
+				    infowindow.close();
+				}
+				infowindow.open(map, marker);
+			});
+	    }
+
+	    for (var i = 1; i<=11; i++) {
+	    	addMarker( arr[i], map )
+        }
+	}
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=googleMap"></script>
+
+</body>
+</html>

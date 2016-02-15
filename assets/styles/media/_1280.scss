@@ -1,2 +1,16 @@
+@media
+not screen and (-webkit-min-device-pixel-ratio: 2),
+not screen and (   min--moz-device-pixel-ratio: 2),
+not screen and (     -o-min-device-pixel-ratio: 2/1),
+not screen and (        min-device-pixel-ratio: 2),
+not screen and (                min-resolution: 192dpi),
+not screen and (                min-resolution: 2dppx) {
+
+	html {
+		font-size: 9px;
+	}
+
+}
+
 @media screen and (min-width: 1281px) {}
 @media only screen and (max-width: 1280px) {}

@@ -4,12 +4,12 @@
 
 @@include('./popups/popup.html')
 
-<article class="layout-wrapper">
+<section class="layout-wrapper">
 	@@include('./components/header.html', {
 		"current": ""
 	})
 
-	<section class="layout-wrapper__inner" itemprop="mainContentOfPage">
+	<article class="layout-wrapper__inner" itemprop="mainContentOfPage">
 		
 		@@include('./components/checkbox.html', {
 			"title": "checkbox",
@@ -54,8 +54,9 @@
 
 		@@include('./components/tabs.html')
 
-		
-	</section>
-</article>
+	</article>
+</section>
 
 @@include('./components/footer.html')
+
+@@include('./components/scripts.html')

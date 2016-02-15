@@ -54,7 +54,7 @@ const del			= require('del');					// Удаление файлов и папок
  * Обработчик ошибок.
  * @param err
  */
-let errorHandler = function(err) {
+var errorHandler = function(err) {
 	try {
 		gutil.log(gutil.colors.green('FileName:'), gutil.colors.blue(err.fileName));
 		gutil.log(gutil.colors.red.bold('Error:'), gutil.colors.red(err.message));
@@ -64,21 +64,59 @@ let errorHandler = function(err) {
 	catch(e) {}
 }
 
-// Очищаем папку с компилированным проектом
+/**
+ * Очищаем папку с компилированным проектом.
+ * @param path
+ * @param build
+ */
 function clean(path, build)
 {
-	if (build === true) {
+	if (build === true)
+	{
 		del([path + '*']);
 	}
 }
 
-const config = require('./gulp.config.js');
+// Пути к файлам
+const app = './dist/';
+const src = './assets/';
+const path = {
+		build: {
+			html:			app,
+			scripts:		app + 'js',
+			styles:			app + 'css',
+			images:			app + 'images',
+			favicon:		app + 'favicon',
+			fonts:			app + 'fonts',
+			json:			app + 'json'
+		},
+		assets: {
+			html:			[src + 'template/*.html'],
+			scripts:		[src + 'scripts/**/*.js'],
+			styles:			[src + 'styles/*.scss'],
+			images:			[src + 'images/**/*'],
+			favicon:		[src + 'favicon/**/*.*'],
+			fonts:			[src + 'fonts/**/*.*'],
+			json:			[src + 'json/**/*.json']
+		},
+		watch: {
+			html:           [src + 'template/*.html', src + 'template/**/*.html'],
+			scripts:        [src + 'scripts/**/*.js'],
+			styles:         [src + 'styles/**/*.scss'],
+			images:         [src + 'images/**/*.*'],
+			favicon:        [src + 'favicon/**/*.*'],
+			fonts:          [src + 'fonts/**/*.*'],
+			json:           [src + 'json/**/*.json']
+		},
+		extras: [
+			'favicon.ico',
+			'humans.txt',
+			'robots.txt'
+		],
+		modernizr: [src + 'modernizr.js']
+	};
 
-const app 	= config.app;
-const src 	= config.src;
-const path 	= config.path;
-
-let is = {
+var is = {
 	build: false,
 	email: false,
 	watch: false,
@@ -86,16 +124,18 @@ let is = {
 	webpack: false,
 	typescript: false,
 	coffee: false
-};
-let uncssFiles = [
+},
+uncssFiles = [
 	path.build.html + '*.html',
 	path.build.html + '**/*.html'
+],
+uncssIgnore = [
+	/^#js/
 ];
-let uncssIgnore = [ /^#js/ ];
 
 if (typeof gutil.env !== 'undefined')
 {
-	for (let o in gutil.env)
+	for (var o in gutil.env)
 	{
 		if (typeof(is[o]) !== 'undefined')
 		{
@@ -104,23 +144,8 @@ if (typeof gutil.env !== 'undefined')
 	}
 }
 
-gulp.task('webserver', function() {
-	gulp.src(app)
-		.pipe(webserver({
-			livereload: {
-				enable: false,
-				filter: function(filename) {
-					return true;
-				}
-			},
-			port: 8000,
-			fallback: 'index.html'
-		}));
-});
-
-// Копируем html
 gulp.task('html', function() {
-	
+	return
 	gulp.src(path.assets.html)
 		.pipe(plumber({errorHandler: errorHandler}))
 		
@@ -178,10 +203,10 @@ gulp.task('html', function() {
 		.pipe(notify({ message: 'Update HTML' }));
 });
 
-// Собираем Sass
 gulp.task('styles', function() {
 	clean(path.build.styles, is.build);
 
+	return
 	gulp.src(path.assets.styles)
 		.pipe(plumber({errorHandler: errorHandler}))
 		
@@ -247,12 +272,14 @@ gulp.task('styles', function() {
 		.pipe(notify({ message: 'Update css complete', onLast: true }));
 });
 
-// Собираем JS
 gulp.task('scripts', function() {
 	clean(path.build.scripts, is.build);
 
+	return
 	gulp.src(path.assets.scripts)
 		.pipe(plumber({errorHandler: errorHandler}))
+
+		.pipe(react())
 
 		.pipe(eslint())
 		.pipe(eslint.format())
@@ -276,8 +303,6 @@ gulp.task('scripts', function() {
 					}]
 				}})
 			))
-		
-		.pipe(react())
 		
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest(path.build.scripts))
@@ -309,8 +334,8 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('svgstore', function () {
-	return gulp
-		.src(path.assets.images + '.{svg}')
+	return
+	gulp.src(path.assets.images + '.svg')
 		.pipe(svgmin(function (file) {
 			var prefix = path.basename(file.relative, path.extname(file.relative));
 			return {
@@ -326,9 +351,9 @@ gulp.task('svgstore', function () {
 		.pipe(gulp.dest('test/dest'));
 });
 
-// Копируем и минимизируем изображения
 gulp.task('images_gif', function() {
-	gulp.src(path.assets.images + '.{gif}')
+	return
+	gulp.src(path.assets.images + '.gif')
 		.pipe(newer(path.build.images))
 		.pipe(gulp.dest(path.build.images));
 });
@@ -336,8 +361,9 @@ gulp.task('images_gif', function() {
 gulp.task('images', function() {
 	clean(path.build.images, is.build);
 	
-	gulp.start('images_gif');
+	gulp.series('images_gif');
 
+	return
 	gulp.src(path.assets.images + '.{svg,png,jpg,jpeg}')
 		.pipe(newer(path.build.images))
 		// .pipe(webp())
@@ -367,12 +393,110 @@ gulp.task('images', function() {
 				use: [svgo(), gifsicle({interlaced: true})]
 			})
 		))
-
 		.pipe(gulp.dest(path.build.images));
 });
 
+// var config = {
+//     port: 9005,
+//     devBaseUrl: 'http://localhost',
+//     paths: {
+//         html: './src/*.html',
+//         js: './src/**/*.js',
+//         css: [
+//             'node_modules/bootstrap/dist/css/bootstrap.min.css',
+//             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+//         ],
+//         dist: './dist',
+//         mainJs: './src/main.js'
+//     }
+// };
+
+// gulp.task('styles:svg', function() {
+// 	return
+// 		gulp.src(path.assets.images + '.svg')
+// 			.pipe(svgSprite({
+// 				mode: {
+// 					css: {
+// 						dest:		'.',
+// 						bust:		!is.build,
+// 						sprite:		'sprite.svg',
+// 						layout:		'vertical',
+// 						prefix:		'$',
+// 						dimensions: true,
+// 						render:     {
+// 							styl: {
+// 								dest: 'sprite.scss'
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}))
+// 			.pipe(gulpIf('*.scss', gulp.dest('tmp/styles'), gulp.dest('public/styles')));
+// });
+
+// gulp.task('open', ['connect'], function() {
+// 	gulp.src('dist/index.html')
+// 		.pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/'}));
+// });
+
+// gulp.task('connect', function() {
+// 	connect.server({
+// 		root: ['dist'],
+// 		port: config.port,
+// 		base: config.devBaseUrl,
+// 		livereload: true
+// 	});
+// });
+
+gulp.task('favicon', function () {
+	clean(path.build.favicon, is.build);
+	
+	return
+	gulp.src(path.assets.favicon)
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(newer(path.build.favicon))
+		.pipe(gulp.dest(path.build.favicon))
+		.pipe(notify({ message: 'Favicon task complete', onLast: true }));
+});
+
+gulp.task('fonts', function() {
+	clean(path.build.fonts, is.build);
+	
+	return
+	gulp.src(path.assets.fonts)
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(newer(path.build.fonts))
+		.pipe(gulp.dest(path.build.fonts))
+		.pipe(notify({ message: 'Fonts task complete', onLast: true }));
+});
+
+gulp.task('json', function() {
+	clean(path.build.json, is.build);
+
+	return
+	gulp.src(path.assets.json)
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(gulp.dest(path.build.json))
+		.pipe(notify({ message: 'Json task complete', onLast: true }));
+});
+
+gulp.task('extras', function() {
+	return
+	gulp.src(path.extras, {cwd: src})
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(gulp.dest(app));
+});
+
+gulp.task('modernizr', function() {
+	return
+	gulp.src(path.modernizr)
+		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(gulp.dest(path.build.scripts));
+});
+
 gulp.task('tinypng', function () {
-	gulp.src(path.assets.images + '.{png,jpg,jpeg}')
+	return
+	gulp.src(path.assets.images + '.png')
 		.pipe(tinypng({
 			key: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
 			sigFile: 'images/.tinypng-sigs',
@@ -381,41 +505,6 @@ gulp.task('tinypng', function () {
 		.pipe(gulp.dest(path.build.images));
 });
 
-// Копируем json
-gulp.task('json', function() {
-	clean(path.build.json, is.build);
-
-	gulp.src(path.assets.json)
-		.pipe(plumber({errorHandler: errorHandler}))
-
-		.pipe(gulp.dest(path.build.json))
-
-		.pipe(notify({ message: 'Json task complete', onLast: true }));
-});
-
-// Копируем шрифты
-gulp.task('fonts', function () {
-	clean(path.build.fonts, is.build);
-	
-	gulp.src(path.assets.fonts)
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(newer(path.build.fonts))
-		.pipe(gulp.dest(path.build.fonts))
-		.pipe(notify({ message: 'Fonts task complete', onLast: true }));
-});
-
-// Копируем favicon
-gulp.task('favicon', function () {
-	clean(path.build.favicon, is.build);
-	
-	gulp.src(path.assets.favicon)
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(newer(path.build.favicon))
-		.pipe(gulp.dest(path.build.favicon))
-		.pipe(notify({ message: 'Favicon task complete', onLast: true }));
-});
-
-// Делаем скриншот
 gulp.task('shot', function () {
 	var pageres = new Pageres({delay: 2})
 		.src('yeoman.io', ['480x320', '1024x768', 'iphone 5s'], { crop: true })
@@ -427,49 +516,6 @@ gulp.task('shot', function () {
 	});
 });
 
-gulp.task('modernizr', function() {
-	gulp.src(path.modernizr)
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(gulp.dest(path.build.scripts));
-});
-
-gulp.task('extras', function() {
-
-	gulp.src(path.extras, {cwd: src})
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(gulp.dest(app));
-});
-
-gulp.task('open', ['connect'], function() {
-	gulp.src('dist/index.html')
-		.pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/'}));
-});
-
-//Start a local development server
-gulp.task('connect', function() {
-	connect.server({
-		root: ['dist'],
-		port: config.port,
-		base: config.devBaseUrl,
-		livereload: true
-	});
-});
-
-// Запуск слежки за изминениями в проекте (gulp watch)
-gulp.task('watch', function () {
-	is.watch = true;
-	
-	var x;
-	for (x in path.watch)
-	{
-		(function(key){
-			watch(path.watch[key], function() {
-				gulp.start(key);
-			});
-		})(x);
-	}
-});
-
 gulp.task('webstandards', function(){
 	return gulp.src(app + '/**/*').pipe(standards());
 });
@@ -478,33 +524,49 @@ gulp.task('deploy', function() {
 	return gulp.src(app + '/**/*').pipe(ghPages());
 });
 
-// Сборка проекта
-gulp.task('build', function() {
-	is.build = true;
-	
-	if (gutil.env.coffee === true)
+gulp.task('watch', function() {
+	is.watch = true;
+
+	var x;
+	for (x in path.watch)
 	{
-		is.coffee = true;
+		(function(key){
+			watch(path.watch[key], gulp.series(key));
+		})(x);
 	}
-	
-	gulp.start('html');
-	gulp.start('styles');
-	gulp.start('scripts');
-	gulp.start('images');
-	gulp.start('favicon');
-	gulp.start('fonts');
-	gulp.start('json');
-	gulp.start('extras');
+});
+
+gulp.task('serve', function() {
+	return gulp.src(app)
+		.pipe(webserver({
+			livereload: {
+				enable: false,
+				filter: function(filename) {
+					return true;
+				}
+			},
+			port: 8000,
+			fallback: 'index.html'
+		}));
+});
+
+gulp.task('isbuild', function() {
+	is.build = true;
+  	return gulp.src(app + '/**/*').pipe(standards());
+
 	// gulp.start('webstandards');
 	// gulp.start('open');
 });
 
-// Запускаем слежку по умолчанию
-gulp.task('default', function(){
-	if (gutil.env.coffee === true)
-	{
-		is.coffee = true;
-	}
+// .pipe(debug({title: 'unicorn:'}))
 
-	gulp.start('watch');
-});
+gulp.task('build', gulp.series(
+    'isbuild',
+    gulp.parallel('html', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras'))
+);
+
+
+// gulp.task('build', gulp.parallel('html', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras'));
+
+gulp.task('default', gulp.series('watch'));
+// gulp.task('default', gulp.series('watch', gulp.parallel('serve')));

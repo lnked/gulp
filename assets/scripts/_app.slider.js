@@ -11,7 +11,8 @@
 			slider: '.slider',
 			item: '.js-slider-slide',
 			active: 'active',
-			timeout: 3000
+			timeout: 3000,
+			delay: 7000
 		},
 
 		extend: function(config)
@@ -29,6 +30,25 @@
         	}
 		},
 
+		_getCurrent: function()
+		{
+			return _slider.find(_this.config.item + '.' + _this.config.active);
+		},
+
+		_getNext: function(current)
+		{	
+			if (current.next(_this.config.item).length)
+			{
+				next = current.next(_this.config.item);    
+			}
+			else
+			{
+				next = _slider.find(_this.config.item).eq(0);   
+			}
+
+			return next;
+		},
+
 		initSlider: function()
 		{
 			_this = this;
@@ -37,29 +57,24 @@
 
 			if (_slider.find(_this.config.item).length > 1)
 			{
-				
-				// current, next
+				if (_this.config.delay < _this.config.timeout)
+				{
+					current = _this._getCurrent();
+					next = _this._getNext(current);
 
-				_timer = setInterval(function(){
-					
-					next = null;
-					current = _slider.find(_this.config.item + '.' + _this.config.active);
+					next.addClass(_this.config.active);
+					current.removeClass(_this.config.active);
+				}
 
-					if (current.next(_this.config.item).length)
-					{
-						next = current.next(_this.config.item);    
-					}
-					else
-					{
-						next = _slider.find(_this.config.item).eq(0);   
-					}
+				setInterval(function(){
+					current = _this._getCurrent();
+					next = _this._getNext(current);
 
 					if (typeof(next) !== 'undefined')
 					{
 						next.addClass(_this.config.active);
 						current.removeClass(_this.config.active);
 					}
-
 				}, _this.config.timeout );
 			}
 		},

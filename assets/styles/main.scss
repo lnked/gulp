@@ -14,14 +14,20 @@
 @import "layout/footer";
 @import "layout/sidebar";
 @import "layout/popup";
+@import "layout/typography";
 
 @import "components/navigation";
 @import "components/sandwich";
 @import "components/logo";
-@import "components/forms";
+@import "components/form";
 @import "components/control";
 @import "components/buttons";
 @import "components/selectbox";
+
+// @import "pages/";
+
+// @import "vendor/magnific-settings";
+// @import "vendor/magnific-popup";
 
 @import "base/media";
 @import "base/retina";

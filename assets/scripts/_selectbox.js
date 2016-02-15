@@ -95,7 +95,7 @@
 
         select.before(selectbox).css({
             position: 'absolute',
-            top: -9999
+            left: -9999
         });
 
         selectbox = $(selectbox);

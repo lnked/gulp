@@ -40,6 +40,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 	$doc = $(document),
 	selector_cache,
 	notify_timeout,
+	is_nested,
 	resizeTimeout;
 
 	$.overlay = {
@@ -146,7 +147,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 
 			var scroll = 0, cb = false, is_native = true, $popups;
 
-			$popups = $body.find('.popup.is-open')
+			$popups = $body.find('.popup.is-open');
 
 			if (typeof element !== 'undefined')
 			{
@@ -398,10 +399,12 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 				nested = temp.split('/');
 			}
 			
+			is_nested = false;
 			selector = temp;
 			
 			if (nested.length)
 			{
+				is_nested = true;
 				selector = nested[0];
 				nested = nested.slice(1);
 			}
@@ -417,7 +420,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 				{
 					selector_cache = $('.popup.is-open').attr('id');
 				
-					if (!nested.length || (selector !== selector_cache))
+					if ((is_nested && !nested.length) || (selector !== selector_cache))
 					{
 						popup.close($('.popup.is-open'));
 					}
