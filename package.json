@@ -8,10 +8,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",
-    "browserify": "^12.0.1",
-    "css-loader": "^0.23.1",
     "del": "^2.2.0",
-    "flummox": "^3.6.5",
     "gulp": "gulpjs/gulp#4.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cached": "^1.1.0",
@@ -37,7 +34,6 @@
     "gulp-react": "^3.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.2.0",
-    "gulp-sourcemap": "^1.0.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-svg-sprite": "^1.2.19",
     "gulp-svgmin": "^1.2.1",
@@ -51,16 +47,9 @@
     "gulp-webpack": "^1.5.0",
     "gulp-webstandards": "^0.1.1",
     "gulp-wrapper": "^1.0.0",
-    "history": "^1.13.1",
     "imagemin-gifsicle": "^4.2.0",
     "imagemin-svgo": "^4.2.0",
-    "pageres": "^2.1.0",
-    "react": "^0.14.3",
-    "react-redux": "^4.0.0",
-    "react-router": "^1.0.1",
-    "reactify": "^1.1.1",
-    "redux": "^3.0.4",
-    "watchify": "^3.6.1"
+    "pageres": "^2.1.0"
   },
   "repository": {
     "type": "git",
