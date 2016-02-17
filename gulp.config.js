@@ -1,11 +1,13 @@
 const app = './dist/';
-const src = './assets/';
+const src = './frontend/';
+const asp = src + 'assets/';
 
 exports.app  = app;
 exports.src  = src;
 exports.path = {
 	build: {
 		html:			app,
+		vendors:		app + 'js',
 		scripts:		app + 'js',
 		styles:			app + 'css',
 		images:			app + 'images',
@@ -14,23 +16,29 @@ exports.path = {
 		json:			app + 'json'
 	},
 	assets: {
+		images:         [asp + 'images/**/*'],
+		favicon:        [asp + 'favicon/**/*.*'],
+		fonts:          [asp + 'fonts/**/*.*'],
+		json:           [asp + 'json/**/*.json'],
+
 		html:           [src + 'template/*.html'],
-		scripts:        [src + 'scripts/**/*.js'],
-		styles:         [src + 'styles/*.scss'],
-		images:         [src + 'images/**/*'],
-		favicon:        [src + 'favicon/**/*.*'],
-		fonts:          [src + 'fonts/**/*.*'],
-		json:           [src + 'json/**/*.json']
+		vendors:        [src + 'scripts/vendor/**/*.js'],
+		scripts:        [src + 'scripts/app/**/*.js'],
+		styles:         [src + 'styles/*.scss']
 	},
 	watch: {
+		images:         [asp + 'images/**/*.*'],
+		favicon:        [asp + 'favicon/**/*.*'],
+		fonts:          [asp + 'fonts/**/*.*'],
+		json:           [asp + 'json/**/*.json'],
+
 		html:           [src + 'template/*.html', src + 'template/**/*.html'],
-		scripts:        [src + 'scripts/**/*.js'],
-		styles:         [src + 'styles/**/*.scss'],
-		images:         [src + 'images/**/*.*'],
-		favicon:        [src + 'favicon/**/*.*'],
-		fonts:          [src + 'fonts/**/*.*'],
-		json:           [src + 'json/**/*.json']
+		'scripts:app':	[src + 'scripts/app/**/*.js'],
+		styles:         [src + 'styles/**/*.scss']
 	},
-	extras: ['humans.txt', 'robots.txt'],
+	extras: [
+		asp + 'humans.txt',
+		asp + 'robots.txt'
+	],
 	modernizr: [src + 'modernizr.js']
 };

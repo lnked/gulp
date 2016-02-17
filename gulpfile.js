@@ -80,6 +80,7 @@ function clean(path, build)
 const config = require('./gulp.config.js');
 
 const app 	= config.app;
+const asp 	= config.asp;
 const src 	= config.src;
 const path 	= config.path;
 
@@ -239,9 +240,57 @@ gulp.task('styles', function(callback){
 	callback();
 });
 
-gulp.task('scripts', function(callback){
+gulp.task('scripts:vendor', function(callback){
 	clean(path.build.scripts, is.build);
 
+	gulp.src(path.assets.vendors)
+		.pipe(plumber({errorHandler: errorHandler}))
+
+		.pipe(wrapper({
+			header: '\n// ${filename}\n\n',
+			footer: '\n'
+		}))
+
+		.pipe(gulpif(
+			is.webpack,
+			webpack({
+				bail: false,
+				debug: true,
+				watch: true,
+				module: {
+					loaders: [{
+						test: /\.css$/,
+						loader: 'style!css'
+					}]
+				}})
+			))
+		
+		.pipe(concat('vendors.js'))
+		.pipe(rename({suffix: '.min'}))
+
+		.pipe(gulpif(
+			is.coffee, coffee()
+		))
+		
+		.pipe(gulpif(
+			is.typescript,
+			typescript({
+				noImplicitAny: true,
+				declaration: true,
+				noExternalResolve: true
+			})
+		))
+
+		.pipe(uglify())
+		
+		.pipe(gulp.dest(path.build.scripts))
+		
+		.pipe(notify({ message: 'Update vendors complete', onLast: true }));
+
+	callback();
+});
+
+gulp.task('scripts:app', function(callback){
 	gulp.src(path.assets.scripts)
 		.pipe(plumber({errorHandler: errorHandler}))
 
@@ -302,7 +351,6 @@ gulp.task('scripts', function(callback){
 });
 
 gulp.task('svgstore', function(callback){
-
 	gulp.src(path.assets.images + '.svg')
 		.pipe(svgmin(function (file) {
 			var prefix = path.basename(file.relative, path.extname(file.relative));
@@ -321,7 +369,7 @@ gulp.task('svgstore', function(callback){
 	callback();
 });
 
-gulp.task('images_gif', function(callback){
+gulp.task('images:gif', function(callback){
 
 	gulp.src(path.assets.images + '.gif')
 		.pipe(newer(path.build.images))
@@ -333,7 +381,7 @@ gulp.task('images_gif', function(callback){
 gulp.task('images', function(callback){
 	clean(path.build.images, is.build);
 	
-	gulp.series('images_gif');
+	gulp.series('images:gif');
 
 	gulp.src(path.assets.images + '.{svg,png,jpg,jpeg}')
 		.pipe(newer(path.build.images))
@@ -406,8 +454,7 @@ gulp.task('json', function(callback){
 });
 
 gulp.task('extras', function(callback){
-
-	gulp.src(path.extras, {cwd: src})
+	gulp.src(path.extras, {cwd: asp})
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(gulp.dest(app));
 
@@ -415,7 +462,6 @@ gulp.task('extras', function(callback){
 });
 
 gulp.task('modernizr', function(callback){
-
 	gulp.src(path.modernizr)
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(gulp.dest(path.build.scripts));
@@ -496,7 +542,7 @@ gulp.task('isbuild', function(callback){
 	callback();
 });
 
-gulp.task('build', gulp.series('isbuild', 'html', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras'));
+gulp.task('build', gulp.series('isbuild', 'html', 'styles', 'scripts:vendor', 'scripts:app', 'images', 'favicon', 'fonts', 'json', 'extras'));
 
 gulp.task('default', gulp.series('watch'));
 
