@@ -75,6 +75,7 @@ lazyRequireTask('styles', tasks + 'styles', {
 lazyRequireTask('images', tasks + 'images', {
 	src: path.assets.images,
 	app: path.build.images,
+	css: path.build.styles,
 	is:  is
 });
 
@@ -92,6 +93,18 @@ lazyRequireTask('deploy', tasks + 'deploy', {
 lazyRequireTask('test', tasks + 'test', {
 	test: path.testfile,
 	app: app + '/**/*'
+});
+
+lazyRequireTask('sprite', tasks + 'sprite', {
+	src: path.assets.sprite,
+	app: path.build.images,
+	is:  is
+});
+
+lazyRequireTask('screenshot', tasks + 'screenshot', {
+	url: config.server.proxy,
+	app: app + '/tmp',
+	size: path.screenshot
 });
 
 // ================ Copy ================ //

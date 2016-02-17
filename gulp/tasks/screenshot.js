@@ -1,14 +1,25 @@
+'use strict';
 
+const $				= require('gulp-load-plugins')();
+const gulp			= require('gulp');
+const Pageres		= require('pageres');
+const clean 		= require("../utils/clean.js");
 
-gulp.task('shot', function(callback){
-	var pageres = new Pageres({delay: 2})
-		.src('yeoman.io', ['480x320', '1024x768', 'iphone 5s'], { crop: true })
-		.src('todomvc.com', ['1280x1024', '1920x1080'])
-		.dest(app);
+module.exports = function(options) {
+	
+	return function(callback) {
 
-	pageres.run(function (err) {
-		console.log('done');
-	});
+		clean(options.app, true);
 
-	callback();
-});
+		let pageres = new Pageres({delay: 2})
+				.src(options.url, options.size, { crop: true })
+				.dest(options.app);
+
+			pageres.run(function (err) {
+				$.notify({ message: options.taskName + ' complete', onLast: true })
+			});
+
+		callback();
+	};
+	
+};

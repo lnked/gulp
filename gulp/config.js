@@ -15,6 +15,7 @@ module.exports.path = {
 		json:			app + 'json'
 	},
 	assets: {
+		sprite:			[src + 'assets/sprite/**/*'],
 		images:			[src + 'assets/images/**/*'],
 		favicon:		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
@@ -43,7 +44,30 @@ module.exports.path = {
 		vendor: 'vendor'
 	},
 	testfile: 'test.js',
-	tinypng: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3'
+	tinypng: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
+	screenshot: [
+		'320x480',
+		'480x320',
+
+		'320x568',
+		'568x320',
+
+		'375x627',
+		'627x375',
+
+		'414x736',
+		'736x414',
+
+		'600x960',
+		'960x600',
+
+		'768x1024',
+		'1024x768',
+
+		'1280x1024', 
+
+		'1920x1080'
+	]
 };
 
 module.exports.server = {
