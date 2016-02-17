@@ -12,6 +12,8 @@ const rename		= require('gulp-rename');
 const Pageres		= require('pageres');
 const open			= require('gulp-open');
 const connect		= require('gulp-connect');
+const debug			= require('gulp-debug');
+const sourcemaps 	= require('gulp-sourcemaps');
 
 const inlineCss		= require('gulp-inline-css');
 const htmlhint		= require('gulp-htmlhint');
@@ -77,7 +79,7 @@ function clean(path, build)
 	}
 }
 
-const config = require('./gulp.config.js');
+const config = require('./gulp/config.js');
 
 const app 	= config.app;
 const asp 	= config.asp;
@@ -110,8 +112,11 @@ if (typeof gutil.env !== 'undefined')
 	}
 }
 
+// require('./gulp/tasks/styles.js');
+
 gulp.task('html', function(callback){
 	gulp.src(path.assets.html)
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
 		
 		.pipe(fileinclude({
@@ -165,6 +170,7 @@ gulp.task('html', function(callback){
 
 		.pipe(gulp.dest(path.build.html))
 
+		.pipe(debug())
 		.pipe(notify({ message: 'Update HTML' }));
 
 	callback();
@@ -174,6 +180,8 @@ gulp.task('styles', function(callback){
 	clean(path.build.styles, is.build);
 
 	gulp.src(path.assets.styles)
+		.pipe(debug())
+		.pipe(gulpif(!is.build, sourcemaps.init()))
 		.pipe(plumber({errorHandler: errorHandler}))
 		
 		.pipe(sass())
@@ -232,7 +240,9 @@ gulp.task('styles', function(callback){
 		))
 
 		.pipe(rename({suffix: '.min'}))
-		
+	
+		.pipe(gulpif(!is.build, sourcemaps.write()))
+		.pipe(debug())
 		.pipe(gulp.dest(path.build.styles))
 
 		.pipe(notify({ message: 'Update css complete', onLast: true }));
@@ -244,6 +254,7 @@ gulp.task('scripts:vendor', function(callback){
 	clean(path.build.scripts, is.build);
 
 	gulp.src(path.assets.vendors)
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
 
 		.pipe(wrapper({
@@ -285,6 +296,7 @@ gulp.task('scripts:vendor', function(callback){
 		
 		.pipe(gulp.dest(path.build.scripts))
 		
+		.pipe(debug())
 		.pipe(notify({ message: 'Update vendors complete', onLast: true }));
 
 	callback();
@@ -292,6 +304,8 @@ gulp.task('scripts:vendor', function(callback){
 
 gulp.task('scripts:app', function(callback){
 	gulp.src(path.assets.scripts)
+		.pipe(gulpif(!is.build, sourcemaps.init()))
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
 
 		.pipe(react())
@@ -343,8 +357,10 @@ gulp.task('scripts:app', function(callback){
 			uglify()
 		))
 		
+		.pipe(gulpif(!is.build, sourcemaps.write()))
 		.pipe(gulp.dest(path.build.scripts))
 		
+		.pipe(debug())
 		.pipe(notify({ message: 'Update scripts complete', onLast: true }));
 
 	callback();
@@ -352,6 +368,7 @@ gulp.task('scripts:app', function(callback){
 
 gulp.task('svgstore', function(callback){
 	gulp.src(path.assets.images + '.svg')
+		.pipe(debug())
 		.pipe(svgmin(function (file) {
 			var prefix = path.basename(file.relative, path.extname(file.relative));
 			return {
@@ -364,6 +381,7 @@ gulp.task('svgstore', function(callback){
 			}
 		}))
 		.pipe(svgstore())
+		.pipe(debug())
 		.pipe(gulp.dest('test/dest'));
 
 	callback();
@@ -372,7 +390,9 @@ gulp.task('svgstore', function(callback){
 gulp.task('images:gif', function(callback){
 
 	gulp.src(path.assets.images + '.gif')
+		.pipe(debug())
 		.pipe(newer(path.build.images))
+		.pipe(debug())
 		.pipe(gulp.dest(path.build.images));
 
 	callback();
@@ -384,6 +404,7 @@ gulp.task('images', function(callback){
 	gulp.series('images:gif');
 
 	gulp.src(path.assets.images + '.{svg,png,jpg,jpeg}')
+		.pipe(debug())
 		.pipe(newer(path.build.images))
 		// .pipe(webp())
 		.pipe(gulpif(
@@ -412,6 +433,7 @@ gulp.task('images', function(callback){
 				use: [svgo(), gifsicle({interlaced: true})]
 			})
 		))
+		.pipe(debug())
 		.pipe(gulp.dest(path.build.images));
 
 	callback();
@@ -422,9 +444,11 @@ gulp.task('favicon', function(callback){
 	clean(path.build.favicon, is.build);
 	
 	gulp.src(path.assets.favicon)
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(newer(path.build.favicon))
 		.pipe(gulp.dest(path.build.favicon))
+		.pipe(debug())
 		.pipe(notify({ message: 'Favicon task complete', onLast: true }));
 
 	callback();
@@ -434,9 +458,11 @@ gulp.task('fonts', function(callback){
 	clean(path.build.fonts, is.build);
 	
 	gulp.src(path.assets.fonts)
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(newer(path.build.fonts))
 		.pipe(gulp.dest(path.build.fonts))
+		.pipe(debug())
 		.pipe(notify({ message: 'Fonts task complete', onLast: true }));
 
 	callback();
@@ -446,8 +472,10 @@ gulp.task('json', function(callback){
 	clean(path.build.json, is.build);
 
 	gulp.src(path.assets.json)
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(gulp.dest(path.build.json))
+		.pipe(debug())
 		.pipe(notify({ message: 'Json task complete', onLast: true }));
 
 	callback();
@@ -455,7 +483,9 @@ gulp.task('json', function(callback){
 
 gulp.task('extras', function(callback){
 	gulp.src(path.extras, {cwd: asp})
+		.pipe(debug())
 		.pipe(plumber({errorHandler: errorHandler}))
+		.pipe(debug())
 		.pipe(gulp.dest(app));
 
 	callback();
@@ -471,11 +501,13 @@ gulp.task('modernizr', function(callback){
 
 gulp.task('tinypng', function(callback){
 	gulp.src(path.assets.images + '.png')
+		.pipe(debug())
 		.pipe(tinypng({
 			key: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
 			sigFile: 'images/.tinypng-sigs',
 			log: true
 		}))
+		.pipe(debug())
 		.pipe(gulp.dest(path.build.images));
 
 	callback();
@@ -542,7 +574,7 @@ gulp.task('isbuild', function(callback){
 	callback();
 });
 
-gulp.task('build', gulp.series('isbuild', 'html', 'styles', 'scripts:vendor', 'scripts:app', 'images', 'favicon', 'fonts', 'json', 'extras'));
+gulp.task('build', gulp.series('isbuild', gulp.parallel('html', 'styles', 'scripts:vendor', 'scripts:app', 'images', 'favicon', 'fonts', 'json', 'extras')));
 
 gulp.task('default', gulp.series('watch'));
 

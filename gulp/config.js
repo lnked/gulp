@@ -1,10 +1,10 @@
-const app = './dist/';
+const app = './public_html/';
 const src = './frontend/';
 const asp = src + 'assets/';
 
-exports.app  = app;
-exports.src  = src;
-exports.path = {
+module.exports.app  = app;
+module.exports.src  = src;
+module.exports.path = {
 	build: {
 		html:			app,
 		vendors:		app + 'js',
