@@ -1,6 +1,16 @@
-gulp.task('unitest', function(callback){
-	gulp.src('test.js', {read: false})
-		.pipe(mocha({reporter: 'nyan'}));
+'use strict';
 
-	callback();
-});
+const $ 			= require('gulp-load-plugins')();
+const gulp 			= require('gulp');
+
+module.exports = function(options) {
+	
+	return function(callback) {
+
+		gulp.src(options.test, {read: false})
+			.pipe($.mocha({reporter: 'nyan'}));
+
+		callback();
+	};
+	
+};

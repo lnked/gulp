@@ -1,15 +1,31 @@
+'use strict';
 
-gulp.task('tinypng', function(callback){
-	gulp.src(path.assets.images + '.png')
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(debug({title: 'tinypng'}))
-		.pipe(tinypng({
-			key: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
-			sigFile: 'images/.tinypng-sigs',
-			log: true
-		}))
-		.pipe(debug({title: 'tinypng'}))
-		.pipe(gulp.dest(path.build.images));
+const $ 			= require('gulp-load-plugins')();
+const gulp 			= require('gulp');
+const tinypng		= require('gulp-tinypng-compress');
+const clean 		= require("../utils/clean.js");
+const errorHandler 	= require("../utils/errorHandler.js");
 
-	callback();
-});
+module.exports = function(options) {
+	
+	return function(callback) {
+
+		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
+			.pipe($.plumber({errorHandler: errorHandler}))
+			.pipe($.debug({title: options.taskName}))
+
+			.pipe(tinypng({
+				key: options.token,
+				sigFile: 'images/.tinypng-sigs',
+				log: true
+			}))
+
+			.pipe($.debug({title: options.taskName}))
+			.pipe(gulp.dest(options.app))
+			
+			.pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
+
+		callback();
+	};
+
+};

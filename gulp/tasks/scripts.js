@@ -1,116 +1,81 @@
+'use strict';
 
-gulp.task('scripts:vendor', function(callback){
-	clean(path.build.scripts, is.build);
+const $ 			= require('gulp-load-plugins')();
+const gulp 			= require('gulp');
+const clean 		= require("../utils/clean.js");
+const errorHandler 	= require("../utils/errorHandler.js");
 
-	gulp.src(path.assets.vendors)
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(debug())
+module.exports = function(options) {
+	
+	return function(callback) {
 		
-		.pipe(wrapper({
-			header: '\n// ${filename}\n\n',
-			footer: '\n'
-		}))
+		clean(options.app, options.rm);
+		
+		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
+			
+			.pipe($.plumber({errorHandler: errorHandler}))
+			
+			.pipe($.debug({'title': options.taskName}))
+			
+			.pipe($.if(!options.is.build, $.sourcemaps.init()))
 
-		.pipe(gulpif(
-			is.webpack,
-			webpack({
-				bail: false,
-				debug: true,
-				watch: true,
-				module: {
-					loaders: [{
-						test: /\.css$/,
-						loader: 'style!css'
-					}]
-				}})
+			.pipe($.wrapper({
+				header: '\n// ${filename}\n\n',
+				footer: '\n'
+			}))
+
+			.pipe($.eslint())
+			.pipe($.eslint.format())
+			.pipe($.eslint.failAfterError())
+
+			.pipe($.react())
+
+			.pipe($.if(
+				options.is.webpack,
+				$.webpack({
+					bail: false,
+					debug: true,
+					watch: true,
+					module: {
+						loaders: [{
+							test: /\.css$/,
+							loader: 'style!css'
+						}]
+					}})
+				))
+			
+			.pipe($.concat(options.fn + '.js'))
+
+			.pipe($.rename({suffix: '.min'}))
+
+			.pipe($.if(
+				options.is.coffee,
+				$.coffee()
 			))
-		
-		.pipe(concat('vendors.js'))
-		.pipe(rename({suffix: '.min'}))
-
-		.pipe(gulpif(
-			is.coffee, coffee()
-		))
-		
-		.pipe(gulpif(
-			is.typescript,
-			typescript({
-				noImplicitAny: true,
-				declaration: true,
-				noExternalResolve: true
-			})
-		))
-
-		.pipe(uglify())
-		
-		.pipe(gulp.dest(path.build.scripts))
-		
-		.pipe(debug())
-		.pipe(notify({ message: 'Update vendors complete', onLast: true }));
-
-	callback();
-});
-
-gulp.task('scripts:app', function(callback){
-	gulp.src(path.assets.scripts)
-		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(gulpif(!is.build, sourcemaps.init()))
-		.pipe(debug())
-
-		.pipe(react())
-
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError())
-
-		.pipe(wrapper({
-			header: '\n// ${filename}\n\n',
-			footer: '\n'
-		}))
-
-		.pipe(gulpif(
-			is.webpack,
-			webpack({
-				bail: false,
-				debug: true,
-				watch: true,
-				module: {
-					loaders: [{
-						test: /\.css$/,
-						loader: 'style!css'
-					}]
-				}})
+			
+			.pipe($.if(
+				options.is.typescript,
+				$.typescript({
+					noImplicitAny: true,
+					declaration: true,
+					noExternalResolve: true
+				})
 			))
-		
-		.pipe(concat('main.js'))
-		.pipe(gulp.dest(path.build.scripts))
 
-		.pipe(rename({suffix: '.min'}))
+			.pipe($.if(
+				options.is.build || options.rm,
+				$.uglify()
+			))
 
-		.pipe(gulpif(
-			is.coffee,
-			coffee()
-		))
-		
-		.pipe(gulpif(
-			is.typescript,
-			typescript({
-				noImplicitAny: true,
-				declaration: true,
-				noExternalResolve: true
-			})
-		))
+			.pipe($.if(!options.is.build, $.sourcemaps.write()))
 
-		.pipe(gulpif(
-			is.build,
-			uglify()
-		))
-		
-		.pipe(gulpif(!is.build, sourcemaps.write()))
-		.pipe(gulp.dest(path.build.scripts))
-		
-		.pipe(debug())
-		.pipe(notify({ message: 'Update scripts complete', onLast: true }));
+			.pipe($.debug({'title': options.taskName}))
+			
+			.pipe(gulp.dest(options.app))
 
-	callback();
-});
+			.pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
+
+		callback();
+	};
+
+};

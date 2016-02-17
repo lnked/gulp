@@ -4,19 +4,22 @@ const browserSync = require('browser-sync').create();
 
 module.exports = function(options) {
 
-  return function() {
+	return function() {
+		let config = {};
 
-    browserSync.init({
-      server: options.src
-    });
+		if (typeof options.proxy !== 'undefined')
+		{
+			// config.proxy = options.proxy;
+		}
 
-    browserSync.watch(`${options.src}/**/*.*`).on('change', browserSync.reload);
-  };
+		if (typeof options.server !== 'undefined')
+		{
+			config.server = options.server;
+		}
+
+		browserSync.init(config);
+
+		browserSync.watch(options.app + '**/*.*').on('change', browserSync.reload);
+	};
 
 };
-
-
-gulp.task('webserver', function(){
-	browserSync.init(config.server);
-	browserSync.watch(app + '**/*.*').on('change', browserSync.reload);
-});

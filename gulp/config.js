@@ -5,7 +5,7 @@ module.exports.app  = app;
 module.exports.src  = src;
 module.exports.path = {
 	build: {
-		html:			app,
+		template:		app,
 		vendors:		app + 'js',
 		scripts:		app + 'js',
 		styles:			app + 'css',
@@ -19,26 +19,31 @@ module.exports.path = {
 		favicon:		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
-
-		html:			[src + 'template/*.html'],
+		template:		[src + 'template/*.html'],
 		vendors:		[src + 'scripts/vendor/**/*.js'],
 		scripts:		[src + 'scripts/app/**/*.js'],
 		styles:			[src + 'styles/*.scss']
 	},
 	watch: {
+		template:		[src + 'template/*.html', src + 'template/**/*.html'],
 		images:			[src + 'assets/images/**/*.*'],
 		favicon: 		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
-		html:			[src + 'template/*.html', src + 'template/**/*.html'],
-		'scripts:app': 	[src + 'scripts/app/**/*.js'],
+		scripts:		[src + 'scripts/app/**/*.js'],
 		styles:			[src + 'styles/**/*.scss']
 	},
 	extras: [
 		src + 'assets/humans.txt',
 		src + 'assets/robots.txt'
 	],
-	modernizr: [src + 'modernizr.js']
+	modernizr: [src + 'modernizr.js'],
+	compile: {
+		app: 'main',
+		vendor: 'vendor'
+	},
+	testfile: 'test.js',
+	tinypng: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3'
 };
 
 module.exports.server = {

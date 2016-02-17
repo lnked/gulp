@@ -1,17 +1,19 @@
 'use strict';
 
-const gulp		= require('gulp');
-const gutil		= require('gulp-util');
+const gulp			= require('gulp');
+const gutil			= require('gulp-util');
+const standards		= require('gulp-webstandards');
 
-const tasks		= './gulp/tasks/';
-const config	= require('./gulp/config.js');
+const tasks			= './gulp/tasks/';
+const config		= require('./gulp/config.js');
 
-const app 		= config.app;
-const asp		= config.asp;
-const src		= config.src;
-const path		= config.path;
+const app 			= config.app;
+const asp			= config.asp;
+const src			= config.src;
+const path			= config.path;
 
 let is = {
+	webp: false,
 	build: false,
 	email: false,
 	watch: false,
@@ -48,10 +50,48 @@ lazyRequireTask('template', tasks + 'template', {
 	is:  is
 });
 
+lazyRequireTask('vendors', tasks + 'scripts', {
+	src: path.assets.vendors,
+	app: path.build.vendors,
+	fn:  path.compile.vendor,
+	rm:  true,
+	is:  is
+});
+
+lazyRequireTask('scripts:app', tasks + 'scripts', {
+	src: path.assets.scripts,
+	app: path.build.scripts,
+	fn:  path.compile.app,
+	rm:  false,
+	is:  is
+});
+
 lazyRequireTask('styles', tasks + 'styles', {
 	src: path.assets.styles,
 	app: path.build.styles,
 	is:  is
+});
+
+lazyRequireTask('images', tasks + 'images', {
+	src: path.assets.images,
+	app: path.build.images,
+	is:  is
+});
+
+lazyRequireTask('tinypng', tasks + 'tinypng', {
+	token: path.tinypng,
+	src: path.assets.images + '.png',
+	app: path.build.images,
+	is:  is
+});
+
+lazyRequireTask('deploy', tasks + 'deploy', {
+	app: app + '/**/*'
+});
+
+lazyRequireTask('test', tasks + 'test', {
+	test: path.testfile,
+	app: app + '/**/*'
 });
 
 // ================ Copy ================ //
@@ -79,40 +119,27 @@ lazyRequireTask('fonts', tasks + 'copy', {
 	is:  is
 });
 
-// lazyRequireTask('assets', './tasks/assets', {
-// 	src: 'frontend/assets/**',
-// 	dst: 'public'
-// });
+// ================ webserver ============== //
 
-// gulp.task('build', gulp.series(
-// 	'clean',
-// 	gulp.parallel('styles', 'assets'))
-// );
-
-// gulp.task('watch', function() {
-// 	gulp.watch('frontend/styles/**/*.*', gulp.series('styles'));
-// 	gulp.watch('frontend/assets/**/*.*', gulp.series('assets'));
-// });
-
-// lazyRequireTask('serve', './tasks/serve', {
-// 	src: 'public'
-// });
-
-// gulp.task('dev',
-// 	gulp.series('build', gulp.parallel('watch', 'serve'))
-// );
-
-// lazyRequireTask('lint', './tasks/lint', {
-// 	cacheFilePath: process.cwd() + '/tmp/lintCache.json',
-// 	src: 'frontend/**/*.js'
-// });
-
-gulp.task('build', function(callback){
-
+lazyRequireTask('webserver', tasks + 'webserver', {
+	app: app,
+	proxy: config.server.proxy,
+	server: config.server.server
 });
-gulp.task('webserver', function(callback){
 
+// ================ No Lazy ================ //
+
+gulp.task('modernizr', function(callback){
+	gulp.src(path.modernizr).pipe(gulp.dest(path.build.scripts));
+	callback();
 });
+
+gulp.task('webstandards', function(){
+	return gulp.src(app + '/**/*').pipe(standards());
+	callback();
+});
+
+gulp.task('scripts', gulp.series('vendors', 'scripts:app'));
 
 gulp.task('isbuild', function(callback){
 	is.build = true;
@@ -131,11 +158,11 @@ gulp.task('watch', function(){
 	}
 });
 
-// gulp.task('build',
-// 	gulp.series('isbuild',
-// 		gulp.parallel('template', 'styles', 'scripts:vendor', 'scripts:app', 'images', 'favicon', 'fonts', 'json', 'extras')
-// 	)
-// );
+gulp.task('build',
+	gulp.series('isbuild',
+		gulp.parallel('template', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
+	)
+);
 
 gulp.task('default',
 	gulp.series('build', gulp.parallel('watch', 'webserver'))
