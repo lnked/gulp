@@ -14,6 +14,7 @@ const open			= require('gulp-open');
 const connect		= require('gulp-connect');
 const debug			= require('gulp-debug');
 const sourcemaps 	= require('gulp-sourcemaps');
+const mocha 		= require('gulp-mocha');
 
 const inlineCss		= require('gulp-inline-css');
 const htmlhint		= require('gulp-htmlhint');
@@ -403,8 +404,8 @@ gulp.task('images', function(callback){
 	
 	gulp.series('images:gif');
 
-	gulp.src(path.assets.images + '.{svg,png,jpg,jpeg}')
-		.pipe(debug())
+	gulp.src(path.assets.images + '.{svg,png,jpg,jpeg}', {since: gulp.lastRun('images')})
+		.pipe(debug({title: 'images'}))
 		.pipe(newer(path.build.images))
 		// .pipe(webp())
 		.pipe(gulpif(
@@ -433,22 +434,21 @@ gulp.task('images', function(callback){
 				use: [svgo(), gifsicle({interlaced: true})]
 			})
 		))
-		.pipe(debug())
+		.pipe(debug({title: 'images'}))
 		.pipe(gulp.dest(path.build.images));
 
 	callback();
 });
 
-
 gulp.task('favicon', function(callback){
 	clean(path.build.favicon, is.build);
 	
-	gulp.src(path.assets.favicon)
-		.pipe(debug())
+	gulp.src(path.assets.favicon, {since: gulp.lastRun('favicon')})
+		.pipe(debug({title: 'favicon'}))
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(newer(path.build.favicon))
 		.pipe(gulp.dest(path.build.favicon))
-		.pipe(debug())
+		.pipe(debug({title: 'favicon'}))
 		.pipe(notify({ message: 'Favicon task complete', onLast: true }));
 
 	callback();
@@ -457,12 +457,12 @@ gulp.task('favicon', function(callback){
 gulp.task('fonts', function(callback){
 	clean(path.build.fonts, is.build);
 	
-	gulp.src(path.assets.fonts)
-		.pipe(debug())
+	gulp.src(path.assets.fonts, {since: gulp.lastRun('fonts')})
+		.pipe(debug({title: 'fonts'}))
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(newer(path.build.fonts))
 		.pipe(gulp.dest(path.build.fonts))
-		.pipe(debug())
+		.pipe(debug({title: 'fonts'}))
 		.pipe(notify({ message: 'Fonts task complete', onLast: true }));
 
 	callback();
@@ -471,11 +471,11 @@ gulp.task('fonts', function(callback){
 gulp.task('json', function(callback){
 	clean(path.build.json, is.build);
 
-	gulp.src(path.assets.json)
-		.pipe(debug())
+	gulp.src(path.assets.json, {since: gulp.lastRun('json')})
+		.pipe(debug({title: 'json'}))
 		.pipe(plumber({errorHandler: errorHandler}))
 		.pipe(gulp.dest(path.build.json))
-		.pipe(debug())
+		.pipe(debug({title: 'json'}))
 		.pipe(notify({ message: 'Json task complete', onLast: true }));
 
 	callback();
@@ -483,9 +483,9 @@ gulp.task('json', function(callback){
 
 gulp.task('extras', function(callback){
 	gulp.src(path.extras, {cwd: asp})
-		.pipe(debug())
+		.pipe(debug({title: 'extras'}))
 		.pipe(plumber({errorHandler: errorHandler}))
-		.pipe(debug())
+		.pipe(debug({title: 'extras'}))
 		.pipe(gulp.dest(app));
 
 	callback();
@@ -501,13 +501,13 @@ gulp.task('modernizr', function(callback){
 
 gulp.task('tinypng', function(callback){
 	gulp.src(path.assets.images + '.png')
-		.pipe(debug())
+		.pipe(debug({title: 'tinypng'}))
 		.pipe(tinypng({
 			key: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
 			sigFile: 'images/.tinypng-sigs',
 			log: true
 		}))
-		.pipe(debug())
+		.pipe(debug({title: 'tinypng'}))
 		.pipe(gulp.dest(path.build.images));
 
 	callback();
@@ -534,6 +534,13 @@ gulp.task('webstandards', function(){
 
 gulp.task('deploy', function(callback){
 	return gulp.src(app + '/**/*').pipe(ghPages());
+
+	callback();
+});
+
+gulp.task('unitest', function(callback){
+	gulp.src('test.js', {read: false})
+		.pipe(mocha({reporter: 'nyan'}));
 
 	callback();
 });
@@ -577,21 +584,6 @@ gulp.task('isbuild', function(callback){
 gulp.task('build', gulp.series('isbuild', gulp.parallel('html', 'styles', 'scripts:vendor', 'scripts:app', 'images', 'favicon', 'fonts', 'json', 'extras')));
 
 gulp.task('default', gulp.series('watch'));
-
-// var config = {
-//     port: 9005,
-//     devBaseUrl: 'http://localhost',
-//     paths: {
-//         html: './src/*.html',
-//         js: './src/**/*.js',
-//         css: [
-//             'node_modules/bootstrap/dist/css/bootstrap.min.css',
-//             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
-//         ],
-//         dist: './dist',
-//         mainJs: './src/main.js'
-//     }
-// };
 
 // gulp.task('styles:svg', function() {
 // 	return
