@@ -1,13 +1,25 @@
-import gulp from 'gulp';
-import changed from 'gulp-changed';
-import filter from 'gulp-filter';
-import gutil from 'gulp-util';
-import gulpif from 'gulp-if';
-import paths from '../paths';
+'use strict';
 
-gulp.task('copy', () => (
-	gulp.src('app/resources/**/*')
-		.pipe(changed(paths.dist))
-		.pipe(gulpif(!gutil.env.robots, filter(file => !/resources[\\\/]robots\.txt/.test(file.path))))
-		.pipe(gulp.dest(paths.dist))
-));
+const $ 			= require('gulp-load-plugins')();
+const gulp 			= require('gulp');
+const clean 		= require("../utils/clean.js");
+const errorHandler 	= require("../utils/errorHandler.js");
+
+module.exports = function(options) {
+	
+	return function(callback) {
+
+		if (typeof options.is !== 'undefined')
+		{
+			clean(options.app, options.is.build);
+		}
+
+		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
+			.pipe($.plumber({errorHandler: errorHandler}))
+			.pipe(gulp.dest(options.app))
+			.pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
+
+		callback();
+	};
+
+};

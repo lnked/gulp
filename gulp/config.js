@@ -1,6 +1,5 @@
-const app = './public_html/';
 const src = './frontend/';
-const asp = src + 'assets/';
+const app = './public_html/';
 
 module.exports.app  = app;
 module.exports.src  = src;
@@ -16,45 +15,35 @@ module.exports.path = {
 		json:			app + 'json'
 	},
 	assets: {
-		images:         [asp + 'images/**/*'],
-		favicon:        [asp + 'favicon/**/*.*'],
-		fonts:          [asp + 'fonts/**/*.*'],
-		json:           [asp + 'json/**/*.json'],
+		images:			[src + 'assets/images/**/*'],
+		favicon:		[src + 'assets/favicon/**/*.*'],
+		fonts:			[src + 'assets/fonts/**/*.*'],
+		json:			[src + 'assets/json/**/*.json'],
 
-		html:           [src + 'template/*.html'],
-		vendors:        [src + 'scripts/vendor/**/*.js'],
-		scripts:        [src + 'scripts/app/**/*.js'],
-		styles:         [src + 'styles/*.scss']
+		html:			[src + 'template/*.html'],
+		vendors:		[src + 'scripts/vendor/**/*.js'],
+		scripts:		[src + 'scripts/app/**/*.js'],
+		styles:			[src + 'styles/*.scss']
 	},
 	watch: {
-		images:         [asp + 'images/**/*.*'],
-		favicon:        [asp + 'favicon/**/*.*'],
-		fonts:          [asp + 'fonts/**/*.*'],
-		json:           [asp + 'json/**/*.json'],
-
-		html:           [src + 'template/*.html', src + 'template/**/*.html'],
-		'scripts:app':	[src + 'scripts/app/**/*.js'],
-		styles:         [src + 'styles/**/*.scss']
+		images:			[src + 'assets/images/**/*.*'],
+		favicon: 		[src + 'assets/favicon/**/*.*'],
+		fonts:			[src + 'assets/fonts/**/*.*'],
+		json:			[src + 'assets/json/**/*.json'],
+		html:			[src + 'template/*.html', src + 'template/**/*.html'],
+		'scripts:app': 	[src + 'scripts/app/**/*.js'],
+		styles:			[src + 'styles/**/*.scss']
 	},
 	extras: [
-		asp + 'humans.txt',
-		asp + 'robots.txt'
+		src + 'assets/humans.txt',
+		src + 'assets/robots.txt'
 	],
 	modernizr: [src + 'modernizr.js']
 };
 
-
-// var config = {
-//     port: 9005,
-//     devBaseUrl: 'http://localhost',
-//     paths: {
-//         html: './src/*.html',
-//         js: './src/**/*.js',
-//         css: [
-//             'node_modules/bootstrap/dist/css/bootstrap.min.css',
-//             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
-//         ],
-//         dist: './dist',
-//         mainJs: './src/main.js'
-//     }
-// };
+module.exports.server = {
+	proxy: "clean.dev",
+	server: {
+		baseDir: app
+	}
+};

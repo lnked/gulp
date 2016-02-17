@@ -1,93 +1,97 @@
 'use strict';
 
-// Инициализируем плагины
-const gulp			= require('gulp');					// Собственно Gulp JS
-const newer			= require('gulp-newer');			// Passing through only those source files that are newer than corresponding destination files
-const concat		= require('gulp-concat');			// Склейка файлов
-const notify		= require('gulp-notify');			// Нотификатор
-const plumber		= require('gulp-plumber');			// Перехватчик ошибок
-const wrapper		= require('gulp-wrapper');			// Добавляет к файлу текстовую шапку и/или подвал
-const rename		= require('gulp-rename');
+const $ 			= require('gulp-load-plugins')();
+const gulp 			= require('gulp');
+const clean 		= require("../utils/clean.js");
+const errorHandler 	= require("../utils/errorHandler.js");
 
-const inlineCss		= require('gulp-inline-css');
-const gutil			= require('gulp-util');
-const gulpif		= require('gulp-if');
-
-const nano			= require('gulp-cssnano');
-const sass			= require('gulp-sass');				// Препроцессор для компиляции в css
-const uncss			= require('gulp-uncss');			// Плагин оставляет только используемые стили
-const pixrem		= require('gulp-pixrem');			// Переводит пиксели в ремы
-const prefixer		= require('gulp-autoprefixer');		// Присваивает префиксы
-const csscomb		= require('gulp-csscomb');
-
-// const del			= require('del');					// Удаление файлов и папок
-
-gulp.task('styles1', function(callback){
-	// clean(path.build.styles, is.build);
-
-	gulp.src(path.assets.styles)
-		.pipe(plumber({errorHandler: errorHandler}))
+module.exports = function(options) {
+	return function(callback) {
+		clean(options.app, options.is.build);
 		
-		.pipe(sass())
+		let uncssFiles = [
+			options.app + '*.html',
+			options.app + '**/*.html'
+		];
 
-		.pipe(concat('main.css'))
+		let uncssIgnore = [ /^#js/ ];
 
-		.pipe(gulpif(
-			is.uncss,
-			uncss({
-				html: uncssFiles,
-				ignore: uncssIgnore,
-				timeout: 1000,
-			})
-		))
+		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
 
-		.pipe(prefixer({
-			browsers: ['last 17 versions'],
-			cascade: false
-		}))
+			.pipe($.plumber({errorHandler: errorHandler}))
 
-		.pipe(pixrem())
-		
-		.pipe(gulpif(
-			is.build,
-			csscomb({
-				"tab-size": 4,
-				"color-shorthand": true,
-				"space-after-colon": 1,
-				"space-after-combinator": 1,
-				"space-before-opening-brace": 1,
-				"sort-order": [
-					[
-						"content", "position", "left", "right", "top", "bottom", "z-index"
-					],
-					[
-						"width", "height", "margin", "padding"
-					],
-					[
-						"background", "background-color", "background-image", "background-repeat", "background-position", "background-attachment", "background-size", "border"
+			.pipe($.debug({'title': options.taskName}))
+			
+			.pipe($.if(!options.is.build, $.sourcemaps.init()))
+			
+			.pipe($.sass())
+			
+			.pipe($.pixrem())
+
+			.pipe($.concat('main.css'))
+
+			.pipe($.if(
+				options.is.uncss,
+				$.uncss({
+					html: uncssFiles,
+					ignore: uncssIgnore,
+					timeout: 1000,
+				})
+			))
+
+			.pipe($.autoprefixer({
+				browsers: ['last 17 versions'],
+				cascade: false
+			}))
+
+			.pipe($.if(
+				options.is.build,
+				$.csscomb({
+					"tab-size": 4,
+					"color-shorthand": true,
+					"space-after-colon": 1,
+					"space-after-combinator": 1,
+					"space-before-opening-brace": 1,
+					"sort-order": [
+						[
+							"content", "position", "left", "right", "top", "bottom", "z-index"
+						],
+						[
+							"width", "height", "margin", "padding"
+						],
+						[
+							"background", "background-color", "background-image", "background-repeat", "background-position", "background-attachment", "background-size", "border"
+						]
 					]
-				]
-			})
-		))
+				})
+			))
 
-		.pipe(gulp.dest(path.build.styles))
+			.pipe($.if(
+				!options.is.build,
+				gulp.dest(options.app)
+			))
 
-		.pipe(gulpif(
-			is.build,
-			nano({
-				zindex: false,
-				autoprefixer: false,
-				normalizeCharset: true,
-				convertValues: { length: false },
-				colormin: true
-			})
-		))
+			.pipe($.if(
+				options.is.build,
+				$.cssnano({
+					zindex: false,
+					autoprefixer: false,
+					normalizeCharset: true,
+					convertValues: { length: false },
+					colormin: true
+				})
+			))
 
-		.pipe(rename({suffix: '.min'}))
-		
-		.pipe(gulp.dest(path.build.styles))
+			.pipe($.rename({suffix: '.min'}))
 
-		.pipe(notify({ message: 'Update css complete', onLast: true }));
+			.pipe($.debug({'title': options.taskName}))
 
-	callback();
-});
+			.pipe($.if(!options.is.build, $.sourcemaps.write()))
+
+			.pipe(gulp.dest(options.app))
+
+			.pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
+
+		callback();
+	};
+};
