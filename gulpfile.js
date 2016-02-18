@@ -3,6 +3,7 @@
 const gulp			= require('gulp');
 const gutil			= require('gulp-util');
 const standards		= require('gulp-webstandards');
+const watch			= require('gulp-watch');
 
 const tasks			= './gulp/tasks/';
 const config		= require('./gulp/config.js');
