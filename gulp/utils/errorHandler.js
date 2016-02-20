@@ -8,10 +8,12 @@ const gulp 			= require('gulp');
  */
 module.exports = function(err) {
 	try {
-		$.gutil.log($.gutil.colors.green('FileName:'), $.gutil.colors.blue(err.fileName));
-		$.gutil.log($.gutil.colors.red.bold('Error:'), $.gutil.colors.red(err.message));
-		$.gutil.log($.gutil.colors.cyan('lineNumber:'), $.gutil.colors.magenta(err.lineNumber));
-		$.gutil.log($.gutil.colors.black('Plugin:'), $.gutil.colors.green(err.plugin));
+		$.util.log($.util.colors.green('FileName:'), $.util.colors.blue(err.fileName));
+		$.util.log($.util.colors.red.bold('column:'), $.util.colors.red(err.column));
+		$.util.log($.util.colors.red.bold('line:'), $.util.colors.red(err.line));
+		$.util.log($.util.colors.red.bold('Error:'), $.util.colors.red(err.message));
+		$.util.log($.util.colors.cyan('lineNumber:'), $.util.colors.magenta(err.lineNumber));
+		$.util.log($.util.colors.black('Plugin:'), $.util.colors.green(err.plugin));
 	}
 	catch(e) {}
 };
