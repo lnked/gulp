@@ -10,7 +10,7 @@ const errorHandler 	= require("../utils/errorHandler.js");
 module.exports = function(options) {
 	return function(callback) {
 		
-		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
+		gulp.src(options.src)
 
 			.pipe($.plumber({errorHandler: errorHandler}))
 

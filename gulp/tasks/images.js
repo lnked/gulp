@@ -16,7 +16,7 @@ module.exports = function(options) {
 			clean(options.app, options.is.build);
 		}
 		
-		gulp.src(options.src + '.{gif,svg,png,jpg,jpeg}', {since: gulp.lastRun(options.taskName)})
+		gulp.src(options.src + '.{gif,svg,png,jpg,jpeg}')
 			.pipe($.plumber({errorHandler: errorHandler}))
 			.pipe($.debug({'title': options.taskName}))
 			.pipe($.newer(options.app))

@@ -16,7 +16,7 @@ module.exports = function(options) {
 
 		let uncssIgnore = [ /^#js/ ];
 
-		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
+		gulp.src(options.src)
 
 			.pipe($.plumber({errorHandler: errorHandler}))
 

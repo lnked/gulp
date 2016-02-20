@@ -1,0 +1,68 @@
+.ui-widget-content {
+	border-radius: 0 0 10px 10px;
+	border: 2px solid #7b7b7b;
+	background: #fff;
+	color: #222;
+	z-index: 10;
+}
+
+.ui-state-focus,
+.ui-menu-item:hover {
+	font-weight: 400 !important;
+	background: none !important;
+	border: 0 !important;
+	background-color: $yellow !important;
+}
+
+.ui-widget-content .ui-menu-item:last-child:hover {
+	border-bottom-width: 1px !important;
+}
+
+.ui-autocomplete {
+	position: absolute;
+	left: 0;
+	top: 5px !important;
+   	z-index: 10;
+   	padding-top: 13px;
+   	transform: translateY(-2px);
+	background-color: #fff;
+}
+
+.ui-menu-item {
+	clear: both;
+	cursor: pointer !important;
+	color: #222 !important;
+	font-family: Arial, sans-serif !important;
+	font-size: 14px !important;
+	line-height: 1.2;
+	font-weight: 400 !important;
+	padding: 5px 12px 5px !important;
+}
+
+.ui-menu-item a {
+	color: #222;
+	font-weight: 400;
+	text-decoration: none;
+}
+
+.ui-menu-item strong {
+	font-weight: 700;
+	color: #000;
+}
+
+.ui-autocomplete-item-desc {
+	color: #9b9b9b !important;
+}
+
+.form__label_light .ui-autocomplete {
+	background-color: #000 !important;
+}
+
+.form__label_light .ui-menu-item {
+	color: #fff !important;
+}
+
+.form__label_light .ui-state-focus,
+.form__label_light .ui-menu-item:hover {
+	color: #000 !important;
+}

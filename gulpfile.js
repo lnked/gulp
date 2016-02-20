@@ -108,6 +108,12 @@ lazyRequireTask('screenshot', tasks + 'screenshot', {
 	size: path.screenshot
 });
 
+lazyRequireTask('webpack', tasks + 'webpack', {
+	app: app,
+	file: path.build.scripts + 'main.min.js',
+	path: path.build.scripts
+});
+
 // ================ Copy ================ //
 
 lazyRequireTask('extras', tasks + 'copy', {
