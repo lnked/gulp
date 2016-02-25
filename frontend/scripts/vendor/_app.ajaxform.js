@@ -9,6 +9,7 @@
 
 		config: {
 			form_class: '.form-ajax',
+			form_reset: 'form-reset',
 			link_class: '.js-request-link',
 			error_class: 'error',
 			error_message: 'form__error-message',
@@ -130,7 +131,6 @@
 
 		send: function(action, method, data, cb, err)
 		{
-
 			if (typeof cb !== 'function')
 			{
 				cb = function() {};
@@ -155,7 +155,6 @@
 				});
 
 			} catch(e){}
-
 		},
 
 		initLink: function()
@@ -192,9 +191,15 @@
 							_this.default_handler(link, response);
 						}
 
+						if (form.hasClass(_this.config.form_reset))
+						{
+							form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
+							form.get(0).reset();
+						}
+
 						if (response.status === true)
 						{
-							
+
 						}
 
 						link.data('is-busy', false);

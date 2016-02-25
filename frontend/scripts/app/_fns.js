@@ -16,6 +16,14 @@ var tools = {
     }
 };
 
+function on(elm, events, handler) {
+   if (elm) {
+       events.split(' ').forEach(function (event) {
+           elm.addEventListener(event, handler);
+       });
+   }
+}
+
 function is_null(x)
 {
 	return x == null;

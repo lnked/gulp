@@ -100,6 +100,16 @@
 					}
 				});
 
+				$(".iframe").fancybox({
+					'transitionIn'		: 'none',
+					'transitionOut'		: 'none',
+					'autoScale'     	: false,
+					'type'				: 'iframe',
+					'width'				: 500,
+					'height'			: 500,
+					'scrolling'   		: 'no'
+				});
+				
 				$(".various").fancybox({
 					maxWidth	: 800,
 					maxHeight	: 600,
@@ -247,6 +257,68 @@
 						}, 10);
 					}
 				}
+			});
+		},
+
+		toggle: function()
+		{
+			var selector, block, target, button;
+
+			$('.js-toggle-trigger').each(function(){
+				if ($($(this).data('toggle')).length)
+				{
+					selector = $(this).data('toggle');
+					button = $(this);
+					block = $(selector);
+
+					body.on('click', function(e){
+						target = $(e.target);
+
+						if (!target.closest(selector).length && !target.closest('.js-toggle-trigger').length && block.hasClass('active'))
+						{
+							button.removeClass('animate');
+							block.removeClass('transform');
+
+							setTimeout(function(){
+								block.removeClass('active');
+							}, 135);
+						}
+					});		
+				}
+			});
+
+			body.on('click', '.js-toggle-trigger', function(e){
+				e.preventDefault();
+
+				if ($(this).data('toggle'))
+				{
+					block = $($(this).data('toggle'));
+					button = $(this);
+
+					if (block.length)
+					{
+						if (!block.hasClass('active'))
+						{
+							button.addClass('animate');
+							block.addClass('active');
+
+							setTimeout(function(){
+								block.addClass('transform');
+							}, 5);
+						}
+						else
+						{
+							button.removeClass('animate');
+							block.removeClass('transform');
+
+							setTimeout(function(){
+								block.removeClass('active');
+							}, 135);
+						}
+					}
+					
+				}
+
 			});
 		},
 

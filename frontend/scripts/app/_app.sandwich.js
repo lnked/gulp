@@ -10,8 +10,8 @@
 		config: {
 			keyHooks: !1,
 			selector: '.js-sandwich-menu',
-            wrapper: '.layout-wrapper',
-            overlay: '.overlay'
+			wrapper: '.layout-wrapper',
+			overlay: '.overlay'
 		},
 
 		extend: function(config)
@@ -19,14 +19,14 @@
 			_this = this;
 
 			if (typeof config !== 'undefined')
-        	{
-        		var x;
-        		for (x in config)
-        		{
-        			if (typeof _this.config[x] !== 'undefined')
-        				_this.config[x] = config[x];
-        		}
-        	}
+			{
+				var x;
+				for (x in config)
+				{
+					if (typeof _this.config[x] !== 'undefined')
+						_this.config[x] = config[x];
+				}
+			}
 		},
 
 		isOpen: function()
@@ -38,13 +38,13 @@
 		{
 			body.removeClass('page-open');
 
-	        setTimeout(function(){
+			setTimeout(function(){
 				body.removeClass('page-visible');
 			}, 10);
 
-	        $(this.config.overlay).css({
-	            'visibility': 'hidden'
-	        });
+			$(this.config.overlay).css({
+				'visibility': 'hidden'
+			});
 		},
 
 		toggle: function()
@@ -66,14 +66,14 @@
 
 			var visibility = 'visible';
 
-	        if (!body.hasClass('page-open'))
-	        {
-	            visibility = 'hidden'
-	        }
-	        
-	        $(_this.config.overlay).css({
-	            'visibility': visibility
-	        });
+			if (!body.hasClass('page-open'))
+			{
+				visibility = 'hidden'
+			}
+			
+			$(_this.config.overlay).css({
+				'visibility': visibility
+			});
 		},
 
 		sandwichTrigger: function()
@@ -88,10 +88,10 @@
 						_this.toggle();
 					}
 				});
-	    	};
+			};
 
 			body.on('click', _this.config.selector, function(e){
-		        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+				e.preventDefault ? e.preventDefault() : e.returnValue = false;
 				_this.toggle();
 			});
 		},
@@ -102,7 +102,7 @@
 
 			body.on('click', _this.config.overlay, function(e){
 				_this.hide();
-		    });
+			});
 		},
 
 		init: function(config)
