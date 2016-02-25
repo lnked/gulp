@@ -24,10 +24,12 @@
 @import "components/buttons";
 @import "components/selectbox";
 
+@import "grids/base";
+
 // @import "pages/";
 
-// @import "vendor/magnific-settings";
-// @import "vendor/magnific-popup";
+@import "vendor/magnific-settings";
+@import "vendor/magnific-popup";
 
 @import "base/media";
 @import "base/retina";

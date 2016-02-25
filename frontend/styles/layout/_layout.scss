@@ -2,10 +2,11 @@
 	width: 100%;
 	height: 100%;
 	max-width: $layout-width;
-	padding: 0 2rem;
-	margin: 0 auto;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	margin-left: auto;
+	margin-right: auto;
 	position: relative;
-	box-sizing: border-box;
 	outline: 1px solid #0FF;
 }
 
@@ -23,5 +24,6 @@
 
 	&__inner {
 		padding-bottom: $footer-height;
+		@extend .layout;
 	}
 }

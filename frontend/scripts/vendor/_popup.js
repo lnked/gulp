@@ -12,6 +12,7 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 		popupClass: '.popup',
 		triggerClass: '.js-open-popup',
 		dialogClass: '.js-popup-dialog',
+		closeClass: '.js-popup-close',
 		speed: 550,
 		overlay: {
 			enable: !0,
@@ -214,8 +215,8 @@ $.popup.open('popup-choose-photo-source/nested-tab');
         hooks: function()
         {
         	popup = this;
-
-			$body.on('click', '.js-popup-close', function(e) {
+        	
+			$body.on('click', defaults.closeClass, function(e) {
 	            e.preventDefault ? e.preventDefault() : e.returnValue = false;
 	            popup.close();
 	        });
