@@ -118,7 +118,7 @@
 			z-index: 100;
 			line-height: 1;
 			padding: 72px 0px 0;
-			@extend .layout;
+			@extend %layout;
 		}
 
 		&__title {

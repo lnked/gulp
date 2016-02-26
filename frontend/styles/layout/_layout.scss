@@ -1,4 +1,4 @@
-.layout {
+%layout {
 	width: 100%;
 	height: 100%;
 	max-width: $layout-width;
@@ -10,7 +10,7 @@
 	outline: 1px solid #0FF;
 }
 
-.inline {
+%inline {
 	display: inline-block;
 	vertical-align: top;
 	*display: inline;
@@ -23,7 +23,7 @@
 	overflow: hidden;
 
 	&__inner {
+		@extend %layout;
 		padding-bottom: $footer-height;
-		@extend .layout;
 	}
 }

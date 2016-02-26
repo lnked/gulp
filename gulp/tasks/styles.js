@@ -4,6 +4,8 @@ const $ 			= require('gulp-load-plugins')();
 const gulp 			= require('gulp');
 const clean 		= require("../utils/clean.js");
 const errorHandler 	= require("../utils/errorHandler.js");
+const classPrefix 	= require('gulp-class-prefix');
+
 
 module.exports = function(options) {
 	return function(callback) {
@@ -27,6 +29,8 @@ module.exports = function(options) {
 			.pipe($.sass())
 			
 			.pipe($.pixrem())
+
+			.pipe($.if(options.is.prefix, classPrefix(options.prefix, { ignored: [/\.js-/, /\.j-/, /\.is-/, '.active', '.current', '.animate', '.clearfix', '.inner', '.show', '.hide'] })))
 
 			.pipe($.concat('main.css'))
 

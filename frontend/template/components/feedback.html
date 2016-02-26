@@ -1,0 +1,50 @@
+<form action="" method="post" class="form ajax-form">
+	
+	<div class="form__row clearfix">
+		<label class="form__label">
+			<span class="form__label__name">Ф.И.О:</span>
+		</label>
+		<input name="name" class="form__input">
+	</div>
+	
+	<div class="form__row clearfix">
+		<label class="form__label">
+			<span class="form__label__name">E-mail:</span>
+		</label>
+		<input name="email" class="form__input">
+	</div>
+
+	<div class="form__row clearfix">
+		<label class="form__label">
+			<span class="form__label__name">Номер телефона:</span>
+		</label>
+		<input name="phone" class="form__input">
+	</div>
+	
+	<div class="form__row clearfix">
+		<label class="form__label">
+			<span class="form__label__name">Сообщение:</span>
+		</label>
+		<textarea name="text" cols="30" rows="10" class="form__textarea"></textarea>
+	</div>
+
+	<div class="form__row clearfix">
+		<div class="form__col form__col_precaptcha">
+			<label class="form__label">
+				<span class="form__label__name">Введите код:</span>
+			</label>
+
+			<input name="captcha" class="form__input">
+		</div>
+	
+		<div class="form__col form__col_captcha">
+			<span class="form__captcha js-update-captcha">
+				<img src="./images/captcha.png" id="captcha" alt="" class="form__captcha__image">
+			</span>
+		</div>
+	</div>
+	
+	<div class="form__button">
+		<button type="submit" class="button button_submit">Отправить</button>
+	</div>
+</form>

@@ -4,7 +4,7 @@
 	margin-top: -$footer-height;
 	
 	&__wrapper {
-		@extend .layout;
+		@extend %layout;
 	}
 
 	&__copiright {}

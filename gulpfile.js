@@ -19,6 +19,7 @@ let is = {
 	email: false,
 	watch: false,
 	uncss: false,
+	prefix: false,
 	webpack: false,
 	typescript: false,
 	coffee: false
@@ -70,7 +71,8 @@ lazyRequireTask('scripts:app', tasks + 'scripts', {
 lazyRequireTask('styles', tasks + 'styles', {
 	src: path.assets.styles,
 	app: path.build.styles,
-	is:  is
+	is:  is,
+	prefix: 'celebro-'
 });
 
 lazyRequireTask('images', tasks + 'images', {

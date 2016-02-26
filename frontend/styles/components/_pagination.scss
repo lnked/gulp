@@ -14,7 +14,7 @@
 	&__item {
 		padding: 0;
 		background: none;
-		@extend .inline;
+		@extend %inline;
 
 		&:not(:first-child) {
 			margin-left: 2px;
