@@ -9,13 +9,11 @@ module.exports = function(options) {
 	
 	return function(callback) {
 
-		gulp.src(options.app)
+		return gulp.src(options.app)
 			.pipe($.plumber({errorHandler: errorHandler}))
-			.pipe($.debug())
-			.pipe($.ghPages())
+			.pipe(ghPages())
 			.pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
 
-		callback();
 	};
 
 };

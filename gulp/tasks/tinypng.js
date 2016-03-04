@@ -10,7 +10,7 @@ module.exports = function(options) {
 	
 	return function(callback) {
 
-		gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
+		return gulp.src(options.src, {since: gulp.lastRun(options.taskName)})
 			.pipe($.plumber({errorHandler: errorHandler}))
 			.pipe($.debug({title: options.taskName}))
 

@@ -321,6 +321,70 @@
 
 			});
 		},
+		
+		hashJump: function()
+		{
+			if (window.location.hash)
+			{
+				var hash = window.location.hash.substr(1), jumpto = null;
+				
+				if ($('a[name="' +hash+ '"]').length)
+				{
+					jumpto = $('a[name="' +hash+ '"]').eq(0);
+				}
+				
+				if ($('#' +hash).length)
+				{
+					jumpto = $('#' +hash).eq(0);
+				}
+
+				if (jumpto !== null)
+				{
+					$('html, body').stop().animate({ scrollTop: jumpto.offset().top }, 'fast');
+				}
+			}
+		},
+
+		updateImage: function()
+		{
+			body.on('click', '.js-update-image', function(e){
+				e.preventDefault();
+				$(this).find('img').attr('src', $(this).find('img').attr('src').split('?')[0] + '?u=' + Math.random());
+			});
+		},
+
+		zoomit: function()
+		{
+			var wrapper, holder, image;
+
+			body.on('click', '.js-zoom-image', function(e){
+				
+				e.preventDefault();
+
+				image = $(this).attr('href');
+
+				if ($(this).closest('.js-zoom-wrapper').length)
+				{
+					wrapper = $(this).closest('.js-zoom-wrapper');
+					
+					if (wrapper.find('.js-zoom-holder').length)
+					{
+						holder = wrapper.find('.js-zoom-holder');
+
+						holder.html('');
+
+						wrapper.find('.current').removeClass('current');
+
+
+						holder.html('<img src="' + image + '" alt="">');
+
+						$(this).addClass('current');
+					}
+				}
+
+				return !1;
+			});
+		},
 
 		init: function()
 		{

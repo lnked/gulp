@@ -31,7 +31,8 @@ module.exports.path = {
 		favicon: 		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
-		scripts:		[src + 'scripts/app/**/*.js'],
+		vendors:		[src + 'scripts/vendor/**/*.js'],
+		scripts_app:	[src + 'scripts/app/**/*.js'],
 		styles:			[src + 'styles/**/*.scss']
 	},
 	extras: [

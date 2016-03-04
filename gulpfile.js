@@ -60,7 +60,7 @@ lazyRequireTask('vendors', tasks + 'scripts', {
 	is:  is
 });
 
-lazyRequireTask('scripts:app', tasks + 'scripts', {
+lazyRequireTask('scripts_app', tasks + 'scripts', {
 	src: path.assets.scripts,
 	app: path.build.scripts,
 	fn:  path.compile.app,
@@ -90,12 +90,12 @@ lazyRequireTask('tinypng', tasks + 'tinypng', {
 });
 
 lazyRequireTask('deploy', tasks + 'deploy', {
-	app: app + '/**/*'
+	app: app + '**/*'
 });
 
 lazyRequireTask('test', tasks + 'test', {
 	test: path.testfile,
-	app: app + '/**/*'
+	app: app + '**/*'
 });
 
 lazyRequireTask('sprite', tasks + 'sprite', {
@@ -106,7 +106,7 @@ lazyRequireTask('sprite', tasks + 'sprite', {
 
 lazyRequireTask('screenshot', tasks + 'screenshot', {
 	url: config.server.proxy,
-	app: app + '/tmp',
+	app: app + 'tmp',
 	size: path.screenshot
 });
 
@@ -157,11 +157,11 @@ gulp.task('modernizr', function(callback){
 });
 
 gulp.task('webstandards', function(){
-	return gulp.src(app + '/**/*').pipe(standards());
+	return gulp.src(app + '**/*').pipe(standards());
 	callback();
 });
 
-gulp.task('scripts', gulp.series('vendors', 'scripts:app'));
+gulp.task('scripts', gulp.series('vendors', 'scripts_app'));
 
 gulp.task('isbuild', function(callback){
 	is.build = true;
@@ -187,5 +187,7 @@ gulp.task('build',
 );
 
 gulp.task('default',
-	gulp.series('build', gulp.parallel('watch', 'webserver'))
+	// gulp.series('build',
+		gulp.parallel('watch', 'webserver')
+	// )
 );

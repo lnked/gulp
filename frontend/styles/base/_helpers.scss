@@ -29,15 +29,34 @@ svg {
 // img[align="left"] { margin-left: 0; }
 // img[align="right"] { margin-right: 0; }
 
-.clearfix {
+%clearfix {
 	zoom: 1; // For IE 6/7 (trigger hasLayout)
 
 	&:after {
 		clear: both;
 		content: '';
-        line-height: 0;
+		line-height: 0;
 		display: table;
 	}
+}
+
+// %clearfix {
+// 	zoom: 1; // For IE 6/7 (trigger hasLayout)
+
+// 	&:before,
+// 	&:after {
+// 		content: '';
+// 		display: block;
+// 	}
+
+// 	&:after {
+// 		width: 100%;
+// 		clear: both;
+// 	}
+// }
+
+.clearfix {
+	@extend %clearfix;
 }
 
 .clear {

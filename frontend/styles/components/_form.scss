@@ -166,13 +166,52 @@ textarea {
 	}
 
 	&__input {
-		padding: 0 15px;
-	    height: 51px;
+		min-width: 28rem;
+		max-width: 60%;
+	    height: 5.1rem;
+
+	    &_captcha {
+	    	height: 50px;
+	    }
 	}
 
 	&__textarea {
+		height: 12rem;
+		max-height: 30rem;
+		padding: 1rem 1.7rem;
 	    max-width: 100%;
-		padding: 10px 15px;
 	    resize: vertical;
+	}
+
+	&__star {
+		color: orange;
+		font-size: 1.4rem;
+		font-weight: 400;
+	}
+
+	&__button {
+		clear: both;
+		text-align: center;
+	}
+}
+
+.captcha-container {
+	clear: both;
+	
+	&__image {
+		width: 120px;
+		float: left;
+		border: 1px solid #eee;
+		box-sizing: border-box;
+		overflow: hidden;
+		
+		&__trigger {
+			display: block;
+			cursor: pointer;
+		}
+	}
+
+	&__field {
+		margin-left: 135px;
 	}
 }
