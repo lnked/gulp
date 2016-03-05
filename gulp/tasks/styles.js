@@ -5,7 +5,7 @@ const gulp 			= require('gulp');
 const clean 		= require("../utils/clean.js");
 const errorHandler 	= require("../utils/errorHandler.js");
 const classPrefix 	= require('gulp-class-prefix');
-
+const bulkSass 		= require('gulp-sass-bulk-import');
 
 module.exports = function(options) {
 	return function(callback) {
@@ -25,6 +25,8 @@ module.exports = function(options) {
 			.pipe($.debug({'title': options.taskName}))
 			
 			.pipe($.if(!options.is.build, $.sourcemaps.init()))
+			
+			.pipe(bulkSass())
 			
 			.pipe($.sass())
 			
