@@ -313,6 +313,10 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 					$popup.addClass('animate');
 					$body.trigger('popup.after_open', $popup);
 					
+					setTimeout(function(){
+						$popup.scrollTop(0);
+					}, 10);
+					
 					if (nested.length)
 					{
 						$body.trigger('popup.init_nested', { popup: $popup, nested: nested });

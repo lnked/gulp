@@ -44,6 +44,17 @@ module.exports.path = {
 		app: 'main',
 		vendor: 'vendor'
 	},
+	ftp: {
+		user: "username",
+		password: 'password',
+		port: 'ftp server port',
+		host: 'ftp server host',
+		uploadPath: 'target path'
+	},
+	sprite: {
+		image: app + 'images/sprite.png',
+		style: app + 'css/sprite.css'
+	},
 	testfile: 'test.js',
 	tinypng: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',
 	screenshot: [

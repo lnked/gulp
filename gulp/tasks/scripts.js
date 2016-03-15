@@ -9,7 +9,7 @@ module.exports = function(options) {
 	
 	return function(callback) {
 		
-		clean(options.app, options.rm);
+		// clean(options.app, options.rm);
 		
 		gulp.src(options.src)
 			

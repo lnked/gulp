@@ -52,6 +52,41 @@
 		
 		initMagnific: function()
 		{ 
+			// if ($('.documents').length)
+			// {
+			// 	$('.documents').find('.documents__item').each(function(){
+			// 		$(this).magnificPopup({
+			// 			delegate: '.zoom',
+			// 			type: 'image',
+			// 			gallery: {
+			// 				enabled: true,
+			// 				navigateByImgClick: true,
+			// 				tCounter: '%curr% of %total%'
+			// 			}
+			// 		});
+			// 	});
+			// }
+			// else
+			// {
+			// 	$('.zoom').magnificPopup({
+			// 		type:'image',
+			// 		preloader: true,
+			// 		gallery: {
+			// 			enabled: true,
+			// 			navigateByImgClick: true
+			// 		},
+			// 		zoom: {
+			// 			enabled: true,
+			// 			duration: 300,
+			// 			easing: 'ease-in-out',
+			// 			opener: function(openerElement) {
+			// 				return openerElement.is('img') ? openerElement : openerElement.find('img');
+			// 			}
+			// 		},
+			// 		closeOnContentClick: true
+			// 	});
+			// }
+			
 			$('.zoom').magnificPopup({
 			 	type:'image',
 			 	preloader: true,

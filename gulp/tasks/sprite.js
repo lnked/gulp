@@ -5,7 +5,7 @@ const gulp 			= require('gulp');
 const errorHandler 	= require("../utils/errorHandler.js");
 
 module.exports = function(options) {
-	
+
 	return function(callback) {
 		
 		gulp.src(options.src)
@@ -13,6 +13,11 @@ module.exports = function(options) {
 			.pipe($.plumber({errorHandler: errorHandler}))
 
 			.pipe($.debug({'title': options.taskName}))
+
+			.pipe($.spritesmith({
+				destImg: options.sprite.image,
+				destCSS: options.sprite.style
+			}))
 
 			.pipe($.svgSprite({
 				mode: {

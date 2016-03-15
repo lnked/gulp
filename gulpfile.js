@@ -56,7 +56,7 @@ lazyRequireTask('vendors', tasks + 'scripts', {
 	src: path.assets.vendors,
 	app: path.build.vendors,
 	fn:  path.compile.vendor,
-	rm:  true,
+	rm:  false,
 	is:  is
 });
 
@@ -93,6 +93,12 @@ lazyRequireTask('deploy', tasks + 'deploy', {
 	app: app + '**/*'
 });
 
+lazyRequireTask('ftp', tasks + 'ftp', {
+	app: app + '**/*',
+	cfg: path.ftp,
+	folder: path.ftp.uploadPath
+});
+
 lazyRequireTask('test', tasks + 'test', {
 	test: path.testfile,
 	app: app + '**/*'
@@ -101,6 +107,7 @@ lazyRequireTask('test', tasks + 'test', {
 lazyRequireTask('sprite', tasks + 'sprite', {
 	src: path.assets.sprite,
 	app: path.build.images,
+	sprite: path.sprite,
 	is:  is
 });
 
@@ -185,6 +192,8 @@ gulp.task('build',
 		gulp.parallel('template', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
 	)
 );
+
+// gulp.task('default', gulp.series('watch'));
 
 gulp.task('default',
 	// gulp.series('build',

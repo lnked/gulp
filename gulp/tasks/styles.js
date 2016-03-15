@@ -16,7 +16,13 @@ module.exports = function(options) {
 			options.app + '**/*.html'
 		];
 
-		let uncssIgnore = [ /^#js/ ];
+		let uncssIgnore = [
+			'#added_at_runtime',
+			/^#js/,
+			new RegExp('^meta\..*'),
+			new RegExp('^\.is-.*'),
+			'.visited'
+		];
 
 		gulp.src(options.src)
 
@@ -41,7 +47,8 @@ module.exports = function(options) {
 				$.uncss({
 					html: uncssFiles,
 					ignore: uncssIgnore,
-					timeout: 1000,
+					ignoreSheets : [/fonts.googleapis/],
+					timeout: 1500
 				})
 			))
 

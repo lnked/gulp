@@ -3,4 +3,70 @@
 		z-index: 10000;
 		@include opacity(1);
 	}
+
+	.navigation {
+		width: 100%;
+		max-width: 32rem;
+		line-height: 1;
+		position: fixed;
+		z-index: 9100;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		visibility: hidden;
+		height: auto;
+		background: none;
+
+		&__wrapper {
+			position: relative;
+			overflow: auto;
+			width: 100%;
+			max-width: 32rem;
+			height: 100%;
+			transition: transform .4s;
+			transform: translate3d(-100%, 0, 0);
+			background-color: #f00;
+			box-shadow: .5rem 0 1.5rem 0 rgba(0, 0, 0, .2);
+		}
+		&__list {
+			display: block;
+			width: 100%;
+			height: auto;
+			padding-top: 40px;
+		}
+		&__item {
+			position: relative;
+			display: block;
+			clear: both;
+			height: auto;
+			border-top: 1px solid #de5034;
+		}
+
+		&__item__submenu {
+			width: 100%;
+			margin-left: 0;
+			position: relative;
+			z-index: 1;
+			display: none;
+			box-sizing: border-box;
+		}
+		
+		&__link {
+			font-size: 1.4rem;
+			font-weight: 700;
+			line-height: 1;
+			display: block;
+			width: 100%;
+			padding: 14px 16px;
+			text-align: left;
+			color: #000;
+			color: #fff;
+			text-shadow: .05rem .09rem 0 rgba(0, 0, 0, .08);
+		}
+
+		&__link.current, &__link:hover {
+			color: #fff!important;
+			background: none!important;
+		}
+	}
 }
