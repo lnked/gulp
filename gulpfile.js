@@ -69,8 +69,9 @@ lazyRequireTask('scripts_app', tasks + 'scripts', {
 });
 
 lazyRequireTask('critical', tasks + 'critical', {
-	src: path.assets.styles,
+	src: path.build.template + '*.html',
 	app: path.build.styles,
+	critical: path.critical,
 	is:  is
 });
 
@@ -195,7 +196,7 @@ gulp.task('watch', function(){
 
 gulp.task('build',
 	gulp.series('isbuild',
-		gulp.parallel('template', 'critical', 'styles', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
+		gulp.parallel('template', 'styles', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
 	)
 );
 

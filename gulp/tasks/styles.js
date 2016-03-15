@@ -9,7 +9,7 @@ const bulkSass 		= require('gulp-sass-bulk-import');
 
 module.exports = function(options) {
 	return function(callback) {
-		clean(options.app, options.is.build);
+		// clean(options.app, options.is.build);
 		
 		let uncssFiles = [
 			options.app + '*.html',
