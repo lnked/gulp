@@ -28,6 +28,9 @@ fi
 #
 cd ./$folder_name
 
+ln -s ${ROOT}/clean/gulpfile.js ${ROOT}/$folder_name/
+ln -s ${ROOT}/clean/package.json ${ROOT}/$folder_name/
+ln -s ${ROOT}/clean/gulp/ ${ROOT}/$folder_name/
 ln -s ${ROOT}/clean/node_modules/ ${ROOT}/$folder_name/
 
 mkdir frontend public_html frontend/template frontend/styles frontend/scripts
@@ -36,9 +39,10 @@ mkdir gulp
 
 # Копируем файлы
 cp -r ${ROOT}/clean/.gitignore ${ROOT}/$folder_name/.gitignore
-cp -r ${ROOT}/clean/gulpfile.js ${ROOT}/$folder_name/gulpfile.js
-cp -r ${ROOT}/clean/package.json ${ROOT}/$folder_name/package.json
-cp -r ${ROOT}/clean/gulp/* ${ROOT}/$folder_name/gulp/
+
+# cp -r ${ROOT}/clean/gulpfile.js ${ROOT}/$folder_name/gulpfile.js
+# cp -r ${ROOT}/clean/package.json ${ROOT}/$folder_name/package.json
+# cp -r ${ROOT}/clean/gulp/* ${ROOT}/$folder_name/gulp/
 
 cp -R ${ROOT}/clean/frontend/* ${ROOT}/$folder_name/frontend/
 

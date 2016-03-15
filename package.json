@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",
+    "critical": "^0.7.1",
     "css-loader": "^0.23.1",
     "del": "^2.2.0",
     "gulp": "gulpjs/gulp#4.0",
