@@ -15,6 +15,7 @@
 @import "layout/sidebar";
 @import "layout/popup";
 @import "layout/typography";
+@import "layout/content";
 
 @import "components/navigation";
 @import "components/sandwich";
@@ -26,10 +27,10 @@
 
 @import "grids/base";
 
-// @import "pages/";
+@import "pages/*";
 
 @import "vendor/magnific-settings";
 @import "vendor/magnific-popup";
 
-@import "base/media";
+@import "media/*";
 @import "base/retina";

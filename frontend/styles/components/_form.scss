@@ -1,57 +1,40 @@
-::-webkit-input-placeholder 		{ color: $placeholderColor; opacity: $placeholderOpacity; transition: opacity $time ease; }
-:-moz-placeholder 					{ color: $placeholderColor; opacity: $placeholderOpacity; transition: opacity $time ease; }
-::-moz-placeholder 					{ color: $placeholderColor; opacity: $placeholderOpacity; transition: opacity $time ease; }
-:-ms-input-placeholder 				{ color: $placeholderColor; opacity: $placeholderOpacity; transition: opacity $time ease; }
-
-:focus::-webkit-input-placeholder 	{ color: transparent; opacity: 0; }
-:focus::-moz-placeholder          	{ color: transparent; opacity: 0; }
-:focus:-moz-placeholder           	{ color: transparent; opacity: 0; }
-:focus:-ms-input-placeholder      	{ color: transparent; opacity: 0; }
-
-input[placeholder]          		{ text-overflow: ellipsis; }
-input::-moz-placeholder     		{ text-overflow: ellipsis; }
-input:-moz-placeholder      		{ text-overflow: ellipsis; } 
-input:-ms-input-placeholder 		{ text-overflow: ellipsis; }
+input[placeholder],
+input::placeholder {
+	text-overflow: ellipsis;
+}
 
 // /* fadeouts of placeholder in focus */
-// ::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
-// ::-moz-placeholder                {opacity: 1; transition: opacity 0.3s ease;}
-// :-moz-placeholder                 {opacity: 1; transition: opacity 0.3s ease;}
-// :-ms-input-placeholder            {opacity: 1; transition: opacity 0.3s ease;}
+// ::placeholder            {opacity: 1; transition: opacity 0.3s ease;}
 
-// :focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
-// :focus::-moz-placeholder          {opacity: 0; transition: opacity 0.3s ease;}
-// :focus:-moz-placeholder           {opacity: 0; transition: opacity 0.3s ease;}
-// :focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s ease;}
+// :focus::placeholder      {opacity: 0; transition: opacity 0.3s ease;}
 
 // /* shift right placeholder in focus */
-// ::-webkit-input-placeholder       {text-indent: 0px;   transition: text-indent 0.3s ease;}
-// ::-moz-placeholder                {text-indent: 0px;   transition: text-indent 0.3s ease;}
-// :-moz-placeholder                 {text-indent: 0px;   transition: text-indent 0.3s ease;}
-// :-ms-input-placeholder            {text-indent: 0px;   transition: text-indent 0.3s ease;}
+// ::placeholder            {text-indent: 0px;   transition: text-indent 0.3s ease;}
 
-// :focus::-webkit-input-placeholder {text-indent: 500px; transition: text-indent 0.3s ease;}
-// :focus::-moz-placeholder          {text-indent: 500px; transition: text-indent 0.3s ease;}
-// :focus:-moz-placeholder           {text-indent: 500px; transition: text-indent 0.3s ease;}
-// :focus:-ms-input-placeholder      {text-indent: 500px; transition: text-indent 0.3s ease;}
+// :focus::placeholder      {text-indent: 500px; transition: text-indent 0.3s ease;}
 
 // /* shift down placeholder in focus */
-// ::-webkit-input-placeholder       {line-height: 20px;  transition: line-height 0.5s ease;}
-// ::-moz-placeholder                {line-height: 20px;  transition: line-height 0.5s ease;}
-// :-moz-placeholder                 {line-height: 20px;  transition: line-height 0.5s ease;}
-// :-ms-input-placeholder            {line-height: 20px;  transition: line-height 0.5s ease;}
+// ::placeholder            {line-height: 20px;  transition: line-height 0.5s ease;}
 
-// :focus::-webkit-input-placeholder {line-height: 100px; transition: line-height 0.5s ease;}
-// :focus::-moz-placeholder          {line-height: 100px; transition: line-height 0.5s ease;}
-// :focus:-moz-placeholder           {line-height: 100px; transition: line-height 0.5s ease;}
-// :focus:-ms-input-placeholder      {line-height: 100px; transition: line-height 0.5s ease;}
+// :focus::placeholder      {line-height: 100px; transition: line-height 0.5s ease;}
 
 input,
 textarea {
 	-webkit-appearance: textfield;
 	-webkit-rtl-ordering: logical;
-	-webkit-user-select: text;
+	user-select: text;
 	cursor: auto;
+
+	::placeholder {
+		color: $placeholderColor;
+		opacity: $placeholderOpacity;
+		transition: opacity $time ease;
+	}
+
+	:focus::placeholder {
+		color: transparent;
+		opacity: 0;
+	}
 }
 
 input:focus,

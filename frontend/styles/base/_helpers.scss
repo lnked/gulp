@@ -1,4 +1,4 @@
-::-moz-selection, ::selection, ::-o-selection, ::-ms-selection, ::-webkit-selection {
+::selection {
 	color: $selectcolor;
 	background-color: $selectBackground;
 	text-shadow: none;
@@ -28,6 +28,44 @@ svg {
 // img { margin: 20px; }
 // img[align="left"] { margin-left: 0; }
 // img[align="right"] { margin-right: 0; }
+
+// img {
+// 	width: 100%;
+// 	height: auto;
+// 	line-height: 2;
+// 	display: block;
+// 	font-weight: 400;
+// 	text-align: center;
+// 	position: relative;
+// 	min-height: 50px;
+
+// 	&:before {
+// 		content: "";
+// 		display: block;
+// 		position: absolute;
+// 		top: -10px;
+// 		left: 0;
+// 		height: calc(100% + 10px);
+// 		width: 100%;
+// 		background-color: rgb(230, 230, 230);
+// 		border: 2px dotted rgb(200, 200, 200);
+// 		border-radius: 5px;
+// 	}
+
+// 	&:after {  
+// 		content: "\f127" " Битая картинка " attr(alt);
+// 		display: block;
+// 		font-size: 16px;
+// 		font-style: normal;
+// 		font-family: FontAwesome;
+// 		color: rgb(100, 100, 100);
+// 		position: absolute;
+// 		top: 5px;
+// 		left: 0;
+// 		width: 100%;
+// 		text-align: center;
+// 	}
+// }
 
 %clearfix {
 	zoom: 1; // For IE 6/7 (trigger hasLayout)

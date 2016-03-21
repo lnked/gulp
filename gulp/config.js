@@ -5,7 +5,7 @@ module.exports.app  = app;
 module.exports.src  = src;
 module.exports.path = {
 	build: {
-		template:		app,
+		template:		app + 'markup',
 		vendors:		app + 'js',
 		scripts:		app + 'js',
 		styles:			app + 'css',
@@ -33,7 +33,8 @@ module.exports.path = {
 		json:			[src + 'assets/json/**/*.json'],
 		vendors:		[src + 'scripts/vendor/**/*.js'],
 		scripts_app:	[src + 'scripts/app/**/*.js'],
-		styles:			[src + 'styles/**/*.scss']
+		styles:			[src + 'styles/**/*.scss'],
+		critical:		[src + 'styles/**/*.scss']
 	},
 	extras: [
 		src + 'assets/humans.txt',
