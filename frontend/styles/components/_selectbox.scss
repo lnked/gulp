@@ -1,20 +1,21 @@
 .selectbox {
 	color: #000;
 	background: none;
-	border-radius: 2px;
 	margin: 0;
 	padding: 0;
 	z-index: 200;
-	vertical-align: top;
 	cursor: pointer;
-	font-size: 1.6rem;
-	font-weight: 300;
-	line-height: 48px;
-	border: 1px solid $border-color;
+	font-family: $font-arial;
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 32px;
+	vertical-align: top;
+	border: 1px solid mix($input-border, #fff, 39%);
+	border-radius: 2px;
 	box-sizing: border-box;
 	
 	&.is-checked {
-		border-top-color: transparent;
+
 	}
 
 	&.is-disabled {
@@ -24,7 +25,7 @@
 
 	&, &__select {
 		width: 100%;
-		height: 48px;
+		height: 34px;
 		display: block;
 		position: relative;
 	}
@@ -34,7 +35,7 @@
 
 		&__text {
 			height: 100%;
-		    padding: 0 47px 0 17px;
+		    padding: 0 40px 0 10px;
 			letter-spacing: 0.05ex;
 			display: block;
 			overflow: hidden;
@@ -48,7 +49,7 @@
 		top: 0;
 
 		&, &__arrow{
-			width: 46px;
+			width: 35px;
 			height: 100%;
 			position: absolute;
 			display: block;
@@ -57,7 +58,9 @@
 		&__arrow {
 			top: 0;
 			left: 0;
-			background: url(../images/select-pass.png) no-repeat 50% 50%;
+			background: url(../images/select.png) no-repeat 50% 50%;
+			background-image: url(../images/select.svg);
+			background-size: 15px 9px;
 		}
 	}
 
@@ -65,12 +68,12 @@
 		min-width: 100%;
 		max-height: 183px;
 		position: absolute;
-		top: 46px;
+		top: 32px;
 		left: -1px;
 	    right: -1px;
 	    list-style: none;
 		background-color: #fff;
-		border: 1px solid $border-color;
+		border: 1px solid mix($input-border, #fff, 39%);
 		border-radius: 0 0 2px 2px;
 		z-index: 9999;
 		overflow: auto;
@@ -85,7 +88,7 @@
 		&__item {
 			margin: 0;
 			line-height: 1.2;
-			padding: 14px 17px;
+			padding: 8px 10px;
 			border: none;
 			background-image: none;
 			transition: color $time;
@@ -128,12 +131,11 @@
 .error .selectbox {
 	color: $error-color;
 	border-color: $error-color;
-	border-top-color: transparent;
 }
 
 .selectbox-active {
-	border-top-color: transparent;
-	
+	border-radius: 2px 2px 0 0;
+
 	.selectbox__select,
 	.selectbox__dropdown {
 		&__item {
@@ -144,6 +146,6 @@
 	}
 
 	.selectbox__trigger__arrow {
-		background-image: url(../images/select.png);
+		// background-image: url(../images/select.png);
 	}
 }

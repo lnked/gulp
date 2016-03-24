@@ -4,6 +4,7 @@ const gulp			= require('gulp');
 const gutil			= require('gulp-util');
 const standards		= require('gulp-webstandards');
 const watch			= require('gulp-watch');
+const gulpif		= require('gulp-if');
 
 const tasks			= './gulp/tasks/';
 const config		= require('./gulp/config.js');
@@ -20,6 +21,7 @@ let is = {
 	watch: false,
 	uncss: false,
 	prefix: false,
+	server: false,
 	webpack: false,
 	typescript: false,
 	coffee: false
@@ -203,7 +205,27 @@ gulp.task('build',
 // gulp.task('default', gulp.series('watch'));
 
 gulp.task('default',
-	// gulp.series('build',
-		gulp.parallel('watch', 'webserver')
-	// )
+	gulpif(
+		is.build,
+		
+		gulpif(
+			is.server,
+
+			gulp.series(
+				'build',
+				
+				gulp.parallel( 'watch', 'webserver' )
+			),
+
+			gulp.series( 'build', 'watch' )
+		),
+
+		gulpif(
+			is.server,
+
+			gulp.parallel( 'watch', 'webserver' ),
+
+			gulp.series( 'watch' )
+		)
+	)
 );

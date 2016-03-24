@@ -91,7 +91,7 @@ module.exports.path = {
 		base: app,
 
 		// HTML source file 
-		src: app + 'index.html',
+		src: 'markup/index.html',
 
 		// Your CSS Files (optional) 
 		css: [app + 'css/main.min.css'],
@@ -125,6 +125,6 @@ module.exports.path = {
 module.exports.server = {
 	proxy: "clean.dev",
 	server: {
-		baseDir: app + 'markup'
+		baseDir: app
 	}
 };
