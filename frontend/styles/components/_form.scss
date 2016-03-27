@@ -25,13 +25,13 @@ textarea {
 	user-select: text;
 	cursor: auto;
 
-	::placeholder {
+	&::placeholder {
 		color: $placeholderColor;
 		opacity: $placeholderOpacity;
 		transition: opacity $time ease;
 	}
 
-	:focus::placeholder {
+	&:focus::placeholder {
 		color: transparent;
 		opacity: 0;
 	}
