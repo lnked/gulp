@@ -164,64 +164,98 @@
 			}
 		},
 
-		carousel: function()
+		slickCarousel: function()
 		{
-			if ($('#carousel').length > 0 && $('#carousel').find('.carousel__item').length > 1)
+			if ($('.js-carousel').length && $('.js-carousel').find('.slick-slide').length)
 			{
-				$('#carousel').slick({
-					infinite: true,
-					dots: false,
-					draggable: true,
-					speed: 170,
-					slidesToShow: 4,
-		  			slidesToScroll: 1,
-					prevArrow: '<button type="button" class="carousel__navigation carousel__navigation_prev slick-prev"></button>',
-					nextArrow: '<button type="button" class="carousel__navigation carousel__navigation_next slick-next"></button>',
-					responsive: [
-						{
-							breakpoint: 1024,
-							settings: {
-								slidesToShow: 3,
-								slidesToScroll: 3,
-								infinite: true,
-								dots: true
+				var count = 4, classname = 'carousel';
+
+				$('.js-carousel').each(function(){
+					count = 4;
+					classname = 'carousel';
+
+					if ($(this).data('viewcount'))
+					{
+						count = parseInt($(this).data('viewcount'));
+					}
+
+					if ($(this).data('classname'))
+					{
+						classname = $(this).data('classname');
+					}
+
+					$(this).slick({
+						infinite: true,
+						dots: false,
+						draggable: true,
+						speed: 170,
+						slidesToShow: count,
+						slidesToScroll: 1,
+						prevArrow: '<button type="button" class="'+classname+'__navigation '+classname+'__navigation_prev slick-prev"></button>',
+						nextArrow: '<button type="button" class="'+classname+'__navigation '+classname+'__navigation_next slick-next"></button>',
+						responsive: [
+							{
+								breakpoint: 1024,
+								settings: {
+									slidesToShow: 3,
+									slidesToScroll: 3,
+									infinite: true,
+									dots: true
+								}
+							},
+							{
+								breakpoint: 600,
+								settings: {
+									slidesToShow: 2,
+									slidesToScroll: 2
+								}
+							},
+							{
+								breakpoint: 480,
+								settings: {
+									slidesToShow: 1,
+									slidesToScroll: 1
+								}
 							}
-						},
-						{
-							breakpoint: 600,
-							settings: {
-								slidesToShow: 2,
-								slidesToScroll: 2
-							}
-						},
-						{
-							breakpoint: 480,
-							settings: {
-								slidesToShow: 1,
-								slidesToScroll: 1
-							}
-						}
-					]
+						]
+					});
 				});
 			}
 		},
 
-		slickSider: function()
+		slickSlider: function()
 		{
-			if ($('#slider').length > 0 && $('#slider').find('.slider__item').length > 1)
+			if ($('.js-slider').length && $('.js-slider').find('.slick-slide').length)
 			{
-				$('#slider').slick({
-					infinite: true,
-					dots: true,
-					draggable: false,
-					speed: 300,
-					fade: true,
-					autoplay: true,
-					autoplaySpeed: 4500,
-					pauseOnHover: false,
-					cssEase: 'ease',
-					prevArrow: '<button type="button" class="slider__navigation slider__navigation_prev slick-prev"></button>',
-					nextArrow: '<button type="button" class="slider__navigation slider__navigation_next slick-next"></button>'
+				var count = 4, classname = 'slider';
+
+				$('.js-slider').each(function(){
+					count = 4;
+					classname = 'slider';
+
+					if ($(this).data('viewcount'))
+					{
+						count = parseInt($(this).data('viewcount'));
+					}
+
+					if ($(this).data('classname'))
+					{
+						classname = $(this).data('classname');
+					}
+
+					$(this).slick({
+						infinite: true,
+						dots: false,
+						draggable: false,
+						speed: 300,
+						fade: false,
+						autoplay: true,
+						autoplaySpeed: 4500,
+						pauseOnHover: false,
+						cssEase: 'ease',
+						prevArrow: '<button type="button" class="slider__navigation slider__navigation_prev slick-prev"></button>',
+						nextArrow: '<button type="button" class="slider__navigation slider__navigation_next slick-next"></button>'
+					});
 				});
 			}
 		},
@@ -419,6 +453,31 @@
 
 				return !1;
 			});
+		},
+
+		suggestionsInit: function()
+		{
+			var api_key = '5ac2fbf1f640b75b78f5d4214ff005ff5303eac8', input = null;
+
+			if ($('.js-suggestions').length)
+			{
+				$('.js-suggestions').each(function(){
+					input = $(this);
+					
+					if (input.data('type'))
+					{
+						input.suggestions({
+						    serviceUrl: "https://dadata.ru/api/v2",
+						    token: api_key,
+						    type: input.data('type'),
+						    count: 5,
+						    onSelect: function(suggestion) {
+						        console.log(suggestion);
+						    }
+						});
+					}
+				});
+			}
 		},
 
 		init: function()

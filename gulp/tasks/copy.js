@@ -9,7 +9,7 @@ module.exports = function(options) {
 	
 	return function(callback) {
 
-		if (typeof options.is !== 'undefined')
+		if (typeof options.is !== 'undefined' || (typeof options.clean !== 'undefined' && options.clean === true))
 		{
 			clean(options.app, options.is.build);
 		}

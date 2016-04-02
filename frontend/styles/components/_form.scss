@@ -176,6 +176,61 @@ textarea {
 		clear: both;
 		text-align: center;
 	}
+
+    &__group {
+        height: 34px;
+        font-size: 0;
+        line-height: 34px;
+        overflow: hidden;
+        border-radius: 1px;
+        vertical-align: top;
+        display: inline-block;
+        border: 1px solid $border;
+
+        &__item {
+            cursor: pointer;
+            position: relative;
+            vertical-align: top;
+            display: inline-block;
+
+            &__rb {
+                width: 0;
+                height: 0;
+                visibility: hidden;
+                position: absolute;
+            }
+
+            &__style {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 1;
+                display: none;
+                background-color: $border;
+            }
+
+            &__rb:checked + &__style {
+                display: block;
+            }
+
+            &__text {
+                height: 34px;
+                padding: 0 10px;
+                display: block;
+                line-height: 34px;
+                font-size: 1.3rem;
+                position: relative;
+                z-index: 2;
+                color: #999;
+            }
+
+            &__rb:checked + &__style + &__text {
+                color: #000;
+            }
+        }
+    }
 }
 
 .captcha-container {
