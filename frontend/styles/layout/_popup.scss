@@ -46,8 +46,14 @@
 	height: 100%;
 	max-width: 100%;
 	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: 0;
+	padding: 0;
 	font-size: 0;
-	line-height: 0;
+	line-height: 1;
 	z-index: 9999;
 	display: none;
 	overflow-y: auto;
@@ -67,11 +73,13 @@
 
 	&__dialog {
 		width: 100%;
+		height: auto;
 		max-width: 96rem;
 		margin: 0 auto;
-		height: auto;
+		text-align: center;
+		vertical-align: middle;
 		position: relative;
-		padding: 6rem 0;
+		padding: 5rem 0;
 	
 		&.is-scrolling {
 			position: relative;
@@ -83,8 +91,12 @@
 
 	&__content {
 		width: 100%;
+		line-height: 1;
+		display: inline-block;
+		vertical-align: middle;
 		position: relative;
-		padding: 55px 28px 26px;
+		text-align: left;
+		padding: 25px;
 		background-color: #fff;
 		background-color: rgba(255, 255, 255, .9);
 		box-shadow: 0 0 0.9rem rgba(0, 0, 0, 0.18);

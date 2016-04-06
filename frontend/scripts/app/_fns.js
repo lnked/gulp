@@ -27,6 +27,26 @@ function on(elm, events, handler) {
    }
 }
 
+function scrollToElement(element)
+{
+    console.log('scroll to ', element, $(element).length);
+
+    if ($(element).length)
+    {
+        var block;
+
+        if ($(element).closest('.popup').length)
+        {
+            block = $(element).closest('.popup');
+        }
+        else {
+            block = $(element);
+        }
+
+        block.stop().animate({ scrollTop: $(element).position().top }, 'fast');
+    }
+}
+
 function formatMoney(n, c, d, t)
 {
     var c = isNaN(c = Math.abs(c)) ? 2 : c, 

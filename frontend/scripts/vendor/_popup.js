@@ -439,6 +439,11 @@ $.popup.open('popup-choose-photo-source/nested-tab');
 				{
 					selector = 'tpl-'+selector;
 				}
+                
+                if ($('#tmpl-' + selector).length)
+                {
+                    selector = 'tmpl-'+selector;
+                }
 
 				if (typeof overlay == 'undefined')
 				{

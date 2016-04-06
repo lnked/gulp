@@ -6,7 +6,6 @@ module.exports.src  = src;
 module.exports.path = {
 	build: {
 		template:		app + 'markup',
-		vendors:		app + 'js',
 		scripts:		app + 'js',
 		styles:			app + 'css',
 		images:			app + 'images',
@@ -21,8 +20,7 @@ module.exports.path = {
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
 		template:		[src + 'template/*.html'],
-		vendors:		[src + 'scripts/vendor/**/*.js'],
-		scripts:		[src + 'scripts/app/**/*.js'],
+		scripts:		[src + 'scripts/**/*.js'],
 		styles:			[src + 'styles/*.scss']
 	},
 	watch: {
@@ -31,8 +29,7 @@ module.exports.path = {
 		favicon: 		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
-		vendors:		[src + 'scripts/vendor/**/*.js'],
-		scripts_app:	[src + 'scripts/app/**/*.js'],
+		scripts:		[src + 'scripts/**/*.js'],
 		styles:			[src + 'styles/**/*.scss'],
 		critical:		[src + 'styles/**/*.scss']
 	},

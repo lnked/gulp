@@ -61,22 +61,6 @@ lazyRequireTask('scripts', tasks + 'scripts', {
 	is:  is
 });
 
-// lazyRequireTask('vendors', tasks + 'scripts', {
-// 	src: path.assets.vendors,
-// 	app: path.build.vendors,
-// 	fn:  path.compile.vendor,
-// 	rm:  false,
-// 	is:  is
-// });
-
-// lazyRequireTask('scripts_app', tasks + 'scripts', {
-// 	src: path.assets.scripts,
-// 	app: path.build.scripts,
-// 	fn:  path.compile.app,
-// 	rm:  false,
-// 	is:  is
-// });
-
 lazyRequireTask('critical', tasks + 'critical', {
 	src: path.build.template + '*.html',
 	app: path.build.styles,
