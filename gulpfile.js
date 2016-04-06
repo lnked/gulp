@@ -56,6 +56,7 @@ lazyRequireTask('template', tasks + 'template', {
 
 lazyRequireTask('scripts', tasks + 'scripts', {
 	src: src + 'scripts',
+	dir: src + 'scripts',
 	app: path.build.scripts,
 	rm:  false,
 	is:  is

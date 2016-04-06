@@ -77,7 +77,7 @@ module.exports = function(options) {
 
         // clean(options.app, options.rm);
         
-        let folders = support.getFolders(options.src);
+        let folders = support.getFolders(options.dir);
 
         if (folders.length)
         {
