@@ -1,5 +1,5 @@
-$(window).load(function() {
-	$.app.init();
+$(document).ready(function() {
+    $.app.init();
 });
 
 // basket.require(

@@ -191,12 +191,6 @@
 							_this.default_handler(link, response);
 						}
 
-						if (form.hasClass(_this.config.form_reset))
-						{
-							form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
-							form.get(0).reset();
-						}
-
 						if (response.status === true)
 						{
 
@@ -262,6 +256,12 @@
 						else
 						{
 							_this.default_handler(form, response);
+						}
+
+						if (form.hasClass(_this.config.form_reset))
+						{
+							form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
+							form.get(0).reset();
 						}
 
 						if (response.status === true)

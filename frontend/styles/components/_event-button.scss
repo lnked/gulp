@@ -1,0 +1,54 @@
+.event-button {
+    clear: both;
+    width: auto;
+    height: 22px;
+    padding: 0;
+    padding-left: 31px;
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 26px;
+    text-decoration: none;
+    border: 0 none;
+    background: none;
+    position: relative;
+    z-index: 100;
+    letter-spacing: 0.06ex;
+    outline: none;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    transition: color 0.4s, opacity 0.4s;
+
+    &:before {
+        width: 22px;
+        height: 22px;
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-repeat: no-repeat;
+        background-position: 0 50%;
+        background-size: 22px 22px;
+        transition: opacity 0.4s;
+    }
+
+    &_add {
+        color: #0094ff;
+
+        &:before {
+            background-image: url(../images/ico/add.png);
+            background-image: url(../images/ico/add.svg);
+        }
+    }
+
+    &_remove {
+        color: #b5b3b5;
+
+        &:before {
+            background-image: url(../images/ico/remove.png);
+            background-image: url(../images/ico/remove.svg);
+        }
+    }
+}

@@ -54,21 +54,28 @@ lazyRequireTask('template', tasks + 'template', {
 	is:  is
 });
 
-lazyRequireTask('vendors', tasks + 'scripts', {
-	src: path.assets.vendors,
-	app: path.build.vendors,
-	fn:  path.compile.vendor,
+lazyRequireTask('scripts', tasks + 'scripts', {
+	src: src + 'scripts',
+	app: path.build.scripts,
 	rm:  false,
 	is:  is
 });
 
-lazyRequireTask('scripts_app', tasks + 'scripts', {
-	src: path.assets.scripts,
-	app: path.build.scripts,
-	fn:  path.compile.app,
-	rm:  false,
-	is:  is
-});
+// lazyRequireTask('vendors', tasks + 'scripts', {
+// 	src: path.assets.vendors,
+// 	app: path.build.vendors,
+// 	fn:  path.compile.vendor,
+// 	rm:  false,
+// 	is:  is
+// });
+
+// lazyRequireTask('scripts_app', tasks + 'scripts', {
+// 	src: path.assets.scripts,
+// 	app: path.build.scripts,
+// 	fn:  path.compile.app,
+// 	rm:  false,
+// 	is:  is
+// });
 
 lazyRequireTask('critical', tasks + 'critical', {
 	src: path.build.template + '*.html',
@@ -157,6 +164,13 @@ lazyRequireTask('fonts', tasks + 'copy', {
 	is:  is
 });
 
+
+lazyRequireTask('lint', tasks + 'lint', {
+	src: path.assets.styles,
+	app: path.build.styles,
+	is:  is
+});
+
 // ================ webserver ============== //
 
 lazyRequireTask('webserver', tasks + 'webserver', {
@@ -176,8 +190,6 @@ gulp.task('webstandards', function(){
 	return gulp.src(app + '**/*').pipe(standards());
 	callback();
 });
-
-gulp.task('scripts', gulp.series('vendors', 'scripts_app'));
 
 gulp.task('isbuild', function(callback){
 	is.build = true;

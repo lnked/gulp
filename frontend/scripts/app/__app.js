@@ -25,9 +25,60 @@
 			});
 		},
 		
-		initSelect: function()
+		initSelectTrigger: function()
 		{
-			$('select').selectbox();
+			body.on('select.close', function(e, select){
+				if ($(select).closest('.form__group').length)
+				{
+					var index = 1, group = $(select).closest('.form__group');
+
+					group.css('z-index', 1);
+
+					if (group.closest('.form__group_items').length)
+					{
+						group = group.closest('.form__group_items');
+
+						group.css('z-index', 1);
+					}
+				}
+			});
+
+			body.on('select.open', function(e, select){
+				if ($(select).closest('.form__group').length)
+				{
+					var group = $(select).closest('.form__group');
+
+					group.css('z-index', 10000);
+
+					if (group.closest('.form__group_items').length)
+					{
+						group = group.closest('.form__group_items');
+
+						group.css('z-index', 10000);
+					}
+				}
+			});
+
+			body.on('change', '.js-form-select', function(e){
+				if ($(this).closest('.error').length)
+				{
+					$(this).closest('.error').removeClass('error');
+				}
+			});
+		},
+
+		initSelect: function(group)
+		{
+			if (typeof(group) == 'undefined')
+			{
+				$('select').not('.is-system').selectbox();
+			}
+			else
+			{
+				group.find('select').not('.is-system').selectbox();
+			}
+
+			this.initSelectTrigger();
 		},
 
 		initMask: function()

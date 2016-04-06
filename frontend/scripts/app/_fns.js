@@ -13,6 +13,9 @@ var tools = {
     },
     isDefined: function (value) {
         return typeof value !== 'undefined';
+    },
+    isNull: function (value) {
+        return value == null;
     }
 };
 
