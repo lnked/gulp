@@ -1,0 +1,125 @@
+.error-page {
+
+	&__wrapper {
+		position: relative;
+		padding: 3rem;
+	}
+
+	&__search {
+		position: absolute;
+		left: 30px;
+		top: 70px;
+		right: 30px;
+
+		&__input {
+			width: 50%;
+			min-width: 250px;
+			max-width: 400px;
+			height: 25px;
+			float: left;
+			margin-right: 5px;
+			padding: 0 5px;
+			box-sizing: border-box;
+		}
+
+		&__button {
+			cursor: pointer;
+			border-radius: 3px;
+			cursor: pointer;
+			display: inline-block;
+			padding: 3px 1rem 2px !important;
+
+			&, &[disabled], &[disabled]:active, &[disabled]:hover {
+				background: linear-gradient(to bottom, #FAFAFA 0px, #DBDBDB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+				border: 1px solid #999999;
+				box-shadow: 0 1px 1px 0 rgba(197, 197, 197, 0.61), 0 1px 0 0 #FFFFFF inset;
+				color: #333333;
+				font: 400 13px Arial,sans-serif;
+				outline: 0 none;
+				text-align: center;
+			}
+			&:hover {
+				background: linear-gradient(to bottom, #FFFFFF 0px, #EBEBEB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+				box-shadow: 0 1px 1px 0 rgba(197, 197, 197, 0.61), 0 1px 0 0 #FFFFFF inset;
+				cursor: pointer;
+			}
+
+			&:active {
+				background: linear-gradient(to bottom, #DBDBDB 0px, #FAFAFA 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+				border-color: #FFFFFF;
+				box-shadow: 0 1px 2px 0 #666666 inset;
+			}
+
+			&[disabled] {
+				box-shadow: none;
+				cursor: default !important;
+				opacity: 0.3;
+
+				&:hover,
+				&:active {
+					box-shadow: none;
+				}
+			}
+
+		}
+	}
+
+	&__title {
+		font-weight: 700;
+		font-size: 2.5rem;
+		line-height: 1;
+		display: block;
+		margin-bottom: 2.5rem;
+	}
+
+	&__goto {
+		line-height: 1;
+		font-size: 1.5rem;
+		color: #ffffff;
+		padding: .8rem 2.5rem .8rem 1.7rem;
+		border-radius: 1.4rem;
+		background-color: #1e7bab;
+		text-decoration: none;
+		display: inline-block;
+		margin-bottom: 2.5rem;
+		transition: background-color $time;
+		
+		&:hover {
+			background-color: #f68344;
+		}
+
+		&:hover &__label {
+			text-decoration: underline;
+		}
+	}
+
+	&__sitemap {
+		display: block;
+		color: #464343;
+		padding: 0 0 1.5rem;
+
+		li {
+			margin-left: 0;
+		    margin-bottom: 1.5rem;
+		}
+
+		li ul {
+			margin: 1.5rem 0 0 3rem;
+			list-style-type: none;
+			padding: 0;
+		}
+
+		li a {
+			font-size: 1.5rem;
+			line-height: 1;
+			color: #2983b2;
+			border-bottom-width: 1px;
+			border-bottom-style: dotted;
+			text-decoration: none;
+
+			&:hover {
+				color: #ff0000;
+			}
+		}
+	}
+}

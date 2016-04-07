@@ -1,0 +1,42 @@
+.faq-item {
+    clear: both;
+    padding: 0 0 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+.faq-item-link {
+    display: block;
+    position: relative;
+    font-size: 17px;
+    margin-bottom: 0;
+    color: #666699;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+}
+.faq-item-link:after {
+    width: 12px; height: 8px;
+    position: absolute; right: 10px; top: 50%; margin-top: -4px;
+    display: block;
+    content: "";
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAICAMAAAD6Ou7DAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAOVBMVEWBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYH////HGaP9AAAAEXRSTlMAeXr5aOXyaefuV+Lf9N78e5AZOS4AAAABYktHRBJ7vGwAAAAACXBIWXMAAAsSAAALEgHS3X78AAAARUlEQVQI1z2KSRIAIQgDgyC4L///rEpNTS7prgSgAE8ggDbLY+FNCBzVANPI9yKacik5qR9Ma2v1zW59jP7xtTl/BtbyOkqMAYnOEvBWAAAAAElFTkSuQmCC');
+}
+.faq-item.open .faq-item-link:after {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAIBAMAAAA/ygPCAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAElBMVEX/cgD/cgD/cgD/cgD/cgD///+GiDFVAAAABHRSTlMAlIBrqGpWLQAAAAFiS0dEBfhv6ccAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAxSURBVAjXY2BgYBRgAAEVJxDJ5OKiAOK4uDiBOM4mQK6IiwKTiyODCFBExRGsnFEAAICBBQ2B9XVsAAAAAElFTkSuQmCC');
+}
+.faq-item-content {
+    display: none;
+    padding: 15px 30px 6px 0;
+    color: #1E1E1E;
+    font-size: 13px;
+    line-height: 14px;
+    font-weight: 400;
+}
+
+.faq-item-content p {
+    margin-bottom: 10px;
+}
+.faq-item-content p:last-child { margin-bottom: 0; }
+
+.faq-item.open .faq-item-link { color: #cc0000; }
+.faq-item.open .faq-item-content { display: block; }

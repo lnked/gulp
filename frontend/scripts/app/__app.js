@@ -103,64 +103,49 @@
 		
 		initMagnific: function()
 		{ 
-			// if ($('.documents').length)
-			// {
-			// 	$('.documents').find('.documents__item').each(function(){
-			// 		$(this).magnificPopup({
-			// 			delegate: '.zoom',
-			// 			type: 'image',
-			// 			gallery: {
-			// 				enabled: true,
-			// 				navigateByImgClick: true,
-			// 				tCounter: '%curr% of %total%'
-			// 			}
-			// 		});
-			// 	});
-			// }
-			// else
-			// {
-			// 	$('.zoom').magnificPopup({
-			// 		type:'image',
-			// 		preloader: true,
-			// 		gallery: {
-			// 			enabled: true,
-			// 			navigateByImgClick: true
-			// 		},
-			// 		zoom: {
-			// 			enabled: true,
-			// 			duration: 300,
-			// 			easing: 'ease-in-out',
-			// 			opener: function(openerElement) {
-			// 				return openerElement.is('img') ? openerElement : openerElement.find('img');
-			// 			}
-			// 		},
-			// 		closeOnContentClick: true
-			// 	});
-			// }
-			
-			$('.zoom').magnificPopup({
-			 	type:'image',
-			 	preloader: true,
-				gallery: {
-					enabled: true
-				},
-				zoom: {
-					enabled: true, // By default it's false, so don't forget to enable it
-
-					duration: 300, // duration of the effect, in milliseconds
-					easing: 'ease-in-out', // CSS transition easing function
-
-					// The "opener" function should return the element from which popup will be zoomed in
-					// and to which popup will be scaled down
-					// By defailt it looks for an image tag:
-					opener: function(openerElement) {
-						// openerElement is the element on which popup was initialized, in this case its <a> tag
-						// you don't need to add "opener" option if this code matches your needs, it's defailt one.
-						return openerElement.is('img') ? openerElement : openerElement.find('img');
-					}
-				},
-			 	closeOnContentClick: true
-			 });
+			if ($('.zoom-group').length)
+			{
+				$('.zoom-group').find('.zoom-list').each(function(){
+					$(this).magnificPopup({
+						delegate: '.zoom',
+						type: 'image',
+				 		preloader: true,
+						gallery: {
+							enabled: true,
+							navigateByImgClick: true,
+							tCounter: '%curr% of %total%'
+						},
+						zoom: {
+							enabled: true,
+							duration: 300,
+							easing: 'ease-in-out',
+							opener: function(openerElement) {
+								return openerElement.is('img') ? openerElement : openerElement.find('img');
+							}
+						},
+					 	closeOnContentClick: true
+					});
+				});
+			}
+			else
+			{
+				$('.zoom').magnificPopup({
+				 	type:'image',
+				 	preloader: true,
+					gallery: {
+						enabled: true
+					},
+					zoom: {
+						enabled: true,
+						duration: 300,
+						easing: 'ease-in-out',
+						opener: function(openerElement) {
+							return openerElement.is('img') ? openerElement : openerElement.find('img');
+						}
+					},
+				 	closeOnContentClick: true
+				});
+			}
 		},
 
 		initFancyBox: function()
@@ -529,6 +514,34 @@
 					}
 				});
 			}
+		},
+
+		initForm: function()
+		{
+			body.on('focus', '.form__input.error', function(){
+				$(this).removeClass('error');
+			});
+
+			$(".integer").on('keypress', function (e) {
+				if ([0, 8, 13, 38, 40].indexOf( e.which ) < 0 && (e.which < 48 || e.which > 57))
+				{
+					return !1;
+				}
+			});
+
+			$(".ignore-paste").on('keydown', function (e){
+				if ((e.metaKey || e.ctrlKey) && e.keyCode == 86)
+				{
+					return !1;
+				}
+			});
+
+			$(".float").on('keypress', function (e) {
+				if ( [0, 8, 13, 38, 40, 44, 46].indexOf( e.which ) < 0 && ( e.which < 48 || e.which > 57 ) )
+				{
+					return !1;
+				}
+			});
 		},
 
 		init: function()

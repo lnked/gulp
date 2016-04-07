@@ -290,12 +290,20 @@
 			});
 		},
 
+		initValidate: function()
+		{
+			body.on('focus', '.form__input.error, .form__textarea.error', function(){
+				$(this).removeClass('error');
+			});
+		},
+
 		init: function(config)
 		{
 			this.extend(config);
 			
 			this.initForm();
 			this.initLink();
+			this.initValidate();
 		}
 
 	};

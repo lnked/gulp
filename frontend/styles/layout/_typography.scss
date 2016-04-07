@@ -1,0 +1,21 @@
+ul:not([class]),
+ol:not([class]) {
+    margin-left: 17px;
+    margin-bottom: 15px;
+    
+    li {
+        color: #484848;
+        font-size: 1.5rem;
+        line-height: 1.7;
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+}
+
+ul:not([class]) {
+    list-style-type: disc;
+}
+
+ol:not([class]) {
+    list-style-type: decimal;
+}

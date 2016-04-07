@@ -29,8 +29,6 @@ function on(elm, events, handler) {
 
 function scrollToElement(element)
 {
-    console.log('scroll to ', element, $(element).length);
-
     if ($(element).length)
     {
         var block;

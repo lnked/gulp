@@ -1,0 +1,126 @@
+$baseBColor: #669;
+$baseTColor: #fff;
+
+$buttonBColor: #3B599A;
+
+.basket {
+	width: 100%;
+	max-width: 940px;
+
+	&__table {
+		width: 100%;
+		color: #000;
+		table-layout: fixed;
+		margin-bottom: 2rem;
+		font-size: 1.5rem;
+		line-height: 2.1rem;
+	}
+}
+
+.basket__table tr td .price { height: 26px; padding: 0 18px 0 27px; background: $baseBColor; color: $baseTColor; font: 500 16px/26px 'Play', sans-serif; display: inline-block; border-radius: 3px 0 0 3px; position: relative; }
+.basket__table tr td .price:after { width: 0; border: 13px solid; border-color: transparent transparent transparent $baseBColor; content:' '; display: block; position: absolute; right: -26px; top: 0; }
+.basket__table thead tr th:first-child { border-radius: 7px 0 0 7px; }
+.basket__table thead tr th:last-child { border-radius: 0 7px 7px 0; }
+.basket__table thead tr th { height: 38px; text-align: left; background: #f7f3ec; font: 400 14px/14px 'Play', sans-serif; vertical-align: middle; }
+.basket__table thead tr td { height: 20px; }
+.basket__table thead tr th.center,
+.basket__table tbody tr td.center { text-align: center; }
+.basket__table tbody tr td { border: solid #e5e5e5; border-width: 1px 0 1px 0; padding: 12px 0; vertical-align: top; }
+.basket__table tbody tr td.nobord { border-width: 0 !important; }
+.basket__table tbody tr td.nobord-bottom { border-bottom: 0 !important; }
+.basket__table tbody tr td.nobord-top { border-top: 0 !important; }
+.basket__table tbody tr td.nobord-left { border-left: 0 !important; }
+.basket__table tbody tr td:first-child { border-left-width: 1px; }
+.basket__table tbody tr td:last-child { border-right-width: 1px; }
+.basket__table tbody tr td .cart-image { width: 99px; height: 74px; line-height: 74px; border: 1px solid #e5e5e5; text-align: center; display: inline-block; font-size: 0; }
+.basket__table tbody tr td .cart-image img { max-width: 99px; max-height: 74px; vertical-align: middle; }
+.basket__table tbody tr td .count-cover { color: #999999; font: 700 16px/26px 'Play', sans-serif; }
+.basket__table tbody tr td .count-cover .sig { width: 45px; height: 26px; line-height: 28px; display: inline-block; text-align: center; }
+.basket__table tbody tr td .count { width: 66px; height: 24px; display: inline-block; padding: 0; border: 1px solid #e5e5e5; text-align: center; outline: none; }
+.basket__table tbody tr td .count:focus { border-color: $buttonBColor; }
+.basket__table tbody tr td .cart-count-cover { width: 68px; height: 26px; padding: 0 28px; display: inline-block; position: relative; font-size: 0; }
+.basket__table tbody tr td .cart-count-cover .cart-count-pm { width: 28px; height: 26px; position: absolute; top: 0; display: block; background: url(/images/pm.png) no-repeat; }
+.basket__table tbody tr td .cart-count-cover .cart-count-minus { left: 0; background-position: left top; }
+.basket__table tbody tr td .cart-count-cover .cart-count-minus:hover { background-position: left -26px; }
+.basket__table tbody tr td .cart-count-cover .cart-count-minus:active { background-position: left -52px; }
+.basket__table tbody tr td .cart-count-cover .cart-count-plus { right: 0; background-position: right top; }
+.basket__table tbody tr td .cart-count-cover .cart-count-plus:hover { background-position: right -26px; }
+.basket__table tbody tr td .cart-count-cover .cart-count-plus:active { background-position: right -52px; }
+.basket__table tbody tr td .total-price { line-height: 28px; display: inline-block; }
+.basket__table tfoot tr th { height: 20px; background: none; }
+.basket__table tfoot tr td { background: #f1f1f1; padding: 25px 25px 25px 140px; color: #000000; font: 400 16px/38px 'Play', sans-serif; }
+.basket__table tfoot tr td strong { font-weight: 500; }
+.basket__table tfoot tr td .incart-label { width: 130px; float: left; }
+.basket__table tfoot tr td .prod-count { width: 38px; display: inline-block; background: $baseBColor; color: $baseTColor; border-radius: 3px; text-align: center; margin: 0 14px; }
+.basket__table tfoot tr td .economy { width: 205px; float: right; margin-left: 35px; background: $baseTColor; padding: 0 30px 0 38px; border-radius: 3px; }
+.basket__table tfoot tr td .economy strong { float: right; }
+.basket__table tfoot tr td .price { width: auto; height: 38px; line-height: 38px; margin-left: 2.5rem; }
+.basket__table tfoot tr td .price:after { border-width: 19px; right: -38px; }
+
+.spl { background: #f1f1f1; padding: 0 20px; line-height: 26px; display: inline-block; border-radius: 3px; font: 400 14px/26px 'Play', sans-serif; color: #010000; text-decoration: none; transition: background .3s, box-shadow .3s; }
+a.spl:hover { background: #e9e9e9; }
+a.spl:active { background: $buttonBColor; color: $baseTColor; box-shadow: inset 0 4px 0 rgba( 0, 1, 1, .5 ); }
+
+.button-conteiner {
+    font-size: 0;
+    padding: 3rem 2rem;
+    margin-bottom: 1rem;
+    position: relative;
+    background: $buttonBColor;
+}
+
+.button-clean {
+	color: #fff;
+}
+
+// .button { outline: none; border-radius: 3px; border-width: 3px; padding: 0; font-size: 0; border-style: solid; display: inline-block; height: 32px; color: $baseTColor; text-decoration: none; transition: background-color .3s, border-color .3s, box-shadow .3s; cursor: pointer; text-transform: uppercase; }
+// .button:focus { outline: none; }
+// .button .bi { display: block; margin: 0; font: 300 14px/32px 'PT Sans Narrow', sans-serif; -webkit-transition: background-color .3s; -moz-transition: background-color .3s; -ms-transition: background-color .3s; -o-transition: background-color .3s; transition: background-color .3s; }
+// .button-green { border-color: #63a63e; border-bottom-color: #367315; }
+// .button-gray { border-color: #e9ebed; border-bottom-color: #e9ebed; color: $buttonBColor; }
+// .button-empty { color: $buttonBColor; border-bottom-color: #63a63e; }
+// .button-red { border-width: 5px; border-radius: 5px; border-color: #d9e2e7; color: $baseTColor; }
+// .button-large { height: 48px; }
+// .button-large-dark { border-color: #000000; border-color: rgba( 0, 0, 0, .5); }
+
+// .button-red .bi { padding: 0 50px; background-color: $baseBColor; box-shadow: inset 0 -5px 0 rgba( 0, 0, 0, .24 ); }
+// .button-cart .bi { background-image: url(images/button-cart.png); background-repeat: no-repeat; background-position: 14px 7px;  padding-left: 10px; }
+// .button-green .bi { background-color: #63a63e; }
+// .button-empty .bi { background-color: $baseTColor; }
+// .button-large .bi { padding: 0 50px; font: 400 16px/48px 'Play', sans-serif; text-transform: none; }
+// .button-large-dark .bi { padding: 0 30px; }
+
+// .button-reset,
+// .button-submit { font: 500 14px/14px 'Play', sans-serif; color: $baseTColor; }
+
+// .button-submit { padding: 0 55px 0 66px; border-color: #63a63e; background-color: #63a63e; background-repeat: no-repeat; }
+// .button-reset { padding: 0 44px; border-color: #293449; background: #293449; }
+// .button-reset:hover { background: #131a26; border-color: #131a26; }
+// .button-reset:active { background: $baseTColor; border-color: $baseTColor; color: $buttonBColor; }
+
+// .button-check { background-image: url(images/ok.png); background-position: 18px center; }
+// .button-check:hover { background-image: url(images/ok-hover.png); }
+// .button-check:active { background-image: url(images/ok-active.png); }
+
+// .button-send { background-image: url(images/send.png); background-position: 18px center; }
+
+// .button-submit:hover { background-color: #6fc441; border-color: #6fc441; }
+// .button-submit:active { background-color: $baseTColor; border-color: $baseTColor; color: $buttonBColor; }
+
+// .button-send.button-fix:active,
+// .button-send:hover { background-image: url(images/send-hover.png); }
+
+// .button-full { width: 100%; height: 53px; display: block; text-decoration: none; font: 400 13px/53px 'Helvetica', sans-serif; text-align: center; color: #191b1f; background: #f2f2f2; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
+// .button-full:hover { background: #131a26; border-color: #131a26; color: $baseTColor; }
+// .button-full:active { background: $baseTColor; border-color: $baseTColor; color: $buttonBColor; }
+
+// .button-link { width: 440px; float: left; height: 53px; text-align: center;  text-transform: uppercase; display: block; text-decoration: none; font: 400 21px/53px 'Play', sans-serif; color: #000000; }
+// .button-link_offset-left { width: 320px; text-align: left; background: url(images/bdot.png) no-repeat right center; }
+// .button-link_offset-right { width: 180px; text-align: right; background: url(images/bdot.png) no-repeat left center; }
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+	.table tbody tr td .cart-count-cover .cart-count-pm {
+	    background-image: url(/images/pm@2x.png);
+	    background-size: 56px 78px;
+	}   
+}
