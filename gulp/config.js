@@ -20,7 +20,7 @@ module.exports.path = {
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
 		template:		[src + 'template/*.html'],
-		scripts:		[src + 'scripts/**/*.js'],
+		scripts:		[src + 'scripts/app/**/*.js'],
 		styles:			[src + 'styles/*.scss']
 	},
 	watch: {
@@ -29,7 +29,7 @@ module.exports.path = {
 		favicon: 		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
-		scripts:		[src + 'scripts/**/*.js'],
+		scripts:		[src + 'scripts/app/**/*.js'],
 		styles:			[src + 'styles/**/*.scss'],
 		critical:		[src + 'styles/**/*.scss']
 	},
@@ -88,7 +88,7 @@ module.exports.path = {
 		base: app,
 
 		// HTML source file 
-		src: 'markup/index.html',
+		src: app + 'markup/index.html',
 
 		// Your CSS Files (optional) 
 		css: [app + 'css/main.min.css'],
