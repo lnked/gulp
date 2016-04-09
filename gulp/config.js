@@ -88,7 +88,7 @@ module.exports.path = {
 		base: app,
 
 		// HTML source file 
-		src: app + 'markup/index.html',
+		src: 'markup/index.html',
 
 		// Your CSS Files (optional) 
 		css: [app + 'css/main.min.css'],
