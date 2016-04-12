@@ -160,6 +160,7 @@ lazyRequireTask('lint', tasks + 'lint', {
 
 lazyRequireTask('webserver', tasks + 'webserver', {
 	app: app,
+	port: config.server.port,
 	proxy: config.server.proxy,
 	server: config.server.server
 });

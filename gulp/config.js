@@ -120,7 +120,8 @@ module.exports.path = {
 };
 
 module.exports.server = {
-	proxy: "clean.dev",
+	proxy: 'http://localhost:3004/',
+	port: 3004,
 	server: {
 		baseDir: app
 	}

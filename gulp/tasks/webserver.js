@@ -12,6 +12,11 @@ module.exports = function(options) {
 			// config.proxy = options.proxy;
 		}
 
+		if (typeof options.port !== 'undefined')
+		{
+			config.port = options.port;
+		}
+
 		if (typeof options.server !== 'undefined')
 		{
 			config.server = options.server;
