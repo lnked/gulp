@@ -29,11 +29,18 @@ let is = {
 
 if (typeof gutil.env !== 'undefined')
 {
+	let o, env;
+
 	for (let o in gutil.env)
 	{
-		if (typeof(is[o]) !== 'undefined')
+		env = o;
+
+		if (o == 'bd') env = 'build';
+		if (o == 'sr') env = 'server';
+
+		if (typeof(is[env]) !== 'undefined')
 		{
-			is[o] = gutil.env[o];
+			is[env] = gutil.env[env];
 		}
 	}
 }
