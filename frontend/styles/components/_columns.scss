@@ -1,0 +1,29 @@
+.columns {
+    clear: both;
+    margin-bottom: 50px;
+
+    &__item {
+        float: left;
+        box-sizing: border-box;
+
+        &:not(:first-child) {
+            padding-left: 15px;
+        }
+
+        &:not(:last-child) {
+            padding-right: 15px;
+        }
+
+        &._x2 {
+            width: 50%;
+        }
+    
+        &._x3 {
+            width: 33.333333333%;
+        }
+
+        &._x4 {
+            width: 25%;
+        }
+    }
+}

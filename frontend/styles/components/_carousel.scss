@@ -1,0 +1,173 @@
+.carousel {
+	clear: both;
+	width: 100%;
+	font-size: 0;
+	position: relative;
+	margin: 0 auto 55px;
+
+	.slick-list {
+		overflow: hidden;
+	}
+
+	&__navigation {
+		width: 2.1rem;
+		height: 4.3rem;
+		display: block;
+		position: absolute;
+		top: 20px;
+		z-index: 200;
+		cursor: pointer;
+		border: 0;
+		background: url(../images/arrows.png) no-repeat;
+		opacity: .46;
+		transition: opacity $time;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		&_prev {
+			left: -38px;
+			background-position: 0 0;
+		}
+
+		&_next {
+			right: -38px;
+			background-position: 100% 0;
+		}
+	}
+	
+	&__wrapper {
+		margin: 0 auto;
+		position: relative;
+		text-align: center;
+	}
+	
+	&__overlap {
+		position: absolute;
+		top: 0;
+		width: 70px;
+		height: 80px;
+		z-index: 100;
+		background-color: #fff;
+
+		&_before {
+			left: 0;
+		}
+
+		&_after {
+			right: 0;
+		}
+	}
+
+	&__item {
+		width: 25%;
+		float: left;
+		outline: none;
+		position: relative;
+		z-index: 20;
+
+		&__border {
+			position: relative;
+			width: 12.9rem;
+			height: 0.1rem;
+			z-index: 10;
+			background-color: #98c4d9;
+			position: absolute;
+			left: 50%;
+			top: 40px;
+			margin-left: 56px;
+	
+			&:before, &:after {
+				width: 4px;
+				height: 27px;
+				content: "";
+				position: absolute;
+				top: -13px;
+				background-repeat: no-repeat;
+				background-position: 0 0;
+			}
+
+			&:before {
+				left: -4px;
+				background-image: url(../images/l-arc.png);
+			}
+
+			&:after {
+				right: -4px;
+				background-image: url(../images/r-arc.png);
+			}
+		}
+	
+		&__content {
+			text-align: center;
+			text-decoration: none;
+
+			&__icon {
+				width: 8.2rem;
+				height: 8.2rem;
+				display: block;
+				border-radius: 50%;
+				margin: 0 auto 18px;
+				border: 1px solid #0a4b82;
+				background: #fff url(../images/shield.png) no-repeat 50% 50%;
+				background-size: 2.6rem 3.2rem;
+			}
+
+			&__title {
+				color: #191919;
+				font-size: 1.3rem;
+				font-weight: 400;
+				line-height: 2.5rem;
+				text-transform: uppercase;
+			}
+		}
+
+		&__image {
+			display: block;
+			text-align: center;
+			line-height: 8rem;
+
+			&__src {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+ul.slick-dots {
+	width: 100%;
+	font-size: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+	text-align: center;
+}
+
+ul.slick-dots li {
+	display: inline-block;
+	vertical-align: top;
+	margin: 0 5px;
+}
+
+ul.slick-dots li button {
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+	padding: 0;
+	font-size: 0;
+	text-indent: -100px;
+	overflow: hidden;
+	border: 2px solid #0084ff;
+	background: #0084ff;
+	border-radius: 50%;
+	box-sizing: border-box;
+	transition: background $time, border-color $time;
+}
+
+ul.slick-dots li.slick-active button {
+	background: none;
+	border-color: #000;
+}

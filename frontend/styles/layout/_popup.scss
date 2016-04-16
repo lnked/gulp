@@ -1,7 +1,3 @@
-#svg-filter {
-	display: none;
-}
-
 .popup-open {
 	width: 100%;
 	height: 100%;
@@ -96,10 +92,29 @@
 		vertical-align: middle;
 		position: relative;
 		text-align: left;
-		padding: 25px;
+		padding: 0;
 		background-color: #fff;
 		background-color: rgba(255, 255, 255, .9);
 		box-shadow: 0 0 0.9rem rgba(0, 0, 0, 0.18);
+	}
+
+	&__header {
+		height: 70px;
+		text-align: center;
+		line-height: 70px;
+		background-color: #EAEFF3;
+
+		&__title {
+			color: #535353;
+			font-family: $font-tahoma;
+			font-size: 2.2rem;
+			font-weight: 400;
+		}
+	}
+	
+	&__body {
+		padding: 35px 40px;
+		background-color: #fff;
 	}
 
 	&__close {
