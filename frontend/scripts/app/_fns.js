@@ -19,7 +19,24 @@ var tools = {
     }
 };
 
-function on(elm, events, handler) {
+// event.type должен быть keypress
+function getChar(event)
+{
+    if (event.which == null) { // IE
+        if (event.keyCode < 32) return null; // спец. символ
+        return String.fromCharCode(event.keyCode)
+    }
+
+    if (event.which != 0 && event.charCode != 0) { // все кроме IE
+        if (event.which < 32) return null; // спец. символ
+        return String.fromCharCode(event.which); // остальные
+    }
+
+    return null; // спец. символ
+}
+
+function on(elm, events, handler)
+{
    if (elm) {
        events.split(' ').forEach(function (event) {
            elm.addEventListener(event, handler);

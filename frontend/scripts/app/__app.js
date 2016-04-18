@@ -427,27 +427,55 @@
 			});
 		},
 		
+		findJumpElement: function(hash)
+		{
+			hash = hash.substr(1);
+
+			if ($('a[name="' + hash + '"]').length)
+			{
+				return $('a[name="' +hash+ '"]').eq(0);
+			}
+			
+			if ($('#' + hash).length)
+			{
+				return $('#' +hash).eq(0);
+			}
+
+			if ($('.screen[data-screen="' + hash + '"]').length)
+			{
+				return $('.screen[data-screen="' + hash + '"]').eq(0);
+			}
+
+			return null;
+		},
+
 		hashJump: function()
 		{
+			_this = this;
+
+			var $jumpto = null;
+
 			if (window.location.hash)
 			{
-				var hash = window.location.hash.substr(1), jumpto = null;
+				var hash = window.location.hash;
 				
-				if ($('a[name="' +hash+ '"]').length)
-				{
-					jumpto = $('a[name="' +hash+ '"]').eq(0);
-				}
+				$jumpto = _this.findJumpElement(hash);
 				
-				if ($('#' +hash).length)
+				if ($jumpto !== null)
 				{
-					jumpto = $('#' +hash).eq(0);
-				}
-
-				if (jumpto !== null)
-				{
-					$('html, body').stop().animate({ scrollTop: jumpto.offset().top }, 'fast');
+					$('html, body').stop().animate({ scrollTop: $jumpto.offset().top + 'px' }, 'fast');
 				}
 			}
+
+			body.on('click', '.j-jumpto', function(e){
+				
+				$jumpto = _this.findJumpElement($(this).attr('href'));
+
+				if ($jumpto !== null)
+				{
+					$('html, body').stop().animate({ scrollTop: $jumpto.offset().top + 'px' }, 'fast');
+				}
+			});
 		},
 
 		updateImage: function()
