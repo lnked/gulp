@@ -263,31 +263,42 @@
 		{
 			if ($('.js-slider').length && $('.js-slider').find('.slick-slide').length)
 			{
-				var count = 4, classname = 'slider';
+				var count = 4, classname = 'slider', $slider = '', width = $(window).width();
 
 				$('.js-slider').each(function(){
 					count = 4;
 					classname = 'slider';
+					
+					$slider = $(this);
 
-					if ($(this).data('viewcount'))
+					if ($slider.data('viewcount'))
 					{
-						count = parseInt($(this).data('viewcount'));
+						count = parseInt($slider.data('viewcount'));
 					}
 
-					if ($(this).data('classname'))
+					if ($slider.hasClass('js-slider-calc'))
 					{
-						classname = $(this).data('classname');
+					 	$slider.find('.slick-slide').css({
+					 		'width': width + 'px'
+					 	});
 					}
 
-					$(this).slick({
+					if ($slider.data('classname'))
+					{
+						classname = $slider.data('classname');
+					}
+
+					$slider.slick({
 						infinite: true,
 						dots: false,
 						draggable: false,
 						speed: 300,
 						fade: false,
-						autoplay: true,
+						autoplay: false,
 						autoplaySpeed: 4500,
 						pauseOnHover: false,
+						useTransform: false,
+						variableWidth: true,
 						cssEase: 'ease',
 						prevArrow: '<button type="button" class="slider__navigation slider__navigation_prev slick-prev"></button>',
 						nextArrow: '<button type="button" class="slider__navigation slider__navigation_next slick-next"></button>'
