@@ -37,6 +37,8 @@
                 $.navigation.options.lastId = id;
                 $.navigation.options.menuItems.removeClass($.navigation.options.currentClass);
                 $item.addClass($.navigation.options.currentClass);
+
+                location.hash = section;
             }
         },
 

@@ -123,6 +123,7 @@ module.exports.server = {
 	proxy: 'http://localhost:3004/',
 	port: 3004,
 	server: {
-		baseDir: app
+		baseDir: app,
+		index: 'markup/index.html'
 	}
 };
