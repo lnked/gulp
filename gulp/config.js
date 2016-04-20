@@ -120,10 +120,17 @@ module.exports.path = {
 };
 
 module.exports.server = {
-	proxy: 'http://localhost:3004/',
 	port: 3004,
+	proxy: {
+	    target: "http://localhost:3004/",
+	    ws: true
+	},
 	server: {
 		baseDir: app,
 		index: 'markup/index.html'
-	}
+	},
+	browser: [
+		"google chrome",
+		// "firefox"
+	]
 };
