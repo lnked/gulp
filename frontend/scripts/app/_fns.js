@@ -73,13 +73,15 @@ function formatMoney(n, c, d, t)
     return s + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
 }
 
-Array.max = function(array) {
-    return Math.max.apply(Math, array);
-};
+function getMax(arr)
+{
+    return Math.max.apply(Math, arr);
+}
 
-Array.min = function(array) {
-    return Math.min.apply(Math, array);
-};
+function getMin(arr)
+{
+    return Math.min.apply(Math, arr);
+}
 
 function is_null(x)
 {
