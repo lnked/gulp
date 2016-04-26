@@ -115,6 +115,7 @@ lazyRequireTask('test', tasks + 'test', {
 lazyRequireTask('sprite', tasks + 'sprite', {
 	src: path.assets.sprite,
 	app: path.build.images,
+	styles: path.build.sprite,
 	sprite: path.sprite,
 	is:  is
 });
@@ -203,7 +204,7 @@ gulp.task('watch', function(){
 
 gulp.task('build',
 	gulp.series('isbuild',
-		gulp.parallel('template', 'styles', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
+		gulp.parallel('template', 'sprite', 'styles', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
 	)
 );
 

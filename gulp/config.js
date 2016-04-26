@@ -8,6 +8,7 @@ module.exports.path = {
 		template:		app + 'markup',
 		scripts:		app + 'js',
 		styles:			app + 'css',
+		sprite:			src + 'styles/sprite',
 		images:			app + 'images',
 		favicon:		app + 'favicon',
 		fonts:			app + 'fonts',
@@ -30,6 +31,7 @@ module.exports.path = {
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
 		scripts:		[src + 'scripts/app/**/*.js'],
+		sprite:			[src + 'sprite/**/*.*'],
 		styles:			[src + 'styles/**/*.scss'],
 		critical:		[src + 'styles/**/*.scss']
 	},
@@ -37,6 +39,10 @@ module.exports.path = {
 		src + 'assets/humans.txt',
 		src + 'assets/robots.txt'
 	],
+	sprite: {
+		image: 'sprite.png',
+		style: 'sprite.scss'
+	},
 	modernizr: [src + 'modernizr.js'],
 	compile: {
 		app: 'main',
@@ -48,10 +54,6 @@ module.exports.path = {
 		port: 'ftp server port',
 		host: 'ftp server host',
 		uploadPath: 'target path'
-	},
-	sprite: {
-		image: app + 'images/sprite.png',
-		style: app + 'css/sprite.css'
 	},
 	testfile: 'test.js',
 	tinypng: 'eGm6p86Xxr4aQ3H7SvfoogEUKOwgBQc3',

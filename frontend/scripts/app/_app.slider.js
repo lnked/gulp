@@ -1,7 +1,7 @@
 ;(function ($) {
 	"use strict";
 
-	$.app = $.app = $.app || {};
+	$.app = $.app || {};
 
 	var _this, _slider, _timer, current, next, slider_interval;
 

@@ -263,11 +263,25 @@
 		{
 			if ($('.js-slider').length && $('.js-slider').find('.slick-slide').length)
 			{
-				var count = 4, classname = 'slider', $slider = '', width = $(window).width();
+				var count = 4, classname = 'slider', $slider = '', width = $(window).width(), options = {};
 
 				$('.js-slider').each(function(){
 					count = 4;
 					classname = 'slider';
+
+					options = {
+						infinite: !0,
+						dots: !1,
+						draggable: !1,
+						speed: 300,
+						fade: !1,
+						autoplay: !1,
+						autoplaySpeed: 4500,
+						pauseOnHover: !1,
+						useTransform: !1,
+						variableWidth: !0,
+						cssEase: 'ease'
+					};
 					
 					$slider = $(this);
 
@@ -287,22 +301,18 @@
 					{
 						classname = $slider.data('classname');
 					}
+					
+					if (!$slider.hasClass('js-disable-navigation'))
+					{
+						options['prevArrow'] = '<button type="button" class="slider__navigation slider__navigation_prev slick-prev"></button>';
+						options['nextArrow'] = '<button type="button" class="slider__navigation slider__navigation_next slick-next"></button>';
+					}
+					else
+					{
+						options['arrows'] = !1;
+					}
 
-					$slider.slick({
-						infinite: true,
-						dots: false,
-						draggable: false,
-						speed: 300,
-						fade: false,
-						autoplay: false,
-						autoplaySpeed: 4500,
-						pauseOnHover: false,
-						useTransform: false,
-						variableWidth: true,
-						cssEase: 'ease',
-						prevArrow: '<button type="button" class="slider__navigation slider__navigation_prev slick-prev"></button>',
-						nextArrow: '<button type="button" class="slider__navigation slider__navigation_next slick-next"></button>'
-					});
+					$slider.slick(options);
 				});
 			}
 		},
@@ -469,22 +479,35 @@
 			if (window.location.hash)
 			{
 				var hash = window.location.hash;
-				
-				$jumpto = _this.findJumpElement(hash);
-				
+
+				$jumpto = _this.findJumpElement(hash + '-anchor');
+
 				if ($jumpto !== null)
 				{
-					$('html, body').stop().animate({ scrollTop: $jumpto.offset().top + 'px' }, 'fast');
+					$scrollWrapper.stop().animate({ scrollTop: ($jumpto.offset().top + 25) + 'px' }, 'fast');
 				}
 			}
 
 			body.on('click', '.j-jumpto', function(e){
-				
-				$jumpto = _this.findJumpElement($(this).attr('href'));
 
+				if ($(this).data('anchor'))
+				{
+					$jumpto = _this.findJumpElement($(this).data('anchor'));
+				}
+				else if($(this).attr('href'))
+				{
+					$jumpto = _this.findJumpElement($(this).attr('href'));
+				}
+				
 				if ($jumpto !== null)
 				{
-					$('html, body').stop().animate({ scrollTop: $jumpto.offset().top + 'px' }, 'fast');
+					$scrollWrapper.stop().animate({ scrollTop: $jumpto.offset().top + 'px' }, 'medium');
+					
+					if ($(this).hasClass('j-navigation'))
+					{
+						$('#navigation').find('.current').removeClass('current');
+						$(this).addClass('current');
+					}
 				}
 			});
 		},
@@ -557,7 +580,7 @@
 
 		initForm: function()
 		{
-			body.on('focus', '.form__input.error', function(){
+			body.on('focus', 'input.error', function(){
 				$(this).removeClass('error');
 			});
 

@@ -1,7 +1,7 @@
 ;(function ($) {
 	"use strict";
 
-	$.app = $.app = $.app || {};
+	$.app = $.app || {};
 
 	var body = $('body'), _this, _scrollTop, _timeout;
 

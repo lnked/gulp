@@ -2,48 +2,46 @@
 
 const $ 			= require('gulp-load-plugins')();
 const gulp 			= require('gulp');
+const spritesmith 	= require('gulp.spritesmith');
 const errorHandler 	= require("../utils/errorHandler.js");
 
 module.exports = function(options) {
 
 	return function(callback) {
 		
-		gulp.src(options.src)
+		let spriteData = gulp.src(options.src).pipe(spritesmith({
+			imgName: options.sprite.image,
+			cssName: options.sprite.style
+		}));
 
-			.pipe($.plumber({errorHandler: errorHandler}))
+	    spriteData.img.pipe(gulp.dest(options.app));
+	    spriteData.css.pipe(gulp.dest(options.styles));
 
-			.pipe($.debug({'title': options.taskName}))
+		// .pipe($.svgSprite({
+		// 	mode: {
+		// 		css: {
+		// 			dest:		'.',
+		// 			bust:		!options.is.build,
+		// 			sprite:		'sprite.svg',
+		// 			layout:		'vertical',
+		// 			prefix:		'$',
+		// 			dimensions: true,
+		// 			render:     {
+		// 				styl: {
+		// 					dest: 'sprite.scss'
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }))
 
-			.pipe($.spritesmith({
-				destImg: options.sprite.image,
-				destCSS: options.sprite.style
-			}))
+		// .pipe($.if('*.scss', gulp.dest('tmp/styles'), gulp.dest(options.css)))
 
-			.pipe($.svgSprite({
-				mode: {
-					css: {
-						dest:		'.',
-						bust:		!options.is.build,
-						sprite:		'sprite.svg',
-						layout:		'vertical',
-						prefix:		'$',
-						dimensions: true,
-						render:     {
-							styl: {
-								dest: 'sprite.scss'
-							}
-						}
-					}
-				}
-			}))
+		// .pipe($.debug({'title': options.taskName}))
 
-			.pipe($.if('*.scss', gulp.dest('tmp/styles'), gulp.dest(options.css)))
+		// .pipe(gulp.dest(options.app))
 
-			.pipe($.debug({'title': options.taskName}))
-
-			.pipe(gulp.dest(options.app))
-
-			.pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
+		// .pipe($.notify({ message: options.taskName + ' complete', onLast: true }));
 
 		callback();
 	};

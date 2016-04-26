@@ -9,20 +9,14 @@
     text-align: center;
 	text-decoration: none;
     
-	cursor: pointer;
+    @extend %button;
+
     border-radius: 3px;
     border: 1px solid $border;
     background-color: $border;
     text-shadow: 0 1px 1px $border;
     background-image: linear-gradient(to top,rgba(0,0,1,.06) 0,rgba(255,255,255,.06) 100%);
 	
-	outline: none;
-    vertical-align: top;
-    display: inline-block;
-	-webkit-appearance: none;
-	transition: border-color $time, background-color $time, color $time;
-    box-sizing: border-box;
-
     &:visited {
 	    color: #fff;
 	}

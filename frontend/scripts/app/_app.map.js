@@ -1,7 +1,7 @@
 ;(function ($) {
 	"use strict";
 
-	$.app = $.app = $.app || {};
+	$.app = $.app || {};
 
 	var map, _this;
 
