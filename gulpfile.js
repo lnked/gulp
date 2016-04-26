@@ -76,7 +76,7 @@ lazyRequireTask('critical', tasks + 'critical', {
 	is:  is
 });
 
-lazyRequireTask('styles', tasks + 'styles', {
+lazyRequireTask('styles_build', tasks + 'styles', {
 	src: path.assets.styles,
 	app: path.build.styles,
 	is:  is,
@@ -112,7 +112,7 @@ lazyRequireTask('test', tasks + 'test', {
 	app: app + '**/*'
 });
 
-lazyRequireTask('sprite', tasks + 'sprite', {
+lazyRequireTask('sprite_build', tasks + 'sprite', {
 	src: path.assets.sprite,
 	app: path.build.images,
 	styles: path.build.sprite,
@@ -202,9 +202,12 @@ gulp.task('watch', function(){
 	}
 });
 
+gulp.task('sprite', gulp.series('sprite_build', 'styles_build'));
+gulp.task('styles', gulp.series('sprite_build', 'styles_build'));
+
 gulp.task('build',
 	gulp.series('isbuild',
-		gulp.parallel('template', 'sprite', 'styles', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
+		gulp.parallel('template', 'styles', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
 	)
 );
 
