@@ -76,6 +76,14 @@ lazyRequireTask('critical', tasks + 'critical', {
 	is:  is
 });
 
+lazyRequireTask('sprite_build', tasks + 'sprite', {
+	src: path.assets.sprite,
+	app: path.build.images,
+	styles: path.build.sprite,
+	sprite: path.sprite,
+	is:  is
+});
+
 lazyRequireTask('styles_build', tasks + 'styles', {
 	src: path.assets.styles,
 	app: path.build.styles,
@@ -110,14 +118,6 @@ lazyRequireTask('ftp', tasks + 'ftp', {
 lazyRequireTask('test', tasks + 'test', {
 	test: path.testfile,
 	app: app + '**/*'
-});
-
-lazyRequireTask('sprite_build', tasks + 'sprite', {
-	src: path.assets.sprite,
-	app: path.build.images,
-	styles: path.build.sprite,
-	sprite: path.sprite,
-	is:  is
 });
 
 lazyRequireTask('screenshot', tasks + 'screenshot', {
@@ -202,12 +202,12 @@ gulp.task('watch', function(){
 	}
 });
 
-gulp.task('sprite', gulp.series('sprite_build', 'styles_build'));
-gulp.task('styles', gulp.series('sprite_build', 'styles_build'));
+gulp.task('sprite', gulp.parallel('sprite_build', 'styles_build'));
+gulp.task('styles', gulp.parallel('sprite_build', 'styles_build'));
 
 gulp.task('build',
 	gulp.series('isbuild',
-		gulp.parallel('template', 'styles', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
+		gulp.parallel('template', 'sprite_build', 'styles_build', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
 	)
 );
 

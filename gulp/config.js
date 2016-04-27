@@ -31,8 +31,8 @@ module.exports.path = {
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
 		scripts:		[src + 'scripts/app/**/*.js'],
-		sprite:			[src + 'sprite/**/*.*'],
-		styles:			[src + 'styles/**/*.scss'],
+		sprite_build:	[src + 'sprite/**/*.*'],
+		styles_build:	[src + 'styles/**/*.scss'],
 		critical:		[src + 'styles/**/*.scss']
 	},
 	extras: [
@@ -40,8 +40,8 @@ module.exports.path = {
 		src + 'assets/robots.txt'
 	],
 	sprite: {
-		image: 'sprite.png',
-		style: 'sprite.scss'
+		image: '../images/sprite.png',
+		style: '_sprite.scss'
 	},
 	modernizr: [src + 'modernizr.js'],
 	compile: {
