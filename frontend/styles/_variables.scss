@@ -6,41 +6,45 @@ $selectBackground: #097dc5;
 $placeholderColor: #000;
 $placeholderOpacity: .5;
 
-$font-base					: 10px;
-$body-background  	        : #fff !default;
-$color-text					: #181818;
-$font-family                : Verdana, Arial, Helvetica, sans-serif;
-$font-arial                 : Arial, Helvetica, sans-serif;
-$font-forms					: Arial, Helvetica, sans-serif;
-$footer-height				: 10rem;
-$layout-width				: 128rem;
+$font-base:                 10px;
+$body-background:           #fff !default;
+$color-text:                #181818;
+$font-family:               Verdana, Arial, Helvetica, sans-serif;
+$font-arial:                Arial, Helvetica, sans-serif;
+$font-forms:                Arial, Helvetica, sans-serif;
+$footer-height:             10rem;
+$layout-width:              128rem;
 
-$error-color				: #fa5e5b;
-$border-color               : gray;
-$input-border               : gray;
-$border 			     	: #eee;
+$gold-color:                #f00;
+$red-color:                 #fa5e5b;
+$error-color:               #fa5e5b;
+$border-color:              gray;
+$input-border:              gray;
+$orange-color:              #ffc83f;
+$gray-color:                gray;
+$border:                    #eee;
 
-$red     : #fa5e5b;
-$orange  : #ffc83f;
-$yella   : #feef6d;
-$green   : #16c98d;
-$teal    : #0fdebd;
-$lpblue  : #297cbb;
-$linkblue: #288ad6;
-$darkblue: #142b44;
-$navblue : #1d508d;
-$plum    : #bf538d;
+// $red     : ;
+// $orange  : ;
+// $yella   : #feef6d;
+// $green   : #16c98d;
+// $teal    : #0fdebd;
+// $lpblue  : #297cbb;
+// $linkblue: #288ad6;
+// $darkblue: #142b44;
+// $navblue : #1d508d;
+// $plum    : #bf538d;
 
-//hue, saturation, lightness
+// //hue, saturation, lightness
 
-$body-background-offset   : mix($lpblue, #fff, 5%) !default;
-$card-figure-bg           : #f4fbfe !default;
-$details-panel-bg         : mix($red, #fff, 15%) !default;
-$new-header-grey-shadow   : rgba(3, 46, 92, 0.12);
-$responsive-nav-bg        : mix($linkblue, #fff, 3%);
-$responsive-nav-subnav-bg : mix($linkblue, #fff, 6%);
+// $body-background-offset   : mix($lpblue, #fff, 5%) !default;
+// $card-figure-bg           : #f4fbfe !default;
+// $details-panel-bg         : mix($red, #fff, 15%) !default;
+// $new-header-grey-shadow   : rgba(3, 46, 92, 0.12);
+// $responsive-nav-bg        : mix($linkblue, #fff, 3%);
+// $responsive-nav-subnav-bg : mix($linkblue, #fff, 6%);
 
-$highlight-error          : lighten($red, 25%) !default;
-$highlight-success        : lighten($green, 45%) !default;
-$highlight-warning        : lighten($yella, 20%) !default;
-$highlight-announcement   : mix($linkblue, #fff, 25%) !default;
+// $highlight-error          : lighten($red, 25%) !default;
+// $highlight-success        : lighten($green, 45%) !default;
+// $highlight-warning        : lighten($yella, 20%) !default;
+// $highlight-announcement   : mix($linkblue, #fff, 25%) !default;
