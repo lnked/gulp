@@ -1,22 +1,23 @@
 ;( function( $ ) {
 	"use strict";
 
-	$.app = $.app || {};
+	$.app = $.app = $.app || {};
 
-	var $body = $('body'), _this = null;
+	var body = $('body'), _this;
 
 	$.app.ajaxForm = {
 
-		config: {
-			form_class: '.form-ajax',
-			form_reset: 'form-reset',
-			form_button: '.j-form-button',
-			link_class: '.js-request-link',
-			error_class: 'error',
-			error_message: 'form__error-message',
-			form_label: '.form__wrapper',
-			checkbox_label: 'checkbox__label'
-		},
+        config: {
+            form_class: '.form-ajax',
+            form_reset: 'form-reset',
+            link_class: '.js-request-link',
+            error_class: 'error',
+            error_message: 'form__error-message',
+            error_message_class: 'j-error-message',
+            error_message_addclass: 'show',
+            form_label: '.form__wrapper',
+            checkbox_label: 'checkbox__label'
+        },
 
 		callback_stack: {},
 
@@ -35,22 +36,48 @@
 			}
 		},
 
-		default_handler: function($form, response)
+		default_handler: function(form, response)
 		{
 			_this = this;
 
-			if (response.status)
-			{
-				if (response.hasOwnProperty('redirect_url'))
-				{
-					window.location.href = response.redirect_url;
-				}
-			}
-			else if (response.errors)
-			{
-				_this.validation($form, response.errors);
-			}
+            if (response.status)
+            {
+                if (response.hasOwnProperty('redirect_url'))
+                {
+                    window.location.href = response.redirect_url;
+                }
+            }
+            else if (typeof response.errors !== 'undefined' || typeof response.error_message !== 'undefined')
+            {
+                var errors, error_message;
+
+                if (typeof response.errors !== 'undefined')
+                {
+                    errors = response.errors;
+                }
+
+                if (typeof response.error_message !== 'undefined')
+                {
+                    error_message = response.error_message;
+                }
+
+                _this.validation(form, errors, response.error_message);
+            }
 			
+            if (response.hasOwnProperty('open_popup'))
+            {
+            	if ($('body').find('.popup.is-open').length)
+            	{
+            		$.popup.close($('body').find('.popup.is-open'), function(){
+            			$.popup.open(response.open_popup);
+            		});
+            	}
+            	else
+            	{
+            		$.popup.open(response.open_popup);
+            	}
+            }
+
 			if (response.hasOwnProperty('message'))
 			{
 				$.popup.message(response.title, response.message);
@@ -58,11 +85,62 @@
 
 		},
 
+		validation: function(form, errors, error_message)
+        {
+            _this = this;
+
+            form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
+            form.find('.' + _this.config.error_message).remove();
+            form.find('.' + _this.config.error_message_class).removeClass(_this.config.error_message_addclass);
+            
+            var fieldName, field;
+
+            setTimeout(function() {
+                if (typeof error_message !== 'undefined' && error_message !== '')
+                {
+                    form.find('.' + _this.config.error_message_class).html(error_message);
+                    form.find('.' + _this.config.error_message_class).addClass(_this.config.error_message_addclass);
+                }
+
+                if (typeof errors !== 'undefined' && errors !== '')
+                {
+                    for(fieldName in errors)
+                    {
+                        if (form.find('input[name="'+fieldName+'"]').length > 0)
+                        {
+                            field = form.find('input[name="'+fieldName+'"]');
+                        }
+
+                        if (form.find('select[name="'+fieldName+'"]').length > 0)
+                        {
+                            field = form.find('select[name="'+fieldName+'"]');
+                        }
+
+                        if (form.find('textarea[name="'+fieldName+'"]').length > 0)
+                        {
+                            field = form.find('textarea[name="'+fieldName+'"]');
+                        }
+
+                        if (field.closest('.' + _this.config.checkbox_label).length > 0)
+                        {
+                            field = field.closest('.' + _this.config.checkbox_label);
+                        }
+
+                        if (typeof field !== 'undefined')
+                        {
+                            field.addClass(_this.config.error_class);
+                            field.closest(_this.config.form_label).append('<div class="' + _this.config.error_message + '">' + errors[fieldName] + '</div>');
+                        }
+                    }
+                }
+            }, 10);
+        },
+
 		upload: function()
 		{
 			_this = this;
 
-			$body.on('submit', '.form-file-upload', function(e) {
+			body.on('submit', '.form-file-upload', function(e) {
 				return AIM.submit(this, {
 					onStart: function()
 					{
@@ -86,52 +164,9 @@
 			});
 		},
 
-		validation: function($form, errors)
-		{
-			_this = this;
-
-			$form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
-			$form.find('.' + _this.config.error_message).remove();
-			
-			var fieldName, field;
-
-			setTimeout(function() {
-				if (errors)
-				{
-					for(fieldName in errors)
-					{
-						if ($form.find('input[name="'+fieldName+'"]').length > 0)
-						{
-							field = $form.find('input[name="'+fieldName+'"]');
-						}
-
-						if ($form.find('select[name="'+fieldName+'"]').length > 0)
-						{
-							field = $form.find('select[name="'+fieldName+'"]');
-						}
-
-						if ($form.find('textarea[name="'+fieldName+'"]').length > 0)
-						{
-							field = $form.find('textarea[name="'+fieldName+'"]');
-						}
-
-						if (field.closest('.' + _this.config.checkbox_label).length > 0)
-						{
-							field = field.closest('.' + _this.config.checkbox_label);
-						}
-
-						if (typeof field !== 'undefined')
-						{
-							field.addClass(_this.config.error_class);
-							field.closest(_this.config.form_label).append('<div class="' + _this.config.error_message + '">' + errors[fieldName] + '</div>');
-						}
-					}
-				}
-			}, 10);
-		},
-
 		send: function(action, method, data, cb, err)
 		{
+
 			if (typeof cb !== 'function')
 			{
 				cb = function() {};
@@ -156,22 +191,23 @@
 				});
 
 			} catch(e){}
+
 		},
 
 		initLink: function()
 		{
 			_this = this;
 
-			$body.on('click', _this.config.link_class, function(e) {
+			body.on('click', _this.config.link_class, function(e) {
 				e.preventDefault ? e.preventDefault() : e.returnValue = false;
 				
-				var $link = $(this);
+				var link = $(this);
 
-				if ($link.data('is-busy')) {
+				if (link.data('is-busy')) {
 					return;
 				}
 
-				$link.data('is-busy', true);
+				link.data('is-busy', true);
 
 				var action = ($(this).attr('href')) || $(this).data('action'),
 					method = ($(this).data('method')) || 'get',
@@ -183,91 +219,13 @@
 					data,
 					function(response)
 					{
-						if ($link.data('callback') && _this.callback_stack.hasOwnProperty($link.data('callback')))
+						if (link.data('callback') && _this.callback_stack.hasOwnProperty(link.data('callback')))
 						{
-							_this.callback_stack[$link.data('callback')]($link, response);
+							_this.callback_stack[link.data('callback')](link, response);
 						}
 						else
 						{
-							_this.default_handler($link, response);
-						}
-
-						if (response.status === true)
-						{
-
-						}
-
-						$link.data('is-busy', false);
-					},
-					function(response)
-					{
-						_this.default_handler($link, response);
-						$link.data('is-busy', false);
-					}
-				);
-			});
-		},
-
-		initForm: function()
-		{
-			_this = this;
-
-			$body.on('submit', _this.config.form_class, function(e) {
-				e.preventDefault ? e.preventDefault() : e.returnValue = false;
-
-				var $form 	= $(this),
-					action	= $form.attr('action'),
-					method	= ($form.attr('method') || 'post'),
-					data 	= !!window.FormData ? new FormData($form[0]) : $form.serialize();
-
-				if ($form.data('is-busy')) {
-					return;
-				}
-
-				$form.data('is-busy', true);
-
-				if ($form.find(_this.config.form_button).length)
-				{
-					var $button = $form.find(_this.config.form_button);
-				}
-
-				if (typeof $button !== 'undefined')
-				{
-					if ($button.data('loading'))
-					{
-						$button.data('original', $button.text());
-						$button.text($button.data('loading'));
-					}
-
-					$button.addClass('preload');
-				}
-
-				if ($form.data('precallback') && _this.callback_stack.hasOwnProperty($form.data('precallback'))) {
-					if(!_this.callback_stack[$form.data('precallback')]($form))
-					{
-						return false;
-					}
-				}
-
-				_this.send(
-					action,
-					method,
-					data,
-					function(response)
-					{
-						if ($form.data('callback') && _this.callback_stack.hasOwnProperty($form.data('callback')))
-						{
-							_this.callback_stack[$form.data('callback')]($form, response);
-						}
-						else
-						{
-							_this.default_handler($form, response);
-						}
-
-						if ($form.hasClass(_this.config.form_reset))
-						{
-							$form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
-							$form.get(0).reset();
+							_this.default_handler(link, response);
 						}
 
 						if (response.status === true)
@@ -275,46 +233,107 @@
 							
 						}
 
-						if (typeof $button !== 'undefined')
-						{
-							if ($button.data('original'))
-							{
-								$button.text($button.data('original'));
-							}
-
-							$button.removeClass('preload');
-						}
-						
-						$form.data('is-busy', false);
+						link.data('is-busy', false);
 					},
 					function(response)
 					{
-						_this.default_handler($form, response);
-						$form.data('is-busy', false);
+						_this.default_handler(link, response);
+						link.data('is-busy', false);
 					}
 				);
 			});
 		},
 
-		initValidate: function()
-		{
-			$body.on('focus', '.form__input.error, .form__textarea.error', function(){
-				$(this).removeClass('error');
-			});
-		},
+ 		initForm: function()
+        {
+            _this = this;
+
+            body.on('submit', _this.config.form_class, function(e) {
+                e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+                var form    = $(this),
+                    action  = form.attr('action'),
+                    method  = (form.attr('method') || 'post'),
+                    data    = !!window.FormData ? new FormData(form[0]) : form.serialize();
+
+                if (form.data('is-busy')) {
+                    return;
+                }
+
+                form.data('is-busy', true);
+
+                if (typeof button !== 'undefined')
+                {
+                    if (button.data('loading'))
+                    {
+                        button.data('original', button.text());
+                        button.text(button.data('loading'));
+                    }
+
+                    button.addClass('preload');
+                }
+
+                if (form.data('precallback') && _this.callback_stack.hasOwnProperty(form.data('precallback'))) {
+                    if(!_this.callback_stack[form.data('precallback')](form))
+                    {
+                        return false;
+                    }
+                }
+
+                _this.send(
+                    action,
+                    method,
+                    data,
+                    function(response)
+                    {
+                        if (form.data('callback') && _this.callback_stack.hasOwnProperty(form.data('callback')))
+                        {
+                            _this.callback_stack[form.data('callback')](form, response);
+                        }
+                        else
+                        {
+                            _this.default_handler(form, response);
+                        }
+
+                        if (response.status === true)
+                        {
+                            if (form.hasClass(_this.config.form_reset))
+                            {
+                                form.find('.' + _this.config.error_class).removeClass(_this.config.error_class);
+                                form.get(0).reset();
+                            }
+                        }
+
+                        if (typeof button !== 'undefined')
+                        {
+                            if (button.data('original'))
+                            {
+                                button.text(button.data('original'));
+                            }
+
+                            button.removeClass('preload');
+                        }
+
+                        form.data('is-busy', false);
+                    },
+                    function(response)
+                    {
+                        _this.default_handler(form, response);
+                        form.data('is-busy', false);
+                    }
+                );
+            });
+        },
 
 		init: function(config)
 		{
-			if (typeof config !== 'undefined')
-			{
-				this.extend(config);
-			}
+			this.extend(config);
 			
 			this.initForm();
 			this.initLink();
-			this.initValidate();
 		}
-
 	};
+
+	$.app.ajaxForm.init();
 
 })( jQuery );

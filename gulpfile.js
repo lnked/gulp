@@ -98,6 +98,12 @@ lazyRequireTask('images', tasks + 'images', {
 	is:  is
 });
 
+lazyRequireTask('svgstore', tasks + 'svgstore', {
+	src: path.assets.svgstore,
+	app: path.svgstore,
+	is:  is
+});
+
 lazyRequireTask('tinypng', tasks + 'tinypng', {
 	token: path.tinypng,
 	src: path.assets.images + '.png',
@@ -207,7 +213,7 @@ gulp.task('styles', gulp.parallel('sprite_build', 'styles_build'));
 
 gulp.task('build',
 	gulp.series('isbuild',
-		gulp.parallel('template', 'sprite_build', 'styles_build', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
+		gulp.parallel('template', 'svgstore', 'sprite_build', 'styles_build', 'critical', 'scripts', 'images', 'favicon', 'fonts', 'json', 'extras')
 	)
 );
 

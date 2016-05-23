@@ -17,16 +17,7 @@
 @import "layout/typography";
 @import "layout/content";
 
-@import "components/navigation";
-@import "components/sandwich";
-@import "components/logo";
-@import "components/form";
-@import "components/control";
-@import "components/buttons";
-@import "components/selectbox";
-@import "components/table";
-
-@import "grids/base";
+@import "components/*";
 
 @import "sprite/*";
 @import "pages/*";

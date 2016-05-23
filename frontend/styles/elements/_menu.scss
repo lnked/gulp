@@ -1,0 +1,35 @@
+.menu {
+    clear: both;
+    margin-bottom: 20px;
+    background-color: $body-background;
+
+    &__item {
+        clear: both;
+        
+        &:not(:last-child) {
+            margin-bottom: 3px;
+        }
+
+        &__link {
+            height: 48px;
+            line-height: 48px;
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 2.78;
+            color: #fff;
+            display: block;
+            text-align: center;
+            background-color: #74a7d8;
+            text-decoration: none;
+
+            &.current {
+                color: #000;
+                background-color: #fff;
+            }
+
+            &__title {
+
+            }
+        }
+    }
+}

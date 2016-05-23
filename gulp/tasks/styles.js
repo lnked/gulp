@@ -6,6 +6,9 @@ const clean 		= require("../utils/clean.js");
 const errorHandler 	= require("../utils/errorHandler.js");
 const classPrefix 	= require('gulp-class-prefix');
 const bulkSass 		= require('gulp-sass-bulk-import');
+const immutableCss	= require('immutable-css');
+const reporter 		= require('postcss-reporter');
+const gcmq 			= require('gulp-group-css-media-queries');
 
 module.exports = function(options) {
 	return function(callback) {
@@ -40,8 +43,17 @@ module.exports = function(options) {
 
 			.pipe($.if(options.is.prefix, classPrefix(options.prefix, { ignored: [/\.js-/, /\.j-/, /\.is-/, '.active', '.current', '.animate', '.clearfix', '.inner', '.show', '.hide'] })))
 
+			// .pipe($.postcss([
+			//     immutableCss({
+			// 		strict: true
+			//     }),
+			//     reporter()
+			// ]))
+
 			.pipe($.concat('main.css'))
 
+			.pipe($.if(!options.is.build, gcmq()))
+			
 			.pipe($.if(
 				options.is.uncss,
 				$.uncss({

@@ -1,0 +1,111 @@
+.accordion {
+    background-color: #fff;
+    
+    &__item {
+        clear: both;
+        
+        &:not(:last-child) {
+            margin-bottom: 3px;
+        }
+
+        &__header {
+            height: 54px;
+            display: block;
+            padding: 0 10px 0 74px;
+            background-color: $green-color;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 400;
+            line-height: 54px;
+            background-repeat: no-repeat;
+            background-position: 15px 50%;
+            
+            &_chicken {
+                background-image: url(/images/icon-chicken.png);
+            }
+
+            &_pig {
+                background-position-x: 8px;
+                background-image: url(/images/icon-pig.png);
+            }
+            
+            &_cow {
+                background-position-x: 14px;
+                background-image: url(/images/icon-cow-silhouette.png);
+            }
+            
+            &_animal {
+                background-image: url(/images/icon-sitting-rabbit.png);
+            }
+
+            &_fish {
+                background-position-x: 10px;
+                background-image: url(/images/icon-raw-fish.png);
+            }
+
+            &_sugar {
+                background-position-x: 15px;
+                background-image: url(/images/icon-bag-of-sugar.png);
+            }
+
+            &.current {
+                background-color: $blue-color;
+            }
+
+            &__title {
+                line-height: 1;
+                user-select: none;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    &__list {
+        padding: 0;
+        overflow: hidden;
+        padding: 0 10px;
+        max-height: 0px;
+        transition: all $time;
+
+        &.open {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            max-height: 1000px;
+        }
+
+        &__item {
+            clear: both;
+            
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+
+            .accordion__list__item {
+                .accordion__list__link {
+                    background-image: url(/images/li-m-inner.png);
+                }
+            }
+        }
+
+        &__link {
+            color: #4c4c4c;
+            font-size: 1.4rem;
+            font-weight: 400;
+            user-select: none;
+            padding-left: 11px;
+            text-decoration: none;
+            transition: color $time;
+            background: url(/images/li-marker.png) no-repeat 0 4px;
+
+            &:hover {
+                color: $green-color;
+            }
+
+            &.current {
+                background-image: url(/images/marker-open.png);
+                background-position: 0 6px;
+            }
+        }
+    }
+}

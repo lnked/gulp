@@ -606,6 +606,32 @@
 			});
 		},
 
+		initSidebar: function()
+		{
+			var $content = $('#sidebar').find('.j-sidebar-content');
+
+			$('body').on('click', '.j-sidebar-trigger', function(){
+				if ($content.hasClass('animate'))
+				{
+					$(this).removeClass('animate');
+					$content.removeClass('animate');
+					
+					setTimeout(function(){
+						$content.removeClass('active');
+					}, 250);
+				}
+				else
+				{
+					$(this).addClass('animate');
+					$content.addClass('active');
+
+					setTimeout(function(){
+						$content.addClass('animate');
+					}, 5);
+				}
+			});
+		},
+
 		init: function()
 		{
 			this.disableHover();
@@ -621,6 +647,8 @@
 			this.cart.init();
 
 			browser.init();
+
+			lazyLoadImages();
 		}
 
 	};

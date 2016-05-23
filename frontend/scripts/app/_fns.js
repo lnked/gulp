@@ -19,6 +19,18 @@ var tools = {
     }
 };
 
+function csrfy(attributes)
+{
+    return document.querySelector("meta[name='csrf-token']").getAttribute('content');
+}
+
+function lazyLoadImages()
+{
+    $('img').each(function(){
+        $(this).attr('src', $(this).data('src'));
+    });
+}
+
 // event.type должен быть keypress
 function getChar(event)
 {
@@ -228,6 +240,12 @@ function levenshtein(s1, s2, costs) {
         }
     }
     return buf[l2 + cutHalf - flip];
+}
+
+function trim( str, charlist ) {
+    charlist = !charlist ? ' \s\xA0' : charlist.replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '\$1');
+    var re = new RegExp('^[' + charlist + ']+|[' + charlist + ']+$', 'g');
+    return str.replace(re, '');
 }
 	
 // function doOnOrientationChange()

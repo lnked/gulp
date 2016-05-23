@@ -4,6 +4,17 @@ const app = './public_html/';
 module.exports.app  = app;
 module.exports.src  = src;
 module.exports.path = {
+	assets: {
+		sprite:			[src + 'assets/sprite/**/*'],
+		images:			[src + 'assets/images/**/*'],
+		favicon:		[src + 'assets/favicon/**/*.*'],
+		fonts:			[src + 'assets/fonts/**/*.*'],
+		json:			[src + 'assets/json/**/*.json'],
+		svgstore:		[src + 'assets/svgstore/**/*.svg'],
+		template:		[src + 'template/*.html', src + 'template/**/*.html', '!' + src + 'template/components/**/*.*', '!' + src + 'template/popups/**/*.*'],
+		scripts:		[src + 'scripts/app/**/*.js'],
+		styles:			[src + 'styles/*.scss']
+	},
 	build: {
 		template:		app + 'markup',
 		scripts:		app + 'js',
@@ -14,22 +25,13 @@ module.exports.path = {
 		fonts:			app + 'fonts',
 		json:			app + 'json'
 	},
-	assets: {
-		sprite:			[src + 'assets/sprite/**/*'],
-		images:			[src + 'assets/images/**/*'],
-		favicon:		[src + 'assets/favicon/**/*.*'],
-		fonts:			[src + 'assets/fonts/**/*.*'],
-		json:			[src + 'assets/json/**/*.json'],
-		template:		[src + 'template/*.html'],
-		scripts:		[src + 'scripts/app/**/*.js'],
-		styles:			[src + 'styles/*.scss']
-	},
 	watch: {
-		template:		[src + 'template/*.html', src + 'template/**/*.html'],
+		template:		[src + 'template/*.html', src + 'template/**/*.html', src + 'template/**/**/*.html'],
 		images:			[src + 'assets/images/**/*.*'],
 		favicon: 		[src + 'assets/favicon/**/*.*'],
 		fonts:			[src + 'assets/fonts/**/*.*'],
 		json:			[src + 'assets/json/**/*.json'],
+		svgstore:		[src + 'assets/svgstore/**/*.svg'],
 		scripts:		[src + 'scripts/app/**/*.js'],
 		sprite_build:	[src + 'sprite/**/*.*'],
 		styles_build:	[src + 'styles/**/*.scss'],
@@ -39,6 +41,10 @@ module.exports.path = {
 		src + 'assets/humans.txt',
 		src + 'assets/robots.txt'
 	],
+	svgstore: {
+		path: src + 'template/components/',
+		file: src + 'template/components/svgstore.html'
+	},
 	sprite: {
 		image: '../images/sprite.png',
 		style: '_sprite.scss'

@@ -2,10 +2,9 @@
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
-	box-sizing: border-box;
-
+	
 	&, &:before, &:after {
-		box-sizing: inherit;
+		box-sizing: border-box;
 	}
 }
 
@@ -13,21 +12,26 @@ html, body { height: 100%; }
 
 html {
 	font-size: $font-base;
+	font-family: $font-family;
 	text-size-adjust: 100%;
-	box-sizing: border-box;
+	quotes: "“" "”";
 }
 
-html,
 body {
+	min-width: 320px;
+	color: $color-text;
+    line-height: 1.4446;
+	letter-spacing: 0em;
+	background-color: $body-background;
+}
+
+body, input, textarea, select, button {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility; //auto | optimizeSpeed | optimizeLegibility | geometricPrecision
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	font-smoothing: antialiased;
-}
-
-body {
-	color: $color-text;
-	text-rendering: optimizeLegibility; //auto | optimizeSpeed | optimizeLegibility | geometricPrecision
-	font-family: $font-family;
-	line-height: 1;
-	background-color: $body-background;
+    -moz-font-feature-settings: 'liga', 'kern';
+    direction: ltr;
+    text-align: left;
 }

@@ -1,0 +1,36 @@
+.categories {
+    clear: both;
+    margin-bottom: 35px;
+
+    &__column {
+        width: 100%;
+        min-height: 1px;
+        max-width: 170px;
+        float: left;
+
+        &_icon {
+            max-width: 80px;
+        }
+    }
+
+    &__list {
+        margin: 0;
+        padding-top: 15px;
+    }
+
+    &__item {
+        clear: both;
+        
+        &:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        &__link {
+            color: #4c4c4c;
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 1.71;
+            text-decoration: underline;
+        }
+    }
+}

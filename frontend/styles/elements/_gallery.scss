@@ -1,0 +1,41 @@
+.gallery {
+    clear: both;
+    font-size: 0;
+    line-height: 0;
+
+    &__item {
+        width: 100%;
+        @extend %inline;
+        max-width: 200px;
+        vertical-align: top;
+        margin-bottom: 20px;
+
+        &:not(:nth-child(4n+4)) {
+            margin-right: 18px;
+        }
+
+        &__image {
+            width: 100%;
+            display: block;
+            position: relative;
+            border: 9px solid #fff;
+
+            &:before {
+                width: 100%;
+                content: "";
+                display: block;
+                padding-top: 80%;
+            }
+
+            &__src {
+                max-width: 100%;
+                max-height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+            }
+        }
+    }
+}

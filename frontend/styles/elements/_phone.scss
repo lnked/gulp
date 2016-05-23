@@ -1,0 +1,18 @@
+.phone {
+    &__item {
+        clear: both;
+        color: #1e0f00;
+        font-weight: 700;
+        font-size: 1.6rem;
+        text-align: right;
+        
+        &:not(:last-child) {
+            margin-bottom: 4px;
+        }
+        
+        &__label {
+            font-size: 1.4rem;
+            float: left;
+        }
+    }
+}

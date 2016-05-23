@@ -1,7 +1,6 @@
 .content {
-    // float: left;
     width: 100%;
-    // padding-left: 200px;
+    float: left;
     
     &__inner {
         padding: 27px 0 30px 29px;
@@ -31,6 +30,10 @@
     img {
         max-width: 100%;
     }
+}
+
+.sidebar + .content {
+    padding-left: $sidebar-width + $sidebar-margin;
 }
 
 @media only screen and (max-width: 1280px) {}

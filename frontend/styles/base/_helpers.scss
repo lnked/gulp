@@ -9,16 +9,28 @@ svg {
 }
 
 %button {
+	margin: 0;
+	border: none;
+	overflow: visible;
+	font: inherit;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    display: inline-block;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0);
+    vertical-align: middle;
     padding-top: 0;
     padding-bottom: 0;
-	outline: none;
 	cursor: pointer;
-	border: 0 none;
 	user-select: none;
-	text-decoration: none;
-	display: inline-block;
 	-webkit-appearance: none;
-	transition: border-color $time, background-color $time, color $time;
+	border-color: rgba(0, 0, 0, 0);
+    transition: border-color $a-time ease, background-color $a-time ease, color $a-time ease;
+
+    &:focus {
+        outline: 0;
+    }
 }
 
 // img[src$=".gif"], img[src$=".png"] {
@@ -140,8 +152,12 @@ svg {
 	border: 0;
 }
 
-.hidden {
+.is-hidden {
 	display: none;
+}
+
+.is-show {
+	display: block;
 }
 
 .center {

@@ -1,0 +1,26 @@
+.form-search {
+    font-size: 0;
+
+    &__input {
+        width: 26.4rem;
+        height: 4.4rem;
+        float: left;
+        color: #4c4c4c;
+        font-size: 1.6rem;
+        font-weight: 400;
+        padding: 0 18px;
+        background-color: #fff;
+        border: 0.1rem solid rgba(45, 119, 188, 0.2);
+        border-radius: 0.9rem;
+    }
+
+    &__button {
+        width: 2.6rem;
+        height: 2.7rem;
+        border: 0;
+        cursor: pointer;
+        margin-top: 7px;
+        margin-left: 13px;
+        background: url(/images/search-button.png) no-repeat 50% 50%;
+    }
+}

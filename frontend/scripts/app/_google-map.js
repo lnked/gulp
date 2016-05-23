@@ -1,105 +1,173 @@
-function googleMap()
-{
-	var arr = {
-		'moscow': {
-			city: 'г. Москва',
-			title: 'Москва',
-			street: 'Верхняя Масловка, д. 20, стр. 1.',
-			phone: '(495) 645-83-54',
-			email: 'info@itsntk.ru',
-			coords: [ 55.795316,37.562272 ]
-		},
-		'krasnodar': {
-			city: 'г. Краснодар',
-			title: 'Краснодар',
-			street: 'ул. Дальняя, 39/3',
-			phone: '(861) 278-98-34',
-			email: 'info@itsntk.ru',
-			coords: [ 45.060932,38.964575 ]
-		}
-	};
+// function googleMap()
+// {
+// 	var mapOptions = {
+// 		zoom: 16,
+// 		zoomControl: !0,
+// 		zoomControlOptions: {
+// 			style: google.maps.ZoomControlStyle.LARGE,
+// 			position: google.maps.ControlPosition.RIGHT_TOP
+// 		},
+// 		panControl: !0,
+// 		panControlOptions: {
+// 			position: google.maps.ControlPosition.RIGHT_BOTTOM
+// 		},
+// 		scrollwheel: !1,
+// 		navigationControl: !1,
+// 		mapTypeControl: !1,
+// 		scaleControl: !0,
+// 		draggable: !0,
+// 		disableDoubleClickZoom: !1
+// 	};
 
-	var mapOptions = {
-		zoom: 13,
-		zoomControl: !0,
-		zoomControlOptions: {
-			style: google.maps.ZoomControlStyle.LARGE,
-			position: google.maps.ControlPosition.LEFT_TOP
-		},
-		panControl: !1,
-		panControlOptions: {
-			position: google.maps.ControlPosition.LEFT_TOP
-		},
-		scrollwheel: !1,
-		navigationControl: !1,
-		mapTypeControl: !1,
-		scaleControl: !0,
-		draggable: !0,
-		disableDoubleClickZoom: !1,
-		center: new google.maps.LatLng(arr.krasnodar.coords[0], arr.krasnodar.coords[1])
-	};
+// 	var coords, arr = {}, temp, x, map_id = '';
 
-	var map = new google.maps.Map(document.getElementById('map-conteiner'), mapOptions);
+// 	if ($('#map-conteiner').length)
+// 	{
+// 		coords = $('#map-conteiner').data('coords');
+		
+// 		coords = coords.split('|');
 
-	function addMarker( ar, map )
-	{
-		var contentString = [
-			'<div class="map-content">',
-				'<h2 class="firstHeading">'+ ar['title'] + '</h2>',
-				'<div class="map-bodyContent">',
-					'<p>' + ar['city'] + '</p>',
-					'<p>' + ar['street'] + '</p>',
-					'<p><span>Телефон:</span>' + ar['phone'] + '</p>',
-					'<p><span>Email:</span>' + ar['email'] + '</p>',
-				'</div>',
-			'</div>'
-		].join('');
+// 		if (coords.length)
+// 		{
+// 			for (x in coords)
+// 			{
+// 				temp = coords[x].split(':');
 
-		var infowindow = new google.maps.InfoWindow({
-			content: contentString,
-			disableAutoPan: true,
-			maxWidth: 500
-		});
+// 				arr[x] = {
+// 					'system': temp[0],
+// 					'coords': temp[1].split(',')
+// 				}
+// 			}
+// 		}
 
-		var image = {
-			url: './images/map-marker.png',
-			size: new google.maps.Size(18, 25),
-			origin: new google.maps.Point(0, 0),
-			scaledSize: new google.maps.Size(18, 25),
-			anchor: new google.maps.Point(18, 25)
-		};
+// 		mapOptions['center'] = new google.maps.LatLng(arr[0].coords[0], arr[0].coords[1]);
+// 	}
 
-		var marker = new google.maps.Marker({
-			position: new google.maps.LatLng( ar['coords'][0], ar['coords'][1] ),
-			map: map,
-			icon: image,
-			flat: true,
-			title: ar['title']
-		});
-
-		google.maps.event.addListener(marker, 'click', function() {
-			if(infowindow)
-			{
-				infowindow.close();
-			}
-
-			infowindow.open(map, marker);
-		});
-	}
+// 	if ($('#location-map').length)
+// 	{
+// 		coords = $('#location-map').data('coords');
 	
-	for (var i in arr)
-	{
-		addMarker(arr[i], map);
-	}
+// 		coords = coords.split(',');
 
-	$('body').on('click', '.js-toggle-class', function(e){
-		var wrapper = $(this).closest('.js-toggle-wrapper'), city = '';
+// 		mapOptions['center'] = new google.maps.LatLng(coords[0], coords[1]);
+// 	}
+	
+// 	if ($('#map-conteiner').length)
+// 	{
+// 		map_id = 'map-conteiner';
+// 	}
+// 	else if ($('#location-map').length)
+// 	{
+// 		map_id = 'location-map';
+// 	}
 
-		if ($(this).data('city'))
-		{
-			city = $(this).data('city');
-			map.setZoom(13);
-			map.setCenter({lat: arr[city].coords[0], lng: arr[city].coords[1] });
-		}
-	});
-}
+// 	var map = new google.maps.Map(document.getElementById(map_id), mapOptions);
+// 	var markers = {};
+
+// 	function addMarker(ar, map)
+// 	{
+// 		if ($('#map-conteiner').length)
+// 		{
+// 			var image = {
+// 				url: '/images/ico/marker-' + ar.system + '.svg',
+// 				size: new google.maps.Size(44, 55),
+// 				origin: new google.maps.Point(0, 0),
+// 				scaledSize: new google.maps.Size(44, 55),
+// 				anchor: new google.maps.Point(44, 55)
+// 			};
+			
+// 			var marker = new google.maps.Marker({
+// 				position: new google.maps.LatLng( ar.coords[0], ar.coords[1] ),
+// 				map: map,
+// 				icon: image,
+// 				flat: true
+// 			});
+
+// 			if (typeof (markers[ar.system]) == 'undefined')
+// 			{
+// 				markers[ar.system] = [];
+// 			}
+
+// 			markers[ar.system].push(marker);
+// 		}
+// 		else if ($('#location-map').length)
+// 		{
+// 			var image = {
+// 				url: '/images/ico/marker.svg',
+// 				size: new google.maps.Size(16, 22),
+// 				origin: new google.maps.Point(0, 0),
+// 				scaledSize: new google.maps.Size(16, 22),
+// 				anchor: new google.maps.Point(16, 22)
+// 			};
+
+// 			var marker = new google.maps.Marker({
+// 				position: new google.maps.LatLng( ar[0], ar[1] ),
+// 				map: map,
+// 				icon: image,
+// 				flat: true
+// 			});
+// 		}
+
+// 		google.maps.event.addListener(marker, 'click', function() {
+// 			if (infowindow)
+// 			{
+// 				infowindow.close();
+// 			}
+
+// 			infowindow.open(map, marker);
+// 		});
+// 	}
+	
+// 	if ($('#map-conteiner').length)
+// 	{
+// 		for (x in arr)
+// 		{
+// 			addMarker(arr[x], map);
+// 		}
+// 	}
+// 	else if ($('#location-map').length)
+// 	{
+// 		addMarker(coords, map);
+// 	}
+	
+// 	var center = [], category = '', x = null, w = null;
+
+// 	$('body').on('click', '.j-marker', function(e){
+// 		e.preventDefault();
+// 		$('#map-markers').find('.active').removeClass('active');
+// 		$(this).addClass('active');
+
+// 		category = $(this).data('category');
+// 		center = $(this).data('center').split(',');
+
+// 		for (x in center)
+// 		{
+// 			center[x] = parseFloat(center[x]);
+// 		}
+
+// 		map.setCenter({lat: center[0], lng: center[1] });
+
+// 		for (x in markers)
+// 		{
+// 			for (w in markers[x])
+// 			{
+// 				markers[x][w].setIcon({
+// 		            url: '/images/ico/marker-' + x + '.svg'
+// 		        });
+
+// 		        markers[x][w].setZIndex(10);
+// 			}
+// 		}
+
+// 		var markers_arr = markers[category];
+
+// 		for (x in markers_arr)
+// 		{
+// 			markers_arr[x].setIcon({
+// 	            url: '/images/ico/marker-' + category + '-active.svg'
+// 	        });
+
+// 	        markers_arr[x].setZIndex(99999999);
+// 		}
+// 	});
+// }
